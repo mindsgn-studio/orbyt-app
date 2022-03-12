@@ -13,6 +13,6 @@
 
 [react native navigation](https://reactnavigation.org/docs/getting-started/)
 
-[react native navigation](https://reactnavigation.org/docs/getting-started/)
+[react native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/docs/)
 
 [react native navigation](https://reactnavigation.org/docs/getting-started/)

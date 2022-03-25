@@ -19,7 +19,7 @@ const Load = ({ navigation } : { navigation: any }) => {
     <View 
         style={container.default}>
         <Text
-            style={text.default}>
+            style={text.logo}>
             ORBYT
         </Text>
     </View>

@@ -1,0 +1,1 @@
+export { getAuthentication, createNewWallet, connectProvider, setIsLoading } from './actions' 

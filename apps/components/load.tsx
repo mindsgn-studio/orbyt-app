@@ -3,17 +3,19 @@ import { Text, View, } from 'react-native';
 import { container } from '../style/container';
 import { text } from '../style/text';
 import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
-import { getAuth } from '../redux/actions';
+import { isNew } from '../hooks/authHooks';
+//import { getAuthentication } from '../redux/actions';
+//import { isNewUser } from '../redux/actions/auth';
 
 const Load = ({ navigation } : { navigation: any }) => {
-  const { auth } = useSelector((state: RootStateOrAny) => state.authReducer ); 
-  const dispatch = useDispatch();
-  const getAuthState = () => dispatch(getAuth());
+  const { loading } = useSelector((state: RootStateOrAny) => state.authReducer ); 
+  //const dispatch = useDispatch();
+  //const getAuthState = async() => dispatch(getAuthentication());
+  //const getIsNewUser = async() => dispatch(isNewUser());
   
   React.useEffect(() => {
-    console.log(auth);
-    getAuthState();
-  },[auth]);
+    isNew(navigation);
+  },[]);
 
   return (
     <View

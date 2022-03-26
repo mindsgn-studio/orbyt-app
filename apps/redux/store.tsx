@@ -2,12 +2,12 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
-import { authReducer } from './reducer';
+import { authReducer } from './reducers';
 
 const persistConfig = {
     key: '@orbyt',
     storage: AsyncStorage,
-    whitelist: ['wallets']
+    whitelist: ['wallet', '']
 };
 
 export interface State {

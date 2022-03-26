@@ -28,7 +28,8 @@ export const container = StyleSheet.create({
     create: {
         width: '100%',
         height:'100%',
-        backgroundColor: 'black'
+        backgroundColor: 'black',
+        alignItems: 'center',
     },
     home: {
         width: '100%',

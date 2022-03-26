@@ -1,11 +1,16 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, BackHandler } from 'react-native';
 import { container } from '../style/container';
 import { text } from '../style/text';
 import { button } from '../style/button';
+import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
 
-const Onboarding = ({ navigation } : { navigation: any }) => {
-  
+const Onboarding = ({ navigation } : { navigation: any }) => {  
+  const { auth } = useSelector((state: RootStateOrAny) => state.authReducer ); 
+  //const dispatch = useDispatch();
+  //const getAuthState = async() => dispatch(getAuthentication());
+  //const getIsNewUser = async() => dispatch(isNewUser());
+
   const openImportScreen = () => {
     navigation.navigate('Import')
   };
@@ -13,6 +18,13 @@ const Onboarding = ({ navigation } : { navigation: any }) => {
   const openNewWalletScreen = () => {
     navigation.navigate('Create')
   };
+
+  React.useEffect(() => {
+    navigation.addListener('beforeRemove', (event: any) => {
+      event.preventDefault();
+      BackHandler.exitApp();
+    });
+  }, [navigation])
 
   return (
     <View 

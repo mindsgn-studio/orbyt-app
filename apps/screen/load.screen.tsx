@@ -1,15 +1,17 @@
 import React from 'react';
 import { View, Animated } from 'react-native';
-import { container } from '../style/container';
-import { text } from '../style/text';
+import { container } from '../style/container.style';
+import { text } from '../style/text.style';
 import { connect } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
+SplashScreen.show();
 
 const Load = (props: any) => {
     const {connected, navigation} = props
     const progress = React.useRef(new Animated.Value(0)).current;
-    const scale = React.useRef(new Animated.Value(0)).current;
 
     const isConnected = async () => {
+      Animated.timing(progress, { toValue: 0, useNativeDriver: true}).start();
       if(connected){
         navigation.navigate("Home");
       } else {
@@ -18,8 +20,8 @@ const Load = (props: any) => {
     };
     
     React.useEffect(() => {
+        SplashScreen.hide();
         Animated.timing(progress, { toValue: 1, useNativeDriver: true}).start();
-        Animated.timing(scale, { toValue: 0.5, useNativeDriver: true}).start();
         setTimeout(isConnected, 5000);
     },[props.connected]);
     
@@ -30,10 +32,13 @@ const Load = (props: any) => {
           <Animated.Text
             style={
                 [
-                  text.logo,
+                  {
+                    fontFamily: 'SF-Pro-Rounded-Heavy',
+                    fontSize: 60, 
+                    color: "white",
+                  },
                   {
                     opacity: progress,
-                    transform:[{scale}],
                   }
                 ]
             }>

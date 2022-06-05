@@ -1,21 +1,15 @@
-import {CONNECT, DISCONNECT, INCREMENT, DECREMENT} from '../../constants';
-
-interface walletState{
-    connected?: boolean;
-    chainId?: number | null;
-    network?: string | null;
-    address?: string | null;
-    totalAmount?: number | null;
-    disabled?: boolean;
-    peerId?: string | null;
-    peerMeta?: any | null;
-};
+import {CONNECT, DISCONNECT, ERROR} from '../../constants';
+import { walletState } from '../../interface';
 
 const initialState: walletState = {
     connected: false,
-    address: null,
+    tokens: [],
+    type: null,
+    address: "",
     peerId: null,
     peerMeta: null,
+    error: false,
+    markets: null,
 }
 
 export default (state = initialState, action: any) => {
@@ -33,6 +27,10 @@ export default (state = initialState, action: any) => {
                 address: action.address,
                 chainId: action.chainId,
                 peerMeta: action.peerMeta,
+            };
+        case ERROR:
+            return {
+                error: action.error
             };
         default:
             return state;

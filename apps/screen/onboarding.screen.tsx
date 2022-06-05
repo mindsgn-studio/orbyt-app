@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Animated } from 'react-native';
-import { container } from '../style/container';
-import { text } from '../style/text';
+import { container } from '../style/container.style';
+import { text } from '../style/text.style';
 import Button from '../components/button';
 import { connect } from 'react-redux';
 import WalletAction from '../redux/actions/wallet.action';
+import { colors } from '../constants/index';
 
 const Onboarding = (props: any) => {
-  const {connected, navigation} = props
+  const {connected, navigation, error} = props
   const { connectWallet } = WalletAction(props);
   //animations
   const progress = React.useRef(new Animated.Value(0)).current;
@@ -19,9 +20,12 @@ const Onboarding = (props: any) => {
   },[]);
 
   React.useEffect(() => {
-    console.log('onboarding update', props.connected)
-    if(props.connected) navigation.navigate("Home")
-  },[props.connected]);
+    if(connected) navigation.navigate("Home");
+  },[connected]);
+
+  React.useEffect(() => {
+    if(error) navigation.navigate("Error");
+  },[error]);
 
   return (
     <View
@@ -30,10 +34,15 @@ const Onboarding = (props: any) => {
           <Animated.Text
             style={
                 [
-                    text.logo, 
-                        {
-                            opacity: progress,
-                        }
+                  {
+                    color: `${colors.white}`,
+                    fontSize: 50,
+                    width: 300,
+                    fontFamily:'SF-Pro-Rounded-Heavy'
+                  },
+                  {
+                    opacity: progress,
+                  }
                 ]
             }>
               Set up your wallet
@@ -44,10 +53,10 @@ const Onboarding = (props: any) => {
             style={
                 [
                   {
-                    fontFamily:'SFMOono-Medium',
-                    color: '#4C4C4C',
+                    color: `${colors.gray}`,
                     fontSize: 25,
-                    width: 300
+                    width: 300,
+                    fontFamily:'SF-Pro-Rounded-Bold'
                   }
                 ]
             }>
@@ -69,7 +78,7 @@ const Onboarding = (props: any) => {
             fontColor={'white'}
             minHeight={40}
             onPress={() => connectWallet()}
-            text={'CONNNECT WALLET'} />
+            text={'CONNECT WALLET'} />
           <Button
             color={'#39B54A'}
             fontColor={'white'}
@@ -89,7 +98,10 @@ const Onboarding = (props: any) => {
 
 
 const mapStateToProps = (state: any, props: any) => {
-  return { connected: state.connected };
+  return { 
+    connected: state.connected, 
+    error: state.error
+  };
 }
 
 export default connect(mapStateToProps)(Onboarding);

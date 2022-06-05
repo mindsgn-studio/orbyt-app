@@ -1,69 +1,78 @@
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import React from 'react'
-import { INCREMENT, DECREMENT, CONNECT, ERROR } from '../../constants';
+import { CONNECT, ERROR } from '../../constants';
+import {COINGECKO_API} from "@env";
 
 export const WalletAction = (props: any) => {
     const connector = useWalletConnect();
 
     const connectWallet = React.useCallback(async () => {
         try{
-            console.log("connecting wallet");
             connector.connect().then((success: any) => {
-                console.log("success: ", success)
+                console.log(success)
                 props.dispatch({
                     type: CONNECT,
                     connected: true,
                     address: success.accounts[0],
                     chainId: success.chainId,
                     peerId: success.peerId,
-                    peerMeta: success.peerMeta, 
+                    peerMeta: success.peerMeta,
                 });
             }).catch((error) => {
-                console.log("error: ", error)
+                console.log(error)
                 props.dispatch({
                     type: ERROR,
                     connected: false,
                 });
             });
         }catch(error: any){
-            console.log("error connecting wallet");
             props.dispatch({
                 type: ERROR,
-                connected: false,
+                error: true,
             });
         }
     },[]);
 
     const disconnectWallet = React.useCallback(async () => {
         try{
-            console.log("disconnecting wallet");
             connector.killSession().then((success: any) => {
-                console.log("success: ", success)
                 props.dispatch({
                     type: CONNECT,
                     connected: false,
-                    address: null,
+                    address: "",
                     chainId: null,
                     peerId: null,
                     peerMeta: null
                 });
             }).catch((error) => {
-                console.log("error: ", error)
                 props.dispatch({
                     type: ERROR,
+                    error: true,
                 });
             });
         }catch(error: any){
-            console.log("error connecting wallet");
             props.dispatch({
                 type: ERROR,
+                error: true,
             });
         }
     },[]);
 
+    const removeError = () => {
+        props.dispatch({
+            type: ERROR,
+            error: false,
+        });
+    };
+
+    React.useEffect(() => {
+        console.log(COINGECKO_API)
+    },[])
+
     return {
         connectWallet,
-        disconnectWallet
+        disconnectWallet,
+        removeError
     }
 }
   

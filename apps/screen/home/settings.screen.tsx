@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, } from 'react-native';
-import { container } from '../../style/container';
+import { container } from '../../style/container.style';
 import Card from '../../components/card';
 import Button from '../../components/button';
-import { connect } from 'react-redux';
 import WalletAction from '../../redux/actions/wallet.action';
+import { connect } from 'react-redux';
+import { colors } from '../../constants'
 
 const Settings = (props: any) => {
     const {connected, navigation} = props
@@ -17,9 +18,10 @@ const Settings = (props: any) => {
     return (
       <View>
         <Button 
-          color={'#F15A24'}
-          fontColor={'white'}
-          text='disconnect wallet'
+          color={colors.red}
+          fontColor={colors.white}
+          text='DISCONNECT WALLET'
+          justify='center'
           minHeight={40}
           onPress={() => disconnectWallet()}
         />

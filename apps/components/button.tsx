@@ -9,7 +9,10 @@ const Button = (
     fontColor,
     flex,
     minHeight,
-    disabled
+    disabled,
+    align,
+    justify,
+    size,
   } 
   : 
   {
@@ -19,7 +22,10 @@ const Button = (
     fontColor?: string,
     flex?: number,
     minHeight?: number,
-    disabled?: boolean
+    disabled?: boolean,
+    align?: string,
+    justify?: string,
+    size?: number
   }
 ) => {
   return (
@@ -33,17 +39,16 @@ const Button = (
             minHeight: minHeight,
             margin: 10,
             flex: flex,
-            maxHeight: '10%',
+            alignItems: `${align? align : 'flex-start'}`,
+            justifyContent: `${justify? justify : 'flex-start'}`,
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'center'
         }}>
             <Text
                 style={{
                     color: `${fontColor? fontColor : 'black'}`,
-                    fontWeight:'bold',
-                    fontSize: 15
+                    fontFamily:'SF-Pro-Rounded-Heavy',
+                    fontSize: size? size : 15
                 }}>
                 {text}
             </Text>

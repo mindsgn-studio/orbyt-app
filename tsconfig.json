@@ -5,14 +5,18 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "react-native",
+    "types" : [],
     "lib": ["esnext", "dom"],
     "moduleResolution": "node",
     "noEmit": true,
     "strict": true,
     "target": "esnext",
+    "typeRoots": ["./src/types"],
     "baseUrl": ".",
     "resolveJsonModule": true,
-    "paths": {},
+    "paths": {
+      "@env": ["node_modules/react-native-dotenv"] // this mapping is relative to "baseUrl"
+    }
   },
   "globals": [
     "useTheme", 
@@ -26,7 +30,7 @@
     "ios",
     "android",
     "shim.js",
-    "@types",
+    "apps/@types",
     "node_modules",
     "babel.config.js",
     "metro.config.js",

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
+import truncateAddress from './../hooks/truncateAddress';
 
 const Card = (props: any) => {
     const {address} = props
@@ -17,18 +18,18 @@ const Card = (props: any) => {
              <View>
                 <Text
                 style={{
+                    fontFamily: 'SF-Pro-Rounded-Bold',
                     color: 'white',
                     fontSize: 20,
-                    fontWeight:'bold'
                 }}
-                >{address}</Text>
+                >{truncateAddress(address)}</Text>
             </View>
             <View>
                 <Text
                     style={{
+                        fontFamily: 'SF-Pro-Rounded-Heavy',
                         color: 'white',
-                        fontSize: 40,
-                        fontWeight:'bold'
+                        fontSize: 45,
                     }}>R {(0)?.toFixed(2)}</Text>
             </View>
             <View

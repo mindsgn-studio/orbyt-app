@@ -1,18 +1,49 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Settings from './settings';
-import Wallet from './wallet';
-import Markets from './markets';
-import { Marker } from 'react-native-svg';
+import Settings from './settings.screen';
+import Wallet from './wallet.screen';
+import Markets from './markets.screen';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 const Tab = createBottomTabNavigator();
 
-const Main = ({ navigation } : { navigation: any }) => {
+const Main = () => {
     return(
-        <Tab.Navigator>
-            <Tab.Screen name="Wallet" component={Wallet} />
-            <Tab.Screen name="Markets" component={Markets} />
-            <Tab.Screen name="Settings" component={Settings} />
+        <Tab.Navigator
+            screenOptions={{ 
+                headerShown: false 
+            }}>
+            <Tab.Screen 
+                name="Wallet" 
+                component={Wallet}
+                options={{
+                    tabBarIcon: () => (
+                        <Icon 
+                            name="wallet" 
+                            size={20} />
+                    ),
+                }}/>
+            <Tab.Screen 
+                name="Markets" 
+                component={Markets}
+                options={{
+                    tabBarIcon: () => (
+                        <Icon 
+                            name="podium"
+                            size={20} />
+                    ),
+                }} 
+                />
+            <Tab.Screen 
+                name="Settings" 
+                component={Settings} 
+                options={{
+                    tabBarIcon: () => (
+                        <Icon 
+                            name="settings" 
+                            size={20} />
+                    ),
+                }}/>
         </Tab.Navigator>
     );
 };

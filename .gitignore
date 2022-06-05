@@ -4,6 +4,8 @@
 /__tests__
 .vscode
 .bundle
+.env
+
 # Xcode
 #
 build/

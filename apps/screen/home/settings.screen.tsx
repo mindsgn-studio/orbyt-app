@@ -1,22 +1,23 @@
 import React from 'react';
-import { View, Text, } from 'react-native';
+import { View, Text } from 'react-native';
 import { container } from '../../style/container.style';
 import Card from '../../components/card';
 import { DefaultButton as Button } from '../../components/button/defaultButton/defaultButton';
 import WalletAction from '../../redux/actions/wallet.action';
 import { connect } from 'react-redux';
-import { colors } from '../../constants'
+import { colors } from '../../constants';
 
 const Settings = (props: any) => {
-    const {connected, navigation} = props
+    const { connected, navigation } = props;
     const { disconnectWallet } = WalletAction(props);
 
     React.useEffect(() => {
-      if(!connected) navigation.navigate("Onboarding")
-    },[props.connected]);
+        if (!connected) navigation.navigate('Onboarding');
+    }, [props.connected]);
 
     return (
-      <View>{/*
+        <View>
+            {/*
         <Button 
           color={colors.red}
           fontColor={colors.white}
@@ -25,14 +26,12 @@ const Settings = (props: any) => {
           minHeight={40}
           onPress={() => disconnectWallet()}
         />*/}
-      </View>
-  );
+        </View>
+    );
 };
 
 const mapStateToProps = (state: any, props: any) => {
-  return { connected: state.connected };
-}
+    return { connected: state.connected };
+};
 
 export default connect(mapStateToProps)(Settings);
-
-

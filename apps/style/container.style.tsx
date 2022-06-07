@@ -4,7 +4,7 @@ export const container = StyleSheet.create({
     default: {
         display: 'flex',
         width: '100%',
-        height:'100%',
+        height: '100%',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'black'
@@ -17,23 +17,23 @@ export const container = StyleSheet.create({
     },
     welcome: {
         width: '100%',
-        height:'100%',
-        backgroundColor: 'black',
+        height: '100%',
+        backgroundColor: 'black'
     },
     import: {
         width: '100%',
-        height:'100%',
+        height: '100%',
         justifyContent: 'flex-start',
         backgroundColor: 'black'
     },
     create: {
         width: '100%',
-        height:'100%',
+        height: '100%',
         backgroundColor: 'black'
     },
     home: {
         width: '100%',
-        height:'100%',
+        height: '100%',
         backgroundColor: 'white'
     }
-  });
+});

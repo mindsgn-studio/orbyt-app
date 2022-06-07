@@ -1,11 +1,8 @@
 import React from 'react';
-import { View, } from 'react-native';
+import { View } from 'react-native';
 
-const Error = ({ navigation } : { navigation?: any }) => {
-    return (
-    <View>
-    </View>
-  );
+const Error = ({ navigation }: { navigation?: any }) => {
+    return <View></View>;
 };
 
 export default Error;

@@ -1,32 +1,32 @@
-import {CONNECT, DISCONNECT, ERROR} from '../../constants';
+import { CONNECT, DISCONNECT, ERROR } from '../../constants';
 import { walletState } from '../../interface';
 
 const initialState: walletState = {
     connected: false,
     tokens: [],
     type: null,
-    address: "",
+    address: '',
     peerId: null,
     peerMeta: null,
     error: false,
-    markets: null,
-}
+    markets: null
+};
 
 export default (state = initialState, action: any) => {
     switch (action.type) {
         case CONNECT:
-            return { 
+            return {
                 connected: action.connected,
                 address: action.address,
                 chainId: action.chainId,
-                peerMeta: action.peerMeta,
+                peerMeta: action.peerMeta
             };
         case DISCONNECT:
             return {
                 connected: action.connected,
                 address: action.address,
                 chainId: action.chainId,
-                peerMeta: action.peerMeta,
+                peerMeta: action.peerMeta
             };
         case ERROR:
             return {
@@ -35,4 +35,4 @@ export default (state = initialState, action: any) => {
         default:
             return state;
     }
-}
+};

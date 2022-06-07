@@ -10,30 +10,13 @@
     "moduleResolution": "node",
     "noEmit": true,
     "strict": true,
+    "moduleFileExtensions": ["ts", "tsx", "js"],
     "target": "esnext",
-    "typeRoots": ["./src/types"],
+    "typeRoots": ["./apps/@types"],
     "baseUrl": ".",
     "resolveJsonModule": true,
     "paths": {
       "@env": ["node_modules/react-native-dotenv"] // this mapping is relative to "baseUrl"
     }
-  },
-  "globals": [
-    "useTheme", 
-    "ios", 
-    "android", 
-    "web", 
-    "__DEV__", 
-    "IS_DEV"
-  ],
-  "exclude": [
-    "ios",
-    "android",
-    "shim.js",
-    "apps/@types",
-    "node_modules",
-    "babel.config.js",
-    "metro.config.js",
-    "jest.config.js"
-  ]
+  }
 }

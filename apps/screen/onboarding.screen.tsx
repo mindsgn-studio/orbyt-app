@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Animated } from 'react-native';
 import { container } from '../style/container.style';
 import { text } from '../style/text.style';
-import Button from '../components/button';
+import { OnboardingButton as Button} from '../components/button';
 import { connect } from 'react-redux';
 import WalletAction from '../redux/actions/wallet.action';
 import { colors } from '../constants/index';
@@ -71,24 +71,18 @@ const Onboarding = (props: any) => {
             flexDirection: 'row',
             display: 'flex',
             flexWrap:'wrap'
-          }}>
+          }}
+        >
           <Button
-            flex={1}
             color={'#4C4C4C'}
-            fontColor={'white'}
-            minHeight={40}
             onPress={() => connectWallet()}
             text={'CONNECT WALLET'} />
           <Button
             color={'#39B54A'}
-            fontColor={'white'}
-            minHeight={40}
             onPress={() => {}}
             text={'CREATE NEW WALLET'} />
           <Button
               color={'#F15A24'}
-              fontColor={'white'}
-              minHeight={40}
               onPress={() => {}}
               text='IMPORT WALLET' />
         </View>

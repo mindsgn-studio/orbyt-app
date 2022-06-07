@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native'
 
-const Button = (
+export const DefaultButton = (
   {
     text, 
     onPress, 
@@ -39,8 +39,6 @@ const Button = (
             minHeight: minHeight,
             margin: 10,
             flex: flex,
-            alignItems: `${align? align : 'flex-start'}`,
-            justifyContent: `${justify? justify : 'flex-start'}`,
             display: 'flex',
             flexDirection: 'row',
         }}>
@@ -56,4 +54,3 @@ const Button = (
   );
 };
 
-export default Button;

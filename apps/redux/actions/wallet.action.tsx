@@ -1,9 +1,11 @@
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import React from 'react'
 import { CONNECT, ERROR } from '../../constants';
-import {COINGECKO_API} from "@env";
+// import {COINGECKO_API} from "@env";
+import { connect } from 'react-redux';
 
 export const WalletAction = (props: any) => {
+
     const connector = useWalletConnect();
 
     const connectWallet = React.useCallback(async () => {
@@ -65,15 +67,31 @@ export const WalletAction = (props: any) => {
         });
     };
 
-    React.useEffect(() => {
-        console.log(COINGECKO_API)
+    const getMarketData = React.useCallback(async() => {
+        /*console.log("data")
+        return fetch(`${COINGECKO_API}coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false`,
+            {method: 'POST'}
+        )
+        .then((success) => {
+            console.log('error: ', success)
+        }).catch(error => { 
+            console.log('error: ', error)
+        });*/
     },[])
+
+    React.useEffect(() => {
+        //console.log(connector.connected)
+        //if(connector.connected){
+        //    getMarketData();
+        //}
+    })
 
     return {
         connectWallet,
         disconnectWallet,
-        removeError
+        removeError,
+        getMarketData
     }
 }
   
-export default WalletAction;
+  export default WalletAction

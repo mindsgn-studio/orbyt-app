@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, } from 'react-native';
 import { container } from '../../style/container.style';
 import Card from '../../components/card';
-import Button from '../../components/button';
+import { DefaultButton as Button } from '../../components/button/defaultButton/defaultButton';
 import WalletAction from '../../redux/actions/wallet.action';
 import { connect } from 'react-redux';
 import { colors } from '../../constants'
@@ -16,7 +16,7 @@ const Settings = (props: any) => {
     },[props.connected]);
 
     return (
-      <View>
+      <View>{/*
         <Button 
           color={colors.red}
           fontColor={colors.white}
@@ -24,7 +24,7 @@ const Settings = (props: any) => {
           justify='center'
           minHeight={40}
           onPress={() => disconnectWallet()}
-        />
+        />*/}
       </View>
   );
 };

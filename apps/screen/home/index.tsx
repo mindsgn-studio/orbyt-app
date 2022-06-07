@@ -1,8 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Settings from './settings.screen';
-import Wallet from './wallet.screen';
-import Markets from './markets.screen';
+import Settings from './settings/settings.screen';
+import Wallet from './wallet/wallet.screen';
+import Markets from './markets/markets.screen';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();

@@ -5,6 +5,7 @@
 .vscode
 .bundle
 .env
+__snapshots__
 
 # Xcode
 #

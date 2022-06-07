@@ -1,11 +1,10 @@
 import React from 'react';
 import { View, Animated } from 'react-native';
-import { container } from '../style/container.style';
-import { text } from '../style/text.style';
-import { OnboardingButton as Button } from '../components/button';
+import { container } from '../../style/container.style';
+import { OnboardingButton as Button } from '../../components/button';
 import { connect } from 'react-redux';
-import WalletAction from '../redux/actions/wallet.action';
-import { colors } from '../constants/index';
+import WalletAction from '../../redux/actions/wallet.action';
+import { colors } from '../../constants/index';
 
 const Onboarding = (props: any) => {
     const { connected, navigation, error } = props;

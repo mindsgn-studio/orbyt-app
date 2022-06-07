@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, Animated } from 'react-native';
-import { container } from '../style/container.style';
-import { text } from '../style/text.style';
+import { container } from '../../style/container.style';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 SplashScreen.show();
 
-const Load = (props: any) => {
+export const Load = (props: any) => {
     const { connected, navigation } = props;
     const progress = React.useRef(new Animated.Value(0)).current;
 

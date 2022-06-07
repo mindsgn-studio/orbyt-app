@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { container } from '../../style/container.style';
-import Card from '../../components/card';
-import { DefaultButton as Button } from '../../components/button/defaultButton/defaultButton';
-import WalletAction from '../../redux/actions/wallet.action';
+import { container } from '../../../style/container.style';
+import Card from '../../../components/card';
+import { DefaultButton as Button } from '../../../components/button/defaultButton/default.button';
+import WalletAction from '../../../redux/actions/wallet.action';
 import { connect } from 'react-redux';
-import { colors } from '../../constants';
+import { colors } from '../../../constants';
 
 const Settings = (props: any) => {
     const { connected, navigation } = props;

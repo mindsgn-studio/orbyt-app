@@ -1,2 +1,2 @@
-export { DefaultButton } from './defaultButton/defaultButton';
-export { OnboardingButton } from './onboardingButton/onboardingButton';
+export { DefaultButton } from './defaultButton/default.button';
+export { OnboardingButton } from './onboardingButton/onboarding.button';

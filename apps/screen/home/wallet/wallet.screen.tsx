@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { container } from '../../style/container.style';
-import Card from '../../components/card';
+import { container } from '../../../style/container.style';
+import Card from '../../../components/card';
 import { connect } from 'react-redux';
-import { colors } from '../../constants';
+import { colors } from '../../../constants';
 
 const Wallet = () => {
     return (

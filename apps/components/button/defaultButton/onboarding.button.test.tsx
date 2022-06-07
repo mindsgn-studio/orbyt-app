@@ -2,11 +2,10 @@
  * @format
  */
 
-import '@types/jest';
 import 'react-native';
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { OnboardingButton as Button } from './onboardingButton';
+import { DefaultButton as Button } from './default.button';
 
 describe('Testing onbaording button', () => {
     const wrapper: any = renderer.create(

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import WalletAction from '../../redux/actions/wallet.action';
+import WalletAction from '../../../redux/actions/wallet.action';
 
 const Markets = (props: any) => {
     const { disconnectWallet } = WalletAction(props);

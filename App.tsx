@@ -14,10 +14,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import Load from './apps/screen/load.screen';
-import Onboarding from './apps/screen/onboarding.screen';
+import Load from './apps/screen/load/load.screen';
+import Onboarding from './apps/screen/onboarding/onboarding.screen';
 import Home from './apps/screen/home';
-import Error from './apps/screen/error.screen';
+import Error from './apps/screen/error/error.screen';
 import { store, persistor } from './apps/redux/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'react-native';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { TouchableOpacity, Text, View } from 'react-native'
 
 export const OnboardingButton = (

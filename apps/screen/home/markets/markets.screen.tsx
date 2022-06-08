@@ -1,32 +1,93 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, SafeAreaView, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import WalletAction from '../../../redux/actions/wallet.action';
 
 const Markets = (props: any) => {
-    const { disconnectWallet } = WalletAction(props);
     const { markets } = props;
-
+    const { getMarketData } = WalletAction(props);
+    
     React.useEffect(() => {
-        disconnectWallet();
+        getMarketData();
     }, []);
 
     return (
         <View
             style={{
-                flex: 1
-            }}
-        >
+                flex: 1,
+            }}>
             {markets ? (
                 <View
                     style={{
-                        flex: 1
-                    }}
-                >
-                    <Text>Hello</Text>
+                        backgroundColor:'white',
+                        flex: 1,
+                        display: 'flex',
+                        flexDirection:'column',
+                    }}>
+                    {
+                     markets.map((data: any) => {
+                        return(
+                            <SafeAreaView
+                                style={{
+                                    margin: 5,
+                                    padding: 10,
+                                    backgroundColor:'white',
+                                    display: 'flex',
+                                    flexDirection:'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'flex-start',
+                                    elevation: 20,
+                                    shadowColor: '#000000',
+                                }}>
+                                <View
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection:'row',
+                                        borderRadius: 20
+                                    }}>
+                                    <View
+                                        style={{
+                                            minWidth:40,
+                                            minHeight:40,
+                                            borderRadius: 50,
+                                            marginRight: 10,
+                                            backgroundColor:'black'
+                                        }}>
+                                    </View>
+                                    <Text
+                                        style={{
+                                            fontFamily: 'SF-Pro-Rounded-Bold',
+                                            color:'black',
+                                            fontSize: 21,
+                                        }}>
+                                        {data.id}
+                                    </Text>
+                                </View>
+                                <View>
+                                </View>
+                            </SafeAreaView>
+                        )
+                     })   
+                    }
                 </View>
             ) : (
-                <View></View>
+                <View
+                    style={{
+                        backgroundColor:'white',
+                        flex: 1,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <Text
+                        style={{
+                            fontFamily: 'SF-Pro-Rounded-Bold',
+                        }}
+                    >
+                        LOADING
+                    </Text>
+                </View>
             )}
         </View>
     );

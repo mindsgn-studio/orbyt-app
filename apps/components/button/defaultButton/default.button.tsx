@@ -14,7 +14,7 @@ export const DefaultButton = ({
     size
 }: {
     text: string;
-    onPress: any;
+    onPress(): void;
     color?: string;
     fontColor?: string;
     flex?: number;

@@ -2,6 +2,7 @@ export const GET_AUTH = 'GET_AUTH';
 export const CONNECT = 'CONNECT';
 export const DISCONNECT = 'DISCCONNECT';
 export const GET_CONNECTION = 'GET_CONNECTION';
+export const GET_COINGECKO = 'GET_COINGECKO';
 export const ERROR = 'ERROR';
 
 export const colors = {

@@ -1,4 +1,4 @@
-import { CONNECT, DISCONNECT, ERROR } from '../../constants';
+import { CONNECT, DISCONNECT, ERROR, GET_COINGECKO } from '../../constants';
 import { walletState } from '../../interface';
 
 const initialState: walletState = {
@@ -9,7 +9,7 @@ const initialState: walletState = {
     peerId: null,
     peerMeta: null,
     error: false,
-    markets: null
+    markets: null,
 };
 
 export default (state = initialState, action: any) => {
@@ -26,7 +26,13 @@ export default (state = initialState, action: any) => {
                 connected: action.connected,
                 address: action.address,
                 chainId: action.chainId,
-                peerMeta: action.peerMeta
+                peerMeta: action.peerMeta,
+                markets: null,
+            };
+        case GET_COINGECKO:
+            return {
+                ...state,
+                markets: action.markets,
             };
         case ERROR:
             return {

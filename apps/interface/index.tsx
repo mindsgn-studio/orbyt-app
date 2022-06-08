@@ -10,7 +10,7 @@ export interface walletState {
     tokens?: Token[];
     chainId?: number | null;
     network?: string | null;
-    address?: string | null;
+    address?: string;
     totalAmount?: number | null;
     disabled?: boolean;
     peerId?: string | null;

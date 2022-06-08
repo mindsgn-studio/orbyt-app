@@ -1,7 +1,7 @@
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import React from 'react';
-import { CONNECT, ERROR } from '../../constants';
-// import {COINGECKO_API} from "@env";
+import { CONNECT, ERROR, GET_COINGECKO } from '../../constants';
+import {COINGECKO_API} from "@env";
 import { connect } from 'react-redux';
 
 export const WalletAction = (props: any) => {
@@ -12,7 +12,6 @@ export const WalletAction = (props: any) => {
             connector
                 .connect()
                 .then((success: any) => {
-                    console.log(success);
                     props.dispatch({
                         type: CONNECT,
                         connected: true,
@@ -39,6 +38,7 @@ export const WalletAction = (props: any) => {
 
     const disconnectWallet = React.useCallback(async () => {
         try {
+            console.log("disconnecting app")
             connector
                 .killSession()
                 .then((success: any) => {
@@ -73,23 +73,23 @@ export const WalletAction = (props: any) => {
     };
 
     const getMarketData = React.useCallback(async () => {
-        /*console.log("data")
-        return fetch(`${COINGECKO_API}coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false`,
-            {method: 'POST'}
+        const response = await fetch(
+            `${COINGECKO_API}/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false`,
+            {
+                method: "GET"
+            }
         )
         .then((success) => {
-            console.log('error: ', success)
+           return success.json();
         }).catch(error => { 
-            console.log('error: ', error)
-        });*/
-    }, []);
+            return error;
+        });
 
-    React.useEffect(() => {
-        //console.log(connector.connected)
-        //if(connector.connected){
-        //    getMarketData();
-        //}
-    });
+        props.dispatch({
+            type: GET_COINGECKO,
+            markets: response
+        });
+    }, []);
 
     return {
         connectWallet,

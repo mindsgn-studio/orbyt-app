@@ -17,15 +17,14 @@ const Settings = (props: any) => {
 
     return (
         <View>
-            {/*
-        <Button 
-          color={colors.red}
-          fontColor={colors.white}
-          text='DISCONNECT WALLET'
-          justify='center'
-          minHeight={40}
-          onPress={() => disconnectWallet()}
-        />*/}
+            <Button 
+                color={colors.red}
+                fontColor={colors.white}
+                text='DISCONNECT WALLET'
+                justify='center'
+                minHeight={40}
+                onPress={() => disconnectWallet()}
+            />
         </View>
     );
 };

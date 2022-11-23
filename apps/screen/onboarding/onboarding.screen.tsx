@@ -5,22 +5,14 @@ import { OnboardingButton as Button } from '../../components/onboarding/button';
 import { connect } from 'react-redux';
 import WalletAction from '../../redux/actions/wallet.action';
 import { colors } from '../../constants/index';
+import RPC from './../../lib/rpc';
 
 const Onboarding = (props: any) => {
-    const { connected, navigation, error } = props;
+    const { connected, navigation, error, privKey } = props;
     const { connectWallet } = WalletAction(props);
-    
-    //animations
+
     const progress = React.useRef(new Animated.Value(0)).current;
     const scale = React.useRef(new Animated.Value(0)).current;
-
-    const createNewWallet = React.useCallback(() => {
-        navigation.navigate('Create');
-    },[]);
-    
-    const importWallet = React.useCallback(() => {
-        navigation.navigate('Import');
-    },[]);
 
     React.useEffect(() => {
         Animated.timing(progress, {
@@ -31,12 +23,8 @@ const Onboarding = (props: any) => {
     }, []);
 
     React.useEffect(() => {
-        if (connected) navigation.navigate('Home');
+       if(connected) navigation.navigate("Home");
     }, [connected]);
-
-    React.useEffect(() => {
-        if (error) navigation.navigate('Error');
-    }, [error]);
 
     return (
         <View 
@@ -53,8 +41,7 @@ const Onboarding = (props: any) => {
                         {
                             opacity: progress
                         }
-                    ]}
-                >
+                    ]}>
                     Set up your wallet
                 </Animated.Text>
             </View>
@@ -69,7 +56,7 @@ const Onboarding = (props: any) => {
                         }
                     ]}
                 >
-                    welcome to the world of web3, you just one step closer to
+                    welcome to the world of decentralized finance, you just one step closer to
                     total fincancial freedom.
                 </Animated.Text>
             </View>
@@ -78,36 +65,15 @@ const Onboarding = (props: any) => {
                     width: '90%',
                     flex: 1,
                     padding: 10,
-                    flexDirection: 'row',
+                    flexDirection: 'column',
                     display: 'flex',
-                    justifyContent: 'space-between'
-                }}
-            >
-                <Button
-                    color={'#4C4C4C'}
-                    onPress={() => connectWallet()}
-                    text={'CONNECT WALLET'}
-                />
-                <Button
-                    color={'#39B54A'}
-                    onPress={() => createNewWallet()}
-                    text={'CREATE NEW WALLET'}
-                />
-            </View>
-            <View
-                style={{
-                    width: '90%',
-                    flex: 1,
-                    padding: 10,
-                    flexDirection: 'row',
-                    display: 'flex',
-                    justifyContent: 'space-between'
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end'
                 }}>
                 <Button
                     color={'#F15A24'}
-                    onPress={() => importWallet()}
-                    text={'IMPORT WALLET'}
-                />
+                    onPress={() => connectWallet()}
+                    text={'SIGN IN'} />
             </View>
         </View>
     );
@@ -116,7 +82,8 @@ const Onboarding = (props: any) => {
 const mapStateToProps = (state: any, props: any) => {
     return {
         connected: state.connected,
-        error: state.error
+        privKey: state.privKey ,
+        error: state.error,
     };
 };
 

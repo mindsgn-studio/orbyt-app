@@ -21,6 +21,7 @@ import {
     Onboarding } from './apps/screen/onboarding'
 import Home from './apps/screen/home';
 import Error from './apps/screen/error/error.screen';
+import SignIn from './apps/screen/onboarding/signin/signin.screen'
 import { store, persistor } from './apps/redux/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'react-native';
@@ -60,8 +61,8 @@ const App: React.FC = () => {
                             component={Create}
                         />
                         <Stack.Screen
-                            name="Import"
-                            component={Import}
+                            name="SignIn"
+                            component={SignIn}
                         />
                     </Stack.Navigator>
                 </NavigationContainer>

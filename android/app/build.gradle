@@ -141,6 +141,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 01
         versionName "mvp@0.1"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -152,12 +153,7 @@ android {
     }
     signingConfigs {
         debug {
-             if (project.hasProperty('DEBUG_UPLOAD_STORE_FILE')) {
-                storeFile file(DEBUG_UPLOAD_STORE_FILE)
-                storePassword DEBUG_UPLOAD_STORE_PASSWORD
-                keyAlias DEBUG_UPLOAD_KEY_ALIAS
-                keyPassword DEBUG_UPLOAD_KEY_PASSWORD
-            }
+            
         }
         
         release {
@@ -208,7 +204,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation platform('com.google.firebase:firebase-bom:30.2.0')
     implementation 'com.google.firebase:firebase-analytics'
-
+    implementation 'org.torusresearch:web3auth-android-sdk:2.5.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

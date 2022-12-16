@@ -1,15 +1,16 @@
 import React from 'react';
-import { View, Animated } from 'react-native';
+import { View, Animated, Text, TouchableOpacity } from 'react-native';
 import { container } from '../../style/container.style';
 import { OnboardingButton as Button } from '../../components/onboarding/button';
 import { connect } from 'react-redux';
 import WalletAction from '../../redux/actions/wallet.action';
 import { colors } from '../../constants/index';
-import RPC from './../../lib/rpc';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Onboarding = (props: any) => {
+    const [ text, onChangeText ] = React.useState("Useless Text");
     const { connected, navigation, error, privKey } = props;
-    const { connectWallet } = WalletAction(props);
+    const { connectWithWeb3Auth, testConnection } = WalletAction(props);
 
     const progress = React.useRef(new Animated.Value(0)).current;
     const scale = React.useRef(new Animated.Value(0)).current;
@@ -72,8 +73,34 @@ const Onboarding = (props: any) => {
                 }}>
                 <Button
                     color={'#F15A24'}
-                    onPress={() => connectWallet()}
-                    text={'SIGN IN'} />
+                    onPress={() => connectWithWeb3Auth()}
+                    text={'SIGN IN WITH GOOGLE'} />
+                <View
+                    style={{
+                        borderColor: '#F15A24',
+                        borderWidth: 2,
+                        borderRadius: 20,
+                        minHeight: 50,
+                        width:'100%',
+                        padding: 2,
+                        display:'flex',
+                        flexDirection:'row'
+                    }}>
+                    <View style={{minWidth:'80%', flex: 1}}/>
+                    <TouchableOpacity
+                        onPress={() => testConnection()}
+                        style={{
+                            backgroundColor: '#F15A24',
+                            borderRadius: 20,
+                            width: 50,
+                            height: 50,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <Icon color='white' name="arrow-forward" size={30}/>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );

@@ -27,7 +27,6 @@ export const Load = (props: any) => {
     React.useEffect(() => {
         if(markets){
             navigation.navigate('Home');
-            console.log(markets)
         }
     },[markets])
 
@@ -35,7 +34,7 @@ export const Load = (props: any) => {
         SplashScreen.hide();
         Animated.timing(progress, {
             toValue: 1,
-            useNativeDriver: true
+            useNativeDriver: true,
         }).start();
         setTimeout(isConnected, 5000);
     }, [props.connected]);

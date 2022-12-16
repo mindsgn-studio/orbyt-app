@@ -33,7 +33,28 @@ const Markets = (props: any) => {
                         flex: 1,
                         display: 'flex',
                         flexDirection:'column',
+                        padding: 10,
                     }}>
+                         <View
+                            style={{
+                                display: 'flex',
+                                width: '100%',
+                                minHeight: 150,
+                                backgroundColor: 'blue',
+                                borderRadius: 10,
+                                justifyContent: 'flex-end'
+                            }}>
+                                <Text
+                                    style={{
+                                        fontFamily: 'SF-Pro-Rounded-Bold',
+                                        fontSize: 42,
+                                        color: 'white',
+                                        padding: 10
+                                    }}
+                                    >
+                                    Markets
+                                </Text>       
+                        </View>
                     {
                      markets.map((data: any) => {
                         return(
@@ -49,13 +70,14 @@ const Markets = (props: any) => {
                                     justifyContent: 'space-between',
                                     elevation: 20,
                                     shadowColor: '#000000',
+                                    borderRadius: 20
                                 }}>
                                 <View
                                     style={{
                                         display: 'flex',
                                         flexDirection:'row',
                                         alignItems: 'center',
-                                        borderRadius: 20
+                                        
                                     }}>
                                     <Image
                                         source={{uri: data.image}}
@@ -64,7 +86,6 @@ const Markets = (props: any) => {
                                             height:50,
                                             borderRadius: 50,
                                             marginRight: 10,
-                                            backgroundColor:'black'
                                         }}/>
                                     <View>
                                         <Text
@@ -87,6 +108,11 @@ const Markets = (props: any) => {
                                     </View>
                                 </View>
                                 <View
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'flex-end'
+                                    }}
                                     >
                                         <Text
                                                 style={{
@@ -119,7 +145,7 @@ const Markets = (props: any) => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
-                    }}
+                    }}  
                 >
                     <Text
                         style={{

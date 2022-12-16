@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, } from 'react-native';
 import { container } from '../../../style/container.style';
 import Card from '../../../components/card';
 import { connect } from 'react-redux';
@@ -12,17 +12,17 @@ const Wallet = (props: any) => {
 
     const getChainId = async () => {
         const networkDetails = await RPC.getChainId();
-        console.log(networkDetails)
+        // console.log(networkDetails)
     };
       
     const sendTransaction = async () => {
         const tx = await RPC.sendTransaction(privKey);
-        console.log(tx)
+        // console.log(tx)
     };
       
     const signMessage = async () => {
         const message = await RPC.signMessage(privKey);
-        console.log(message)
+        // console.log(message)
     };
 
     React.useEffect( () => {
@@ -32,14 +32,65 @@ const Wallet = (props: any) => {
     }, [privKey])
 
     return (
-        <View 
+        <ScrollView 
             style={container.home}>
             <Card />
             <View
                 style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    width: '100%',
+                    padding: 10,
+                    borderRadius: 30,
+                    alignItems: 'center',
+                    justifyContent:'space-evenly',
+                    marginVertical: 5,
+                }}>
+                <TouchableOpacity
+                     style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems:'center',
+                        backgroundColor:`${colors.orange}`,
+                        width: '50%',
+                        height: 60,
+                        borderTopLeftRadius: 10,
+                        borderBottomLeftRadius: 10
+                    }}>
+                    <Text
+                        style={{
+                            color: "white",
+                            fontFamily: 'SF-Pro-Rounded-Bold',
+                            fontSize: 25
+                        }}>
+                            Send
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                     style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems:'center',
+                        backgroundColor:`${colors.green}`,
+                        width: '50%',
+                        height: 60,
+                        borderTopRightRadius: 10,
+                        borderBottomRightRadius: 10
+                    }}>
+                    <Text
+                        style={{
+                            color: "white",
+                            fontFamily: 'SF-Pro-Rounded-Bold',
+                            fontSize: 25,
+                        }}>
+                        Receive
+                    </Text>
+                </TouchableOpacity>
+            </View>
+            <View
+                style={{
                     margin: 10
-                }}
-            >
+                }}>
                 <Text
                     style={{
                         fontFamily: 'SF-Pro-Rounded-Bold',
@@ -54,20 +105,23 @@ const Wallet = (props: any) => {
                 style={{
                     flex: 1,
                     margin: 10,
+                    minHeight: 250,
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    backgroundColor:`${colors.gray}`,
+                    borderRadius: 10 
                 }}
             >
                 <Text
                     style={{
                         fontFamily: 'SF-Pro-Rounded-Bold',
-                        position: 'absolute'
+                        position: 'absolute',
                     }}
                 >
                     NO TOKENS
                 </Text>
             </View>
-        </View>
+        </ScrollView>
     );
 };
 

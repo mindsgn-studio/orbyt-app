@@ -17,8 +17,8 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Load from './apps/screen/load/load.screen';
 import { 
     Create, 
-    Import, 
-    Onboarding } from './apps/screen/onboarding'
+    Onboarding 
+} from './apps/screen/onboarding'
 import Home from './apps/screen/home';
 import Error from './apps/screen/error/error.screen';
 import SignIn from './apps/screen/onboarding/signin/signin.screen'
@@ -41,7 +41,7 @@ const App: React.FC = () => {
                         }}
                     >
                         <Stack.Screen 
-                            name="Load" 
+                            name="Load"
                             component={Load} 
                         />
                         <Stack.Screen

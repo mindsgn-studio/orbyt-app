@@ -14,7 +14,7 @@ export const OnboardingButton = ({
     return (
         <TouchableOpacity
             style={{
-                marginBottom: 10,
+                margin: 5,
                 backgroundColor: color,
                 display: 'flex',
                 justifyContent: 'center',

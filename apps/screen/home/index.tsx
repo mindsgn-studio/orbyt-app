@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Settings from './settings/settings.screen';
 import Wallet from './wallet/wallet.screen';
 import Markets from './markets/markets.screen';
+import NFT from './nfts/nfts.screen'
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
@@ -23,7 +24,7 @@ const Main = () => {
             />
             <Tab.Screen
                 name="NFTS"
-                component={Markets}
+                component={NFT}
                 options={{
                     tabBarIcon: () => <Icon name="podium" size={20} />
                 }}

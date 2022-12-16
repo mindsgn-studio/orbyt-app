@@ -5,7 +5,7 @@ import truncateAddress from './../hooks/truncateAddress';
 import RPC from './../lib/rpc';
 
 const Card = (props: any) => {
-    const { privKey } = props
+    const { privKey, user } = props
     const [ address, setAddress ] = React.useState<any>("")
 
     const getAccounts = async () => {
@@ -14,8 +14,7 @@ const Card = (props: any) => {
     };
       
     const getBalance = async () => {
-        const balance = await RPC.getBalance(privKey);
-       
+        const balance = await RPC.getBalance(privKey); 
     };
 
     React.useEffect(() => {
@@ -42,7 +41,7 @@ const Card = (props: any) => {
                         fontSize: 20
                     }}
                 >
-                    {truncateAddress(address)}
+                    {`sibongiseni.eth`}
                 </Text>
             </View>
             <View>
@@ -73,10 +72,11 @@ const Card = (props: any) => {
     );
 };
 
-const mapStateToProps = (state: any, props: any) => {
+const mapStateToProps = (state: any) => {
     return {
         connected: state.connected,
         privKey: state.privKey,
+        user: state.user,
         error: state.error
     };
 };

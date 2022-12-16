@@ -8,7 +8,7 @@ const scheme = 'orbyt';
 const resolvedRedirectUrl = `${scheme}://openlogin`;
 
 export const WalletAction = (props: any) => {
-    const connectWallet = React.useCallback(async() => {
+    const connectWithWeb3Auth = React.useCallback(async() => {
         try {
             const response = await new Web3Auth(WebBrowser, {
                 clientId: `${CLIENT_ID}`,
@@ -21,7 +21,7 @@ export const WalletAction = (props: any) => {
             });
 
             props.dispatch({
-                type: CONNECT,
+                type: 'web3auth',
                 auth: response,
                 connected: true,
                 ed25519PrivKey: info.ed25519PrivKey,
@@ -39,8 +39,26 @@ export const WalletAction = (props: any) => {
         }
     },[]);
 
+    const testConnection = React.useCallback(async() => {
+        try {
+            props.dispatch({
+                type: 'test',
+                auth: null,
+                connected: true,
+                ed25519PrivKey: null,
+                privKey: null,
+                sessionId: null,
+                user: {
+                    address: 'sibongiseni.eth' 
+                }
+            });
+        }catch(error){
+            
+        }
+    },[]);
+
     const disconnectWallet = React.useCallback(async (auth: any) => {
-        console.log('response: ', auth)
+        // console.log('response: ', auth)
         try {
             //@ts-ignore
             const response = await auth.logout();
@@ -53,6 +71,7 @@ export const WalletAction = (props: any) => {
                 privKey: null,
                 sessionId: null,
                 user: null
+                // 
             });
         } catch (error: any) {
             props.dispatch({
@@ -83,15 +102,13 @@ export const WalletAction = (props: any) => {
         )
         .then((success) => {
            success.json().then((data)=> {
-                console.log(data)
                 props.dispatch({
                     type: GET_COINGECKO,
                      markets: data
                 }); 
            })
           
-        }).catch(error => { 
-            console.log(error)
+        }).catch(error => {
             props.dispatch({
                 type: GET_COINGECKO,
                 markets: [],
@@ -101,10 +118,11 @@ export const WalletAction = (props: any) => {
     }, []);
 
     return {
-        connectWallet,
+        connectWithWeb3Auth,
         disconnectWallet,
         removeError,
         getMarketData,
+        testConnection
     };
 };
 

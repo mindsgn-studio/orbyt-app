@@ -10,7 +10,7 @@ const truncateEthAddress = (address: string) => {
     //if (address === '') return null;
     //const match = address.match(truncateRegex);
     //if (!match) return address;
-    return `hello` //${match[1]}…${match[2]}`;
+    return `hello`; //${match[1]}…${match[2]}`;
 };
 
 export default truncateEthAddress;

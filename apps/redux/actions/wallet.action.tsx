@@ -21,7 +21,7 @@ export const WalletAction = (props: any) => {
             });
 
             props.dispatch({
-                type: 'web3auth',
+                type: CONNECT,
                 auth: response,
                 connected: true,
                 ed25519PrivKey: info.ed25519PrivKey,
@@ -32,7 +32,7 @@ export const WalletAction = (props: any) => {
             
         } catch (error: any) {
             props.dispatch({
-                type: error,
+                type: ERROR,
                 connected: false,
                 error: true
             });
@@ -42,7 +42,7 @@ export const WalletAction = (props: any) => {
     const testConnection = React.useCallback(async() => {
         try {
             props.dispatch({
-                type: 'test',
+                type: CONNECT,
                 auth: null,
                 connected: true,
                 ed25519PrivKey: null,
@@ -53,7 +53,11 @@ export const WalletAction = (props: any) => {
                 }
             });
         }catch(error){
-            
+            props.dispatch({
+                type: ERROR,
+                connected: false,
+                error: true
+            });
         }
     },[]);
 
@@ -71,7 +75,6 @@ export const WalletAction = (props: any) => {
                 privKey: null,
                 sessionId: null,
                 user: null
-                // 
             });
         } catch (error: any) {
             props.dispatch({

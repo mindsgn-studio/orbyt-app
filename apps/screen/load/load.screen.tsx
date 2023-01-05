@@ -25,10 +25,10 @@ export const Load = (props: any) => {
     };
 
     React.useEffect(() => {
-        if(markets){
+        if(markets && connected){
             navigation.navigate('Home');
         }
-    },[markets])
+    },[markets, connected])
 
     React.useEffect(() => {
         SplashScreen.hide();
@@ -37,7 +37,7 @@ export const Load = (props: any) => {
             useNativeDriver: true,
         }).start();
         setTimeout(isConnected, 5000);
-    }, [props.connected]);
+    }, [connected]);
 
     return (
         <View 

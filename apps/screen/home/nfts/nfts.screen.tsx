@@ -3,42 +3,10 @@ import React from 'react';
 import { View, Text, FlatList, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import WalletAction from '../../../redux/actions/wallet.action';
-import { nft } from 'interface';
 
 
 const NFTS = (props: any) => {
-    const [ nft ] = React.useState<nft []>([
-        {
-            id: 0,
-            name: 'community poap',
-            picture: '',
-            price: 1,
-        },
-        {
-            id: 3,
-            name: 'proof of ownership',
-            picture: '',
-            price: 2,
-        },
-        {
-            id: 4,
-            name: '',
-            picture: '',
-            price: 4,
-        },
-        {
-            id: 5,
-            name: '',
-            picture: '',
-            price: 1,
-        },
-        {
-            id: 5,
-            name: '',
-            picture: '',
-            price: 1,
-        }
-    ]);
+    const {nfts} = props;
 
     //should open card to full view 
     const view = (id: number, ) => {
@@ -93,7 +61,7 @@ const NFTS = (props: any) => {
                     width: '100%',
                 }}>
                 {
-                    nft.map((item, index) => {
+                    nfts.map((item: any, index: any) => {
                         return(
                             <TouchableOpacity
                                 key={index}
@@ -132,7 +100,7 @@ const NFTS = (props: any) => {
 };
 
 const mapStateToProps = (state: any, props: any) => {
-    return { markets: state.markets };
+    return { nfts: state.nfts };
 };
 
 export default connect(mapStateToProps)(NFTS);

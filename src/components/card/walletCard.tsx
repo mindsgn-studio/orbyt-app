@@ -1,11 +1,12 @@
+//@ts-ignore
+import { truncateAddress } from '@orbyt/hooks';
 import React from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-import RPC from '../../src/lib/rpc';
-import truncateAddress from './../hooks/truncateAddress';
+import RPC from '../../lib/rpc';
 
-const Card = (props: any) => {
+export const WalletCard = (props: any) => {
   const { privKey, user } = props;
   const [address, setAddress] = React.useState<any>('');
 
@@ -82,4 +83,4 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(Card);
+export default connect(mapStateToProps)(WalletCard);

@@ -3,13 +3,13 @@ import { View, Animated } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import { connect } from 'react-redux';
 
-import { WalletAction } from '../../redux/actions';
-import { style } from './style';
+import WalletAction from '../../redux/actions/wallet.action';
+import { container } from '../../style/container.style';
 
 SplashScreen.show();
 
 export const Load = (props: any) => {
-  const { connected, navigation } = props;
+  const { connected, navigation, markets } = props;
   const progress = React.useRef(new Animated.Value(0)).current;
   const { getMarketData } = WalletAction(props);
 
@@ -21,15 +21,15 @@ export const Load = (props: any) => {
     if (connected) {
       await getMarketData();
     } else {
-      navigation.navigate('SignIn');
+      navigation.navigate('Onboarding');
     }
   };
 
   React.useEffect(() => {
-    if (connected) {
+    if (markets && connected) {
       navigation.navigate('Home');
     }
-  }, [connected]);
+  }, [markets, connected]);
 
   React.useEffect(() => {
     SplashScreen.hide();
@@ -40,12 +40,8 @@ export const Load = (props: any) => {
     setTimeout(isConnected, 5000);
   }, [connected]);
 
-  React.useEffect(() => {
-    SplashScreen.hide();
-  }, []);
-
   return (
-    <View style={style.default}>
+    <View style={container.default}>
       <View>
         <Animated.Text
           style={[

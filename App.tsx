@@ -7,6 +7,10 @@
  *
  * @format
  */
+//@ts-ignore
+import { store, persistor } from '@orbyt/redux';
+//@ts-ignore
+import { Load, Home, SignIn } from '@orbyt/screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -15,13 +19,6 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-
-import { store, persistor } from './apps/redux/store';
-import Error from './apps/screen/error/error.screen';
-import Home from './apps/screen/home';
-import Load from './apps/screen/load/load.screen';
-import { Create, Onboarding } from './apps/screen/onboarding';
-import SignIn from './apps/screen/onboarding/signin/signin.screen';
 
 StatusBar.setHidden(true);
 
@@ -38,11 +35,8 @@ const App: React.FC = () => {
             }}
           >
             <Stack.Screen name="Load" component={Load} />
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Error" component={Error} />
-            <Stack.Screen name="Onboarding" component={Onboarding} />
-            <Stack.Screen name="Create" component={Create} />
             <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="Home" component={Home} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

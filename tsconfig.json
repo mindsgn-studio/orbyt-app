@@ -16,12 +16,12 @@
         "resolveJsonModule": true,
         "paths": {
             "@env": ["node_modules/react-native-dotenv"],
-            "@orbyt-component": ["./src/components"],
-            "@orbyt-screen": ["./src/screens"]
         }
     },
     "include": ["./src/**/*"],
     "exclude": [
+        "android",
+        "ios",
         "node_modules",
         "babel.config.js",
         "metro.config.js",

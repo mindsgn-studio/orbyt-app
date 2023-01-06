@@ -15,6 +15,9 @@
         "beta:android": "cd ./android && bundle exec fastlane beta",
         "release:android": "cd ./android && bundle exec fastlane release"
     },
+    "eslintConfig": {
+        "extends": "universe/native"
+    },
     "husky": {
         "hooks": {
             "pre-commit": "pretty-quick --staged && yarn lint"

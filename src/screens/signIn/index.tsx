@@ -13,8 +13,7 @@ import { connect } from 'react-redux';
 
 import { style } from './style';
 
-export const SignIn = (props: any) => {
-  const [text, onChangeText] = React.useState('Useless Text');
+const SignIn = (props: any) => {
   const { connected, navigation, error, privKey } = props;
   const { connectWithWeb3Auth, testConnection } = WalletAction(props);
   const progress = React.useRef(new Animated.Value(0)).current;
@@ -29,7 +28,6 @@ export const SignIn = (props: any) => {
   }, []);
 
   React.useEffect(() => {
-    console.log(connected);
     if (connected) navigation.navigate('Home');
   }, [connected]);
 
@@ -46,7 +44,7 @@ export const SignIn = (props: any) => {
             },
           ]}
         >
-          Set up your wallet
+          Sign in your wallet
         </Text>
       </View>
       <View>

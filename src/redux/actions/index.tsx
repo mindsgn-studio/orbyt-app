@@ -1,4 +1,7 @@
+//@ts-ignore
 import { COINGECKO_API, CLIENT_ID } from '@env';
+//@ts-ignore
+import { CONNECT, DISCONNECT, ERROR, GET_COINGECKO } from '@orbyt/constants';
 import * as WebBrowser from '@toruslabs/react-native-web-browser';
 import { useWalletConnect } from '@walletconnect/react-native-dapp';
 import Web3Auth, {
@@ -7,7 +10,6 @@ import Web3Auth, {
 } from '@web3auth/react-native-sdk';
 import React from 'react';
 
-import { CONNECT, DISCONNECT, ERROR, GET_COINGECKO } from '../../constants';
 const scheme = 'orbyt';
 const resolvedRedirectUrl = `${scheme}://openlogin`;
 
@@ -24,6 +26,7 @@ export const WalletAction = (props: any) => {
         redirectUrl: resolvedRedirectUrl,
       });
 
+      console.log(info);
       props.dispatch({
         type: CONNECT,
         auth: response,

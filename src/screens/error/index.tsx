@@ -1,14 +1,17 @@
-import Card from '@orbyt/components';
+//@ts-ignore
+import { WalletCard } from '@orbyt/components';
+//@ts-ignore
 import { colors } from '@orbyt/constants';
-import WalletAction from '@orbyt/redux';
+//@ts-ignore
+import { WalletAction } from '@orbyt/redux';
 import React from 'react';
 import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import RPC from '../../../../src/lib/rpc';
-import { container } from '../../../style/container.style';
+import RPC from '../../lib/rpc';
+import { style } from './style';
 
-const Wallet = (props: any) => {
+export const Error = (props: any) => {
   const { privKey } = props;
 
   const getChainId = async () => {
@@ -33,8 +36,8 @@ const Wallet = (props: any) => {
   }, [privKey]);
 
   return (
-    <View style={container.home}>
-      <Card />
+    <View style={style.default}>
+      <WalletCard />
       <View
         style={{
           display: 'flex',
@@ -132,11 +135,7 @@ const Wallet = (props: any) => {
 };
 
 const mapStateToProps = (state: any, props: any) => {
-  return {
-    connected: state.connected,
-    privKey: state.privKey,
-    error: state.error,
-  };
+  return { connected: state.connected, markets: state.markets };
 };
 
-export default connect(mapStateToProps)(Wallet);
+export default connect(mapStateToProps)(Error);

@@ -1,3 +1,3 @@
-import { WalletCard } from './walletCard';
+import WalletCard from './walletCard';
 
 export { WalletCard };

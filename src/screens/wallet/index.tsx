@@ -4,15 +4,23 @@ import { WalletCard } from '@orbyt/components';
 import { colors } from '@orbyt/constants';
 //@ts-ignore
 import { WalletAction } from '@orbyt/redux';
+import { Qrcode } from '@walletconnect/react-native-dapp';
 import React from 'react';
-import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
+import {
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  Animated,
+} from 'react-native';
 import { connect } from 'react-redux';
 
 import RPC from '../../lib/rpc';
 import { style } from './style';
 
 export const Wallet = (props: any) => {
-  const { privKey } = props;
+  const QRCardY = React.useRef(new Animated.Value(-100)).current;
+  const { privKey, navigation } = props;
 
   const getChainId = async () => {
     const networkDetails = await RPC.getChainId();
@@ -29,6 +37,14 @@ export const Wallet = (props: any) => {
     // console.log(message)
   };
 
+  const openQR = () => {
+    Animated.timing(QRCardY, {
+      toValue: 1,
+      duration: 1500,
+      useNativeDriver: true,
+    }).start();
+  };
+
   React.useEffect(() => {
     if (privKey) {
       //    getAccounts()
@@ -36,7 +52,7 @@ export const Wallet = (props: any) => {
   }, [privKey]);
 
   return (
-    <ScrollView style={style.default}>
+    <View style={style.default}>
       <WalletCard />
       <View
         style={{
@@ -130,7 +146,17 @@ export const Wallet = (props: any) => {
           NO TOKENS
         </Text>
       </View>
-    </ScrollView>
+      <View
+        style={{
+          width: '100%',
+          position: 'absolute',
+          zIndex: 1,
+          bottom: 0,
+          height: 200,
+          backgroundColor: 'black',
+        }}
+      />
+    </View>
   );
 };
 

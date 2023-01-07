@@ -8,7 +8,7 @@ import { style } from './style';
 
 SplashScreen.show();
 
-export const Load = (props: any) => {
+const Load = (props: any) => {
   const { connected, navigation } = props;
   const progress = React.useRef(new Animated.Value(0)).current;
   const { getMarketData } = WalletAction(props);

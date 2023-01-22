@@ -1,4 +1,5 @@
 //@ts-ignore
+import { ETHLogo } from '@orbyt/assets';
 import React from 'react';
 import { View, Text, Animated } from 'react-native';
 import { connect } from 'react-redux';
@@ -7,8 +8,9 @@ import RPC from '../../lib/rpc';
 
 const WalletCard = (props: any) => {
   const cardOpacity = React.useRef(new Animated.Value(0)).current;
-  const { privKey, user } = props;
+  const { privKey } = props;
   const [address, setAddress] = React.useState<any>('');
+  const [balance, setBalance] = React.useState<number>(0);
   const truncateRegex = /^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/;
 
   const getAccounts = async () => {
@@ -17,7 +19,8 @@ const WalletCard = (props: any) => {
   };
 
   const getBalance = async () => {
-    const balance = await RPC.getBalance(privKey);
+    const balance: any = await RPC.getBalance(privKey);
+    setBalance(balance);
   };
 
   const truncateEthAddress = (address: string) => {
@@ -74,7 +77,7 @@ const WalletCard = (props: any) => {
             fontSize: 45,
           }}
         >
-          R {0?.toFixed(2)}
+          R {balance}
         </Text>
       </View>
       <View
@@ -87,9 +90,10 @@ const WalletCard = (props: any) => {
           minHeight: 50,
           maxWidth: 50,
           maxHeight: 50,
-          backgroundColor: 'white',
         }}
-      />
+      >
+        <ETHLogo width={50} height={50} />
+      </View>
     </Animated.View>
   );
 };

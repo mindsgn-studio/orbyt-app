@@ -23,7 +23,6 @@ const initialState: walletState = {
 export default (state = initialState, action: any) => {
   switch (action.type) {
     case CONNECT:
-      console.log(action);
       return {
         ...state,
         connected: action.connected,

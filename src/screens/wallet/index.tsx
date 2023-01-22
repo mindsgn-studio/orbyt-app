@@ -1,30 +1,25 @@
 //@ts-ignore
-import { WalletCard } from '@orbyt/components';
+import { WalletCard, TokenContainer, ReceiveCard } from '@orbyt/components';
 //@ts-ignore
 import { colors } from '@orbyt/constants';
 //@ts-ignore
 import { WalletAction } from '@orbyt/redux';
 import { Qrcode } from '@walletconnect/react-native-dapp';
+import { ethers } from 'ethers';
 import React from 'react';
-import {
-  View,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  Animated,
-} from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 import RPC from '../../lib/rpc';
 import { style } from './style';
 
-export const Wallet = (props: any) => {
-  const QRCardY = React.useRef(new Animated.Value(-100)).current;
+const Wallet = (props: any) => {
   const { privKey, navigation } = props;
+  const [displayRecieveCard, setDisplayRecieveCard] = React.useState(false);
 
   const getChainId = async () => {
     const networkDetails = await RPC.getChainId();
-    // console.log(networkDetails)
+    //console.log(networkDetails);
   };
 
   const sendTransaction = async () => {
@@ -37,17 +32,10 @@ export const Wallet = (props: any) => {
     // console.log(message)
   };
 
-  const openQR = () => {
-    Animated.timing(QRCardY, {
-      toValue: 1,
-      duration: 1500,
-      useNativeDriver: true,
-    }).start();
-  };
+  const openQR = () => {};
 
   React.useEffect(() => {
     if (privKey) {
-      //    getAccounts()
     }
   }, [privKey]);
 
@@ -89,6 +77,9 @@ export const Wallet = (props: any) => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => {
+            setDisplayRecieveCard(true);
+          }}
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -111,57 +102,16 @@ export const Wallet = (props: any) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View
-        style={{
-          margin: 10,
-        }}
-      >
-        <Text
-          style={{
-            fontFamily: 'SF-Pro-Rounded-Bold',
-            fontSize: 25,
-            color: colors.orange,
-          }}
-        >
-          TOKENS
-        </Text>
-      </View>
-      <View
-        style={{
-          flex: 1,
-          margin: 10,
-          minHeight: 250,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: `${colors.gray}`,
-          borderRadius: 10,
-        }}
-      >
-        <Text
-          style={{
-            fontFamily: 'SF-Pro-Rounded-Bold',
-            position: 'absolute',
-          }}
-        >
-          NO TOKENS
-        </Text>
-      </View>
-      <View
-        style={{
-          width: '100%',
-          position: 'absolute',
-          zIndex: 1,
-          bottom: 0,
-          height: 200,
-          backgroundColor: 'black',
-        }}
-      />
+      <TokenContainer />
     </View>
   );
 };
 
 const mapStateToProps = (state: any, props: any) => {
-  return { connected: state.connected, markets: state.markets };
+  return {
+    connected: state.wallet.connected,
+    privKey: state.wallet.privKey,
+  };
 };
 
 export default connect(mapStateToProps)(Wallet);

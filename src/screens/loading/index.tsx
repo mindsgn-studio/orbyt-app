@@ -1,48 +1,44 @@
 import React from 'react';
 import { View, Animated } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
+// import SplashScreen from 'react-native-splash-screen';
 import { connect } from 'react-redux';
 
-import { WalletAction } from '../../redux/actions';
 import { style } from './style';
-
-SplashScreen.show();
 
 const Load = (props: any) => {
   const { connected, navigation } = props;
-  const progress = React.useRef(new Animated.Value(0)).current;
-  const { getMarketData } = WalletAction(props);
+  const [mounted, setMounted] = React.useState<boolean>(false);
+  const textOpacity = React.useRef(new Animated.Value(0)).current;
 
-  const isConnected = async () => {
-    Animated.timing(progress, {
+  async function isConnected() {
+    Animated.timing(textOpacity, {
       toValue: 0,
+      delay: 1500,
       useNativeDriver: true,
     }).start();
-    if (connected) {
-      await getMarketData();
-    } else {
-      navigation.navigate('SignIn');
-    }
-  };
+    setTimeout(nextScreen, 1000);
+  }
 
-  React.useEffect(() => {
+  async function nextScreen() {
     if (connected) {
       navigation.navigate('Home');
+    } else {
+      navigation.navigate('Home');
     }
-  }, [connected]);
+  }
 
   React.useEffect(() => {
-    SplashScreen.hide();
-    Animated.timing(progress, {
-      toValue: 1,
-      useNativeDriver: true,
-    }).start();
-    setTimeout(isConnected, 5000);
-  }, [connected]);
+    setMounted(true);
+    if (mounted) {
+      Animated.timing(textOpacity, {
+        toValue: 1,
+        delay: 1500,
+        useNativeDriver: true,
+      }).start();
 
-  React.useEffect(() => {
-    SplashScreen.hide();
-  }, []);
+      setTimeout(isConnected, 2000);
+    }
+  }, [mounted, connected]);
 
   return (
     <View style={style.default}>
@@ -55,7 +51,7 @@ const Load = (props: any) => {
               color: 'white',
             },
             {
-              opacity: progress,
+              opacity: textOpacity,
             },
           ]}
         >
@@ -67,7 +63,9 @@ const Load = (props: any) => {
 };
 
 const mapStateToProps = (state: any, props: any) => {
-  return { connected: state.connected, markets: state.markets };
+  return {
+    connected: state.wallet.connected,
+  };
 };
 
 export default connect(mapStateToProps)(Load);

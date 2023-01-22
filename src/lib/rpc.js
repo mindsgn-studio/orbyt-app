@@ -1,9 +1,9 @@
 import '@ethersproject/shims';
-import {ethers} from 'ethers';
-import {Buffer} from 'buffer';
+import { Buffer } from 'buffer';
+import { ethers } from 'ethers';
 global.Buffer = global.Buffer || Buffer;
 
-const providerUrl = 'https://rpc.ankr.com/eth'; // Or your desired provider url
+const providerUrl = 'https://rpc.ankr.com/polygon';
 
 const getChainId = async () => {
   try {
@@ -15,7 +15,7 @@ const getChainId = async () => {
   }
 };
 
-const getAccounts = async key => {
+const getAccounts = async (key) => {
   try {
     const wallet = new ethers.Wallet(key);
     const address = await wallet.address;
@@ -25,19 +25,19 @@ const getAccounts = async key => {
   }
 };
 
-const getBalance = async key => {
+const getBalance = async (key) => {
   try {
     const ethersProvider = ethers.getDefaultProvider(providerUrl);
     const wallet = new ethers.Wallet(key, ethersProvider);
     const balance = await wallet.getBalance();
-
-    return balance;
+    const response = ethers.utils.formatEther(balance);
+    return response;
   } catch (error) {
     return error;
   }
 };
 
-const sendTransaction = async key => {
+const sendTransaction = async (key, toAddress) => {
   try {
     const ethersProvider = ethers.getDefaultProvider(providerUrl);
     const wallet = new ethers.Wallet(key, ethersProvider);
@@ -61,7 +61,7 @@ const sendTransaction = async key => {
   }
 };
 
-const signMessage = async key => {
+const signMessage = async (key) => {
   try {
     const ethersProvider = ethers.getDefaultProvider(providerUrl);
     const wallet = new ethers.Wallet(key, ethersProvider);

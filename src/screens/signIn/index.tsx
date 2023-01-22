@@ -28,7 +28,7 @@ const SignIn = (props: any) => {
   }, []);
 
   React.useEffect(() => {
-    if (connected) navigation.navigate('Home');
+    if (connected) navigation.navigate('HOME');
   }, [connected]);
 
   return (
@@ -84,7 +84,7 @@ const SignIn = (props: any) => {
 };
 
 const mapStateToProps = (state: any, props: any) => {
-  return { connected: state.connected, markets: state.markets };
+  return { connected: state.wallet.connected };
 };
 
 export default connect(mapStateToProps)(SignIn);

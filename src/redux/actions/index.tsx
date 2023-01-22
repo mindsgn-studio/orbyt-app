@@ -8,12 +8,17 @@ import Web3Auth, {
   LOGIN_PROVIDER,
   OPENLOGIN_NETWORK,
 } from '@web3auth/react-native-sdk';
+import '@ethersproject/shims';
+import { Buffer } from 'buffer';
+import { ethers } from 'ethers';
 import React from 'react';
+global.Buffer = global.Buffer || Buffer;
 
 const scheme = 'orbyt';
 const resolvedRedirectUrl = `${scheme}://openlogin`;
 
 export const WalletAction = (props: any) => {
+  //sign in with wallet
   const connectWithWeb3Auth = React.useCallback(async () => {
     try {
       const response = await new Web3Auth(WebBrowser, {
@@ -26,7 +31,6 @@ export const WalletAction = (props: any) => {
         redirectUrl: resolvedRedirectUrl,
       });
 
-      console.log(info);
       props.dispatch({
         type: CONNECT,
         auth: response,
@@ -35,6 +39,7 @@ export const WalletAction = (props: any) => {
         privKey: info.privKey,
         sessionId: info.sessionId,
         user: info.userInfo,
+        currency: 'zar',
       });
     } catch (error: any) {
       props.dispatch({
@@ -45,6 +50,7 @@ export const WalletAction = (props: any) => {
     }
   }, []);
 
+  //sign in without wallet
   const testConnection = React.useCallback(async () => {
     try {
       props.dispatch({
@@ -67,6 +73,7 @@ export const WalletAction = (props: any) => {
     }
   }, []);
 
+  //disconnect wallet
   const disconnectWallet = React.useCallback(async (auth: any) => {
     // console.log('response: ', auth)
     try {
@@ -95,6 +102,7 @@ export const WalletAction = (props: any) => {
     }
   }, []);
 
+  //remove error
   const removeError = () => {
     props.dispatch({
       type: ERROR,
@@ -102,6 +110,7 @@ export const WalletAction = (props: any) => {
     });
   };
 
+  //get market data
   const getMarketData = React.useCallback(async () => {
     const response = await fetch(
       `${COINGECKO_API}/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false`,
@@ -125,6 +134,17 @@ export const WalletAction = (props: any) => {
         });
       });
   }, []);
+
+  //get chain data
+  const getChainId = async () => {
+    try {
+      const ethersProvider = ethers.getDefaultProvider(providerUrl);
+      const networkDetails = await ethersProvider.getNetwork();
+      return networkDetails;
+    } catch (error) {
+      return error;
+    }
+  };
 
   return {
     connectWithWeb3Auth,

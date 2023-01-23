@@ -17,18 +17,20 @@ const WalletCard = (props: any) => {
   const getAccounts = async () => {
     try {
       const address = await RPC.getAccounts(privKey);
+      console.log(privKey);
       setAddress(address);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 
   const getBalance = async () => {
     try {
       const balance: any = await RPC.getBalance(privKey);
+      console.log(balance);
       setBalance(balance);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 
@@ -114,10 +116,10 @@ const WalletCard = (props: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
-    connected: state.connected,
-    privKey: state.privKey,
-    user: state.user,
-    error: state.error,
+    connected: state.wallet.connected,
+    privKey: state.wallet.privKey,
+    user: state.wallet.user,
+    error: state.wallet.error,
   };
 };
 

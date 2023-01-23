@@ -23,7 +23,7 @@ const Load = (props: any) => {
     if (connected) {
       navigation.navigate('Home');
     } else {
-      navigation.navigate('Home');
+      navigation.navigate('SignIn');
     }
   }
 

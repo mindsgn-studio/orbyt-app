@@ -21,8 +21,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import RPC from '../../lib/rpc';
 import { style } from './style';
+import RPC from '../../lib/rpc';
 
 const Wallet = (props: any) => {
   const { receive, send } = props;
@@ -43,9 +43,7 @@ const Wallet = (props: any) => {
     }
   }, [mounted]);
 
-  React.useEffect(() => {
-    console.log(send);
-  }, [send]);
+  React.useEffect(() => {}, [send]);
 
   return (
     <View style={style.default}>

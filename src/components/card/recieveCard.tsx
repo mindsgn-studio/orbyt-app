@@ -1,6 +1,7 @@
 import { AnimationAction } from '@orbyt/redux';
 import React from 'react';
 import { View, TouchableOpacity, Text, Animated } from 'react-native';
+import QRCode from 'react-native-qrcode-svg';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
@@ -58,27 +59,24 @@ const ReceiveCard = (prop: any) => {
         style={[
           {
             display: 'flex',
+            width: 300,
+            height: 300,
+            alignItems: 'center',
+            justifyContent: 'center',
             flexDirection: 'row',
-            flex: 1,
             borderWidth: 4,
             borderRadius: 10,
             borderColor: 'white',
             margin: 50,
           },
         ]}
-      />
-      <View
-        style={[
-          {
-            display: 'flex',
-            flexDirection: 'row',
-          },
-        ]}
       >
-        <ShareCard title="Whatsapp" icon="wallet" link="" />
-        <ShareCard title="Email" icon="wallet" link="" />
-        <ShareCard title="Twitter" icon="wallet" link="" />
-        <ShareCard title="FaceBook" icon="wallet" link="" />
+        <QRCode
+          size={250}
+          enableLinearGradient
+          linearGradient={['rgb(255,0,0)', 'rgb(0,255,255)']}
+          value="http://awesome.link.qr"
+        />
       </View>
     </Animated.View>
   );

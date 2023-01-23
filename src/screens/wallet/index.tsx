@@ -1,60 +1,76 @@
 //@ts-ignore
-import { WalletCard, TokenContainer, ReceiveCard } from '@orbyt/components';
+import {
+  WalletCard,
+  TokenContainer,
+  ReceiveCard,
+  SendCard,
+} from '@orbyt/components';
 //@ts-ignore
 import { colors } from '@orbyt/constants';
 //@ts-ignore
-import { WalletAction } from '@orbyt/redux';
+import { AnimationAction } from '@orbyt/redux';
 import { Qrcode } from '@walletconnect/react-native-dapp';
 import { ethers } from 'ethers';
 import React from 'react';
-import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
+import {
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  Animated,
+} from 'react-native';
 import { connect } from 'react-redux';
 
 import RPC from '../../lib/rpc';
 import { style } from './style';
 
 const Wallet = (props: any) => {
-  const { privKey, navigation } = props;
-  const [displayRecieveCard, setDisplayRecieveCard] = React.useState(false);
-
-  const getChainId = async () => {
-    const networkDetails = await RPC.getChainId();
-    //console.log(networkDetails);
-  };
-
-  const sendTransaction = async () => {
-    const tx = await RPC.sendTransaction(privKey);
-    // console.log(tx)
-  };
-
-  const signMessage = async () => {
-    const message = await RPC.signMessage(privKey);
-    // console.log(message)
-  };
-
-  const openQR = () => {};
+  const { receive, send } = props;
+  const { updateRecieving, updateSending } = AnimationAction(props);
+  const [mounted, setMounted] = React.useState<boolean>(false);
+  const opacity = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
-    if (privKey) {
+    setMounted(true);
+
+    if (mounted) {
+      Animated.timing(opacity, {
+        toValue: 1,
+        delay: 1000,
+        duration: 2500,
+        useNativeDriver: true,
+      }).start();
     }
-  }, [privKey]);
+  }, [mounted]);
+
+  React.useEffect(() => {
+    console.log(send);
+  }, [send]);
 
   return (
     <View style={style.default}>
       <WalletCard />
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          width: '100%',
-          padding: 10,
-          borderRadius: 30,
-          alignItems: 'center',
-          justifyContent: 'space-evenly',
-          marginVertical: 5,
-        }}
+      <Animated.View
+        style={[
+          {
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+            padding: 10,
+            borderRadius: 30,
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
+            marginVertical: 5,
+          },
+          {
+            opacity,
+          },
+        ]}
       >
         <TouchableOpacity
+          onPress={() => {
+            updateSending(!send);
+          }}
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -78,7 +94,7 @@ const Wallet = (props: any) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setDisplayRecieveCard(true);
+            updateRecieving(!receive);
           }}
           style={{
             display: 'flex',
@@ -101,16 +117,18 @@ const Wallet = (props: any) => {
             Receive
           </Text>
         </TouchableOpacity>
-      </View>
+      </Animated.View>
       <TokenContainer />
+      <ReceiveCard />
+      <SendCard />
     </View>
   );
 };
 
 const mapStateToProps = (state: any, props: any) => {
   return {
-    connected: state.wallet.connected,
-    privKey: state.wallet.privKey,
+    receive: state.animation.receive,
+    send: state.animation.send,
   };
 };
 

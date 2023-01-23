@@ -7,20 +7,29 @@ import { connect } from 'react-redux';
 import RPC from '../../lib/rpc';
 
 const WalletCard = (props: any) => {
-  const cardOpacity = React.useRef(new Animated.Value(0)).current;
   const { privKey } = props;
-  const [address, setAddress] = React.useState<any>('');
-  const [balance, setBalance] = React.useState<number>(0);
+  const [mounted, setMounted] = React.useState<boolean>(false);
+  const cardOpacity = React.useRef(new Animated.Value(0)).current;
+  const [address, setAddress] = React.useState<string | null>(null);
+  const [balance, setBalance] = React.useState<number | null>(null);
   const truncateRegex = /^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/;
 
   const getAccounts = async () => {
-    const address = await RPC.getAccounts(privKey);
-    setAddress(address);
+    try {
+      const address = await RPC.getAccounts(privKey);
+      setAddress(address);
+    } catch (error) {
+      // console.log(error);
+    }
   };
 
   const getBalance = async () => {
-    const balance: any = await RPC.getBalance(privKey);
-    setBalance(balance);
+    try {
+      const balance: any = await RPC.getBalance(privKey);
+      setBalance(balance);
+    } catch (error) {
+      // console.log(error);
+    }
   };
 
   const truncateEthAddress = (address: string) => {
@@ -31,14 +40,19 @@ const WalletCard = (props: any) => {
   };
 
   React.useEffect(() => {
-    getAccounts();
-    getBalance();
-    Animated.timing(cardOpacity, {
-      toValue: 1,
-      duration: 2500,
-      useNativeDriver: true,
-    }).start();
-  }, []);
+    if (mounted) {
+      getAccounts();
+      getBalance();
+
+      Animated.timing(cardOpacity, {
+        toValue: 1,
+        duration: 2500,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    setMounted(true);
+  }, [mounted]);
 
   return (
     <Animated.View
@@ -62,7 +76,7 @@ const WalletCard = (props: any) => {
             fontSize: 20,
           }}
         >
-          {truncateEthAddress(address)}
+          {address && truncateEthAddress(address)}
         </Text>
       </View>
       <View

@@ -2,8 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createStore, combineReducers } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 
-import wallet from '../reducer';
-import animated from '../reducer/animated';
+import { wallet, animation } from '../reducer';
 
 const persistConfig = {
   key: 'persistedReducer',
@@ -12,6 +11,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   wallet,
+  animation,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

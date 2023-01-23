@@ -6,13 +6,13 @@ import { connect } from 'react-redux';
 
 import { ShareCard } from './shareCard';
 
-const ReceiveCard = (prop: any) => {
-  const { receive } = prop;
-  const { updateRecieving } = AnimationAction(prop);
-  const cardY: any = React.useRef(new Animated.Value(700)).current;
+const SendCard = (prop: any) => {
+  const { send } = prop;
+  const { updateSending } = AnimationAction(prop);
+  const cardY = React.useRef(new Animated.Value(700)).current;
 
   React.useEffect(() => {
-    if (receive) {
+    if (send) {
       Animated.timing(cardY, {
         toValue: 0,
         duration: 500,
@@ -25,7 +25,7 @@ const ReceiveCard = (prop: any) => {
         useNativeDriver: true,
       }).start();
     }
-  }, [receive]);
+  }, [send]);
 
   return (
     <Animated.View
@@ -49,45 +49,19 @@ const ReceiveCard = (prop: any) => {
     >
       <TouchableOpacity
         onPress={() => {
-          updateRecieving(!receive);
+          updateSending(!send);
         }}
       >
         <Icon color="white" name="close" size={40} />
       </TouchableOpacity>
-      <View
-        style={[
-          {
-            display: 'flex',
-            flexDirection: 'row',
-            flex: 1,
-            borderWidth: 4,
-            borderRadius: 10,
-            borderColor: 'white',
-            margin: 50,
-          },
-        ]}
-      />
-      <View
-        style={[
-          {
-            display: 'flex',
-            flexDirection: 'row',
-          },
-        ]}
-      >
-        <ShareCard title="Whatsapp" icon="wallet" link="" />
-        <ShareCard title="Email" icon="wallet" link="" />
-        <ShareCard title="Twitter" icon="wallet" link="" />
-        <ShareCard title="FaceBook" icon="wallet" link="" />
-      </View>
     </Animated.View>
   );
 };
 
 const mapStateToProps = (state: any, props: any) => {
   return {
-    receive: state.animation.receive,
+    send: state.animation.send,
   };
 };
 
-export default connect(mapStateToProps)(ReceiveCard);
+export default connect(mapStateToProps)(SendCard);

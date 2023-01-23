@@ -21,7 +21,7 @@ const getAccounts = async (key) => {
     const address = await wallet.address;
     return address;
   } catch (error) {
-    return error;
+    return '0x00000000000000000000';
   }
 };
 
@@ -33,7 +33,7 @@ const getBalance = async (key) => {
     const response = ethers.utils.formatEther(balance);
     return response;
   } catch (error) {
-    return error;
+    return 0;
   }
 };
 

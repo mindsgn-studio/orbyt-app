@@ -6,6 +6,8 @@ export const GET_COINGECKO = 'GET_COINGECKO';
 export const ERROR = 'ERROR';
 export const GET_STATE = 'GET_STATE';
 export const UPDATE_LOADING = 'UPDATE_LOADING';
+export const UPDATE_RECEIVE = 'UPDATE_RECEIVE';
+export const UPDATE_SEND = 'UPDATE_SEND';
 
 export const colors = {
   orange: '#F15A24',

@@ -2,8 +2,6 @@
 import { ETHLogo, MaticLogo } from '@orbyt/assets';
 //@ts-ignore
 import { AnimationAction, WalletAction } from '@orbyt/redux';
-import { getAddress } from 'ethers/lib/utils';
-// import { getAddress } from 'ethers/lib/utils';
 import React from 'react';
 import { View, Text, Animated, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
@@ -14,7 +12,6 @@ const WalletCard = (props: any) => {
   const { getChainId, getAccount, getTokenList } = WalletAction(props);
   const [mounted, setMounted] = React.useState<boolean>(false);
   const cardOpacity = React.useRef(new Animated.Value(0)).current;
-  const [balance, setBalance] = React.useState<number | null>(null);
   const truncateRegex = /^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/;
 
   const truncateEthAddress = (address: string) => {
@@ -89,15 +86,12 @@ const WalletCard = (props: any) => {
           maxWidth: 50,
           maxHeight: 50,
         }}
+        onPress={() => updateSwitchNetwork(true)}
       >
         {networkID && networkID === 137 ? (
-          <MaticLogo
-            width={50}
-            height={50}
-            onPress={updateSwitchNetwork(true)}
-          />
+          <MaticLogo width={50} height={50} />
         ) : networkID && networkID === 1 ? (
-          <ETHLogo width={50} height={50} onPress={updateSwitchNetwork(true)} />
+          <ETHLogo width={50} height={50} />
         ) : null}
       </TouchableOpacity>
     </Animated.View>

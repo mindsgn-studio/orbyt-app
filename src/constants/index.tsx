@@ -1,3 +1,5 @@
+import { Network } from 'alchemy-sdk';
+
 export const GET_AUTH = 'GET_AUTH';
 export const CONNECT = 'CONNECT';
 export const DISCONNECT = 'DISCCONNECT';
@@ -21,3 +23,26 @@ export const colors = {
   green: '#39B54A',
   gray: '#4C4C4C',
 };
+
+export const network = [
+  {
+    name: 'Mainnet',
+    url: '',
+    network: Network.ETH_MAINNET,
+  },
+  {
+    name: 'Goerli',
+    url: '',
+    network: Network.ETH_GOERLI,
+  },
+  {
+    name: 'Mumbai',
+    url: '',
+    network: Network.MATIC_MUMBAI,
+  },
+  {
+    name: 'Polygon',
+    url: '',
+    network: Network.MATIC_MAINNET,
+  },
+];

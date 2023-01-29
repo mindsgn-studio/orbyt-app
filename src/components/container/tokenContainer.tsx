@@ -24,7 +24,6 @@ const TokenContainer = (props: any) => {
 
   React.useEffect(() => {
     if (mounted) {
-      console.log(tokenList);
       getTokenList(address);
       setTimeout(slideUp, 2000);
       setLoading(false);

@@ -35,7 +35,7 @@ const settings = {
 };
 
 export const WalletAction = (props: any) => {
-  const [alchemy] = React.useState<any>(new Alchemy(settings));
+  const [alchemy, setAlchemy] = React.useState<any>(new Alchemy(settings));
   const [providerUrl, setProviderUrl] = React.useState<string>(
     'https://rpc.ankr.com/polygon'
   );
@@ -233,18 +233,20 @@ export const WalletAction = (props: any) => {
 
   const getTokenList = React.useCallback(async (address: string) => {
     try {
-      const balances = await alchemy.core.getTokenBalances(address);
+      const tokens = await alchemy.core.getTokenBalances(address);
 
+      /*
       const nonZeroBalances = balances.tokenBalances.filter((token: any) => {
         return (
           token.tokenBalance !==
           '0x0000000000000000000000000000000000000000000000000000000000000000'
         );
       });
+      */
 
       const array = [];
       // Loop through all tokens with non-zero balance
-      for (const token of nonZeroBalances) {
+      for (const token of tokens) {
         // Get balance of token
         let balance = token.tokenBalance;
 
@@ -277,6 +279,8 @@ export const WalletAction = (props: any) => {
       });
     }
   }, []);
+
+  const switchNetwork = () => {};
 
   React.useEffect(() => {
     try {

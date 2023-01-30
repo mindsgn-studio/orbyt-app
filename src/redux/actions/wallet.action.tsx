@@ -29,6 +29,11 @@ global.Buffer = global.Buffer || Buffer;
 const scheme = 'orbyt';
 const resolvedRedirectUrl = `${scheme}://openlogin`;
 
+const settings = {
+  apiKey: ALCHEMY_SDK,
+  network: Network.MATIC_MAINNET,
+};
+
 export const WalletAction = (props: any) => {
   // const [alchemy, setAlchemy] = React.useState<any>(new Alchemy(settings));
   //const [providerUrl, setProviderUrl] = React.useState<string>(

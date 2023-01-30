@@ -1,13 +1,16 @@
+//@ts-ignore
 import { network } from '@orbyt/constants';
-import { AnimationAction } from '@orbyt/redux';
+//@ts-ignore
+import { AnimationAction, WalletAction } from '@orbyt/redux';
 import React from 'react';
 import { View, TouchableOpacity, Text, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
-const SwitchNetworkCard = (prop: any) => {
-  const { switchNetwork } = prop;
-  const { updateSwitchNetwork } = AnimationAction(prop);
+const SwitchNetworkCard = (props: any) => {
+  const { switchNetwork, providerUrl, settings, address } = props;
+  const { updateSwitchNetwork } = AnimationAction(props);
+  const { getTokenList, getChainId, switchToNetwork } = WalletAction(props);
   const cardOpacity = React.useRef(new Animated.Value(0)).current;
   const cardY = React.useRef(new Animated.Value(0)).current;
 
@@ -39,6 +42,10 @@ const SwitchNetworkCard = (prop: any) => {
     }
   }, [switchNetwork]);
 
+  React.useEffect(() => {
+    getTokenList(address, settings);
+    getChainId(providerUrl);
+  }, [providerUrl]);
   return (
     <Animated.View
       style={[
@@ -75,8 +82,13 @@ const SwitchNetworkCard = (prop: any) => {
         {network.map((item) => {
           return (
             <TouchableOpacity
+              key={item.name}
               style={{
                 margin: 10,
+              }}
+              onPress={() => {
+                updateSwitchNetwork(!switchNetwork);
+                switchToNetwork(item);
               }}
             >
               <Text
@@ -97,6 +109,9 @@ const SwitchNetworkCard = (prop: any) => {
 const mapStateToProps = (state: any) => {
   return {
     switchNetwork: state.animation.switchNetwork,
+    providerUrl: state.wallet.providerUrl,
+    settings: state.wallet.settings,
+    address: state.wallet.address,
   };
 };
 

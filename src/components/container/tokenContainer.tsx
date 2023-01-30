@@ -12,7 +12,7 @@ const TokenContainer = (props: any) => {
   const opacity = React.useRef(new Animated.Value(0)).current;
   const [mounted, setMounted] = React.useState<any>(false);
   const [loading, setLoading] = React.useState<boolean>(true);
-  const { tokenList, address } = props;
+  const { tokenList, address, settings } = props;
 
   function slideUp() {
     Animated.timing(opacity, {
@@ -24,7 +24,7 @@ const TokenContainer = (props: any) => {
 
   React.useEffect(() => {
     if (mounted) {
-      getTokenList(address);
+      // getTokenList(address, settings);
       setTimeout(slideUp, 2000);
       setLoading(false);
     }
@@ -65,7 +65,7 @@ const TokenContainer = (props: any) => {
           <Text
             style={{
               fontFamily: 'SF-Pro-Rounded-Bold',
-              fontSize: 40,
+              fontSize: 20,
               color: 'gray',
             }}
           >
@@ -84,7 +84,7 @@ const TokenContainer = (props: any) => {
           <Text
             style={{
               fontFamily: 'SF-Pro-Rounded-Bold',
-              fontSize: 40,
+              fontSize: 20,
               color: 'gray',
             }}
           >
@@ -111,6 +111,7 @@ const mapStateToProps = (state: any) => {
   return {
     address: state.wallet.address,
     tokenList: state.wallet.tokenList,
+    settings: state.wallet.settings,
   };
 };
 

@@ -1,7 +1,7 @@
 //@ts-ignore
 import { colors } from '@orbyt/constants';
 import React from 'react';
-import { View, Text, Animated, TouchableOpacity } from 'react-native';
+import { View, Text, Animated, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
 
 import RPC from '../../lib/rpc';
@@ -10,10 +10,12 @@ export const TokenCard = ({
   name,
   symbol,
   amount,
+  logo,
 }: {
   name: string;
   symbol: any;
   amount: any;
+  logo: string;
 }) => {
   return (
     <TouchableOpacity
@@ -39,13 +41,12 @@ export const TokenCard = ({
           width: 100,
         }}
       >
-        <View
+        <Image
           style={{
             width: 30,
             height: 30,
-            borderRadius: 100,
-            backgroundColor: 'white',
           }}
+          source={{ uri: logo }}
         />
         <View
           style={{
@@ -70,7 +71,7 @@ export const TokenCard = ({
             color: `${colors.white}`,
           }}
         >
-          R {amount}
+          {amount}
         </Text>
       </View>
     </TouchableOpacity>

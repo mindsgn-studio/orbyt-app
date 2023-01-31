@@ -88,7 +88,6 @@ export const WalletAction = (props: any) => {
 
   //disconnect wallet
   const disconnectWallet = React.useCallback(async (auth: any) => {
-    // console.log('response: ', auth)
     try {
       //@ts-ignore
       const response = await auth.logout();
@@ -236,36 +235,35 @@ export const WalletAction = (props: any) => {
   const getTokenList = React.useCallback(
     async (address: string, settings: any) => {
       try {
+        console.log(address);
         const alchemy = await new Alchemy(settings);
         const balances = await alchemy.core.getTokenBalances(address);
 
-        //const nonZeroBalances = balances.tokenBalances.filter((token: any) => {
-        //  return (
-        //    token.tokenBalance !==
-        //    '0x0000000000000000000000000000000000000000000000000000000000000000'
-        //  );
-        //});
+        const nonZeroBalances = balances.tokenBalances.filter((token: any) => {
+          return token.tokenBalance !== '0';
+        });
 
-        const array = [];
-        // Loop through all tokens with non-zero balance
-        for await (const token of balances) {
-          // Get balance of token
-          let balance = token.tokenBalance;
+        const array: any[] = [];
+
+        for await (const token of nonZeroBalances) {
+          let balance: any = token.tokenBalance;
 
           // Get metadata of token
           const metadata = await alchemy.core.getTokenMetadata(
             token.contractAddress
           );
 
-          // Compute token balance in human-readable format
-          balance = balance / Math.pow(10, metadata.decimals);
-          // console.log(balance);
-          // balance = balance.toFixed(2);
+          console.log(metadata);
 
+          // Compute token balance in human-readable format
+
+          balance = balance / Math.pow(10, parseFloat(`${metadata.decimals}`));
+          // balance = balance.toFixed(2);
           array.push({
             name: `${metadata.name}`,
             balance: `${balance}`,
             symbol: `${metadata.symbol}`,
+            logo: `${metadata.logo}`,
             contactAddress: token.contractAddress,
           });
         }
@@ -275,7 +273,6 @@ export const WalletAction = (props: any) => {
           tokenList: array,
         });
       } catch (error) {
-        console.log(error);
         props.dispatch({
           type: ERROR,
           error,

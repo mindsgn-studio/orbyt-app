@@ -32,7 +32,6 @@ const TokenContainer = (props: any) => {
   }, [mounted]);
 
   React.useEffect(() => {
-    console.log(providerUrl);
     getTokenList(address, settings);
   }, [providerUrl]);
 
@@ -101,6 +100,7 @@ const TokenContainer = (props: any) => {
           return (
             <TokenCard
               key={index}
+              logo={item.logo}
               name={item.symbol}
               symbol={item.symbol}
               amount={item.balance}

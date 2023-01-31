@@ -1,4 +1,4 @@
-import { ALCHEMY_SDK } from '@env';
+import { ALCHEMY_SDK_MAINNET } from '@env';
 import {
   CONNECT,
   DISCONNECT,
@@ -28,13 +28,13 @@ const initialState: walletState = {
   networkName: null,
   networkID: null,
   ens: null,
-  providerUrl: 'https://rpc.ankr.com/polygon',
+  providerUrl: 'https://rpc.ankr.com/eth',
   tokenList: [],
   currency: 'zar',
   currencySymbol: 'R',
   settings: {
-    apiKey: ALCHEMY_SDK,
-    network: Network.MATIC_MAINNET,
+    apiKey: ALCHEMY_SDK_MAINNET,
+    network: Network.ETH_MAINNET,
   },
 };
 

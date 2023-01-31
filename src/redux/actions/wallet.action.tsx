@@ -1,5 +1,5 @@
 //@ts-ignore
-import { COINGECKO_API, CLIENT_ID, ALCHEMY_SDK } from '@env';
+import { COINGECKO_API, CLIENT_ID } from '@env';
 import {
   CONNECT,
   DISCONNECT,
@@ -28,11 +28,6 @@ global.Buffer = global.Buffer || Buffer;
 
 const scheme = 'orbyt';
 const resolvedRedirectUrl = `${scheme}://openlogin`;
-
-const settings = {
-  apiKey: ALCHEMY_SDK,
-  network: Network.MATIC_MAINNET,
-};
 
 export const WalletAction = (props: any) => {
   // const [alchemy, setAlchemy] = React.useState<any>(new Alchemy(settings));
@@ -216,41 +211,44 @@ export const WalletAction = (props: any) => {
     []
   );
 
-  const signMessage = React.useCallback(async (key: string) => {
-    try {
-      const ethersProvider = ethers.getDefaultProvider(providerUrl);
-      const wallet = new ethers.Wallet(key, ethersProvider);
+  const signMessage = React.useCallback(
+    async (key: string, providerUrl: string) => {
+      try {
+        const ethersProvider = ethers.getDefaultProvider(providerUrl);
+        const wallet = new ethers.Wallet(key, ethersProvider);
 
-      const originalMessage = 'YOUR_MESSAGE';
+        const originalMessage = 'YOUR_MESSAGE';
 
-      // Sign the message
-      const signedMessage = await wallet.signMessage(originalMessage);
+        // Sign the message
+        const signedMessage = await wallet.signMessage(originalMessage);
 
-      return signedMessage;
-    } catch (error) {
-      props.dispatch({
-        type: ERROR,
-        error,
-      });
-    }
-  }, []);
+        return signedMessage;
+      } catch (error) {
+        props.dispatch({
+          type: ERROR,
+          error,
+        });
+      }
+    },
+    []
+  );
 
   const getTokenList = React.useCallback(
     async (address: string, settings: any) => {
       try {
-        const alchemy = new Alchemy(settings);
+        const alchemy = await new Alchemy(settings);
         const balances = await alchemy.core.getTokenBalances(address);
 
-        const nonZeroBalances = balances.tokenBalances.filter((token: any) => {
-          return (
-            token.tokenBalance !==
-            '0x0000000000000000000000000000000000000000000000000000000000000000'
-          );
-        });
+        //const nonZeroBalances = balances.tokenBalances.filter((token: any) => {
+        //  return (
+        //    token.tokenBalance !==
+        //    '0x0000000000000000000000000000000000000000000000000000000000000000'
+        //  );
+        //});
 
         const array = [];
         // Loop through all tokens with non-zero balance
-        for (const token of balances) {
+        for await (const token of balances) {
           // Get balance of token
           let balance = token.tokenBalance;
 
@@ -277,6 +275,7 @@ export const WalletAction = (props: any) => {
           tokenList: array,
         });
       } catch (error) {
+        console.log(error);
         props.dispatch({
           type: ERROR,
           error,
@@ -291,7 +290,7 @@ export const WalletAction = (props: any) => {
       props.dispatch({
         type: SWITCH_NETWORK,
         settings: {
-          apiKey: ALCHEMY_SDK,
+          apiKey: network.keys,
           network: network.network,
         },
         providerUrl: network.url,

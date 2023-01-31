@@ -1,3 +1,9 @@
+import {
+  ALCHEMY_SDK_POLYGON,
+  ALCHEMY_SDK_MUMBAI,
+  ALCHEMY_SDK_GOERLI,
+  ALCHEMY_SDK_MAINNET,
+} from '@env';
 import { Network } from 'alchemy-sdk';
 
 export const GET_AUTH = 'GET_AUTH';
@@ -28,21 +34,25 @@ export const colors = {
 export const network = [
   {
     name: 'Mainnet',
+    keys: ALCHEMY_SDK_MAINNET,
     url: 'https://rpc.ankr.com/eth',
     network: Network.ETH_MAINNET,
   },
   {
     name: 'Goerli',
+    keys: ALCHEMY_SDK_GOERLI,
     url: 'https://rpc.ankr.com/eth_goerli',
     network: Network.ETH_GOERLI,
   },
   {
     name: 'Mumbai',
+    keys: ALCHEMY_SDK_MUMBAI,
     url: 'https://rpc.ankr.com/polygon_mumbai',
     network: Network.MATIC_MUMBAI,
   },
   {
     name: 'Polygon',
+    keys: ALCHEMY_SDK_POLYGON,
     url: 'https://rpc.ankr.com/polygon',
     network: Network.MATIC_MAINNET,
   },

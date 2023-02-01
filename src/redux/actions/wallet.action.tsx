@@ -4,7 +4,7 @@ import {
   CONNECT,
   DISCONNECT,
   ERROR,
-  GET_COINGECKO,
+  GET_COINGECKO_LIST,
   GET_CHAIN_ID,
   GET_ADDRESS,
   GET_TOKEN_LIST,
@@ -118,27 +118,17 @@ export const WalletAction = (props: any) => {
   }, []);
 
   //get market data
-  const getMarketData = React.useCallback(async () => {
-    const response = await fetch(
-      `${COINGECKO_API}/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false`,
-      {
-        method: 'GET',
-      }
-    )
-      .then((success) => {
-        success.json().then((data) => {
-          props.dispatch({
-            type: GET_COINGECKO,
-            markets: data,
-          });
-        });
-      })
-      .catch((error) => {
+  const getMarketList = React.useCallback(async (location: string) => {
+    await fetch(`${COINGECKO_API}/list`, {
+      method: 'GET',
+    }).then((success) => {
+      success.json().then((data) => {
         props.dispatch({
-          type: ERROR,
-          error,
+          type: GET_COINGECKO_LIST,
+          marketTokenList: data,
         });
       });
+    });
   }, []);
 
   const getChainId = React.useCallback(async (providerUrl: string) => {
@@ -235,12 +225,14 @@ export const WalletAction = (props: any) => {
   const getTokenList = React.useCallback(
     async (address: string, settings: any) => {
       try {
-        console.log(address);
         const alchemy = await new Alchemy(settings);
         const balances = await alchemy.core.getTokenBalances(address);
 
         const nonZeroBalances = balances.tokenBalances.filter((token: any) => {
-          return token.tokenBalance !== '0';
+          return (
+            token.tokenBalance !==
+            '0x0000000000000000000000000000000000000000000000000000000000000000'
+          );
         });
 
         const array: any[] = [];
@@ -253,8 +245,6 @@ export const WalletAction = (props: any) => {
             token.contractAddress
           );
 
-          console.log(metadata);
-
           // Compute token balance in human-readable format
 
           balance = balance / Math.pow(10, parseFloat(`${metadata.decimals}`));
@@ -265,12 +255,13 @@ export const WalletAction = (props: any) => {
             symbol: `${metadata.symbol}`,
             logo: `${metadata.logo}`,
             contactAddress: token.contractAddress,
+            fiatAmount: '0.00',
           });
         }
 
         props.dispatch({
           type: GET_TOKEN_LIST,
-          tokenList: array,
+          walletTokenList: array,
         });
       } catch (error) {
         props.dispatch({
@@ -281,6 +272,16 @@ export const WalletAction = (props: any) => {
     },
     []
   );
+
+  const getTokenData = async (token: string) => {
+    await fetch(`${COINGECKO_API}/${token}`, {
+      method: 'GET',
+    })
+      .then((success) => {
+        success.json().then((data) => {});
+      })
+      .catch((error) => {});
+  };
 
   const switchToNetwork = React.useCallback((network: any) => {
     try {
@@ -304,12 +305,12 @@ export const WalletAction = (props: any) => {
     connectWithWeb3Auth,
     disconnectWallet,
     removeError,
-    getMarketData,
     testConnection,
     getChainId,
     sendTransaction,
     signMessage,
     getAccount,
+    getMarketList,
     getTokenList,
     switchToNetwork,
   };

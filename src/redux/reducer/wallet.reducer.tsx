@@ -3,7 +3,7 @@ import {
   CONNECT,
   DISCONNECT,
   ERROR,
-  GET_COINGECKO,
+  GET_COINGECKO_LIST,
   GET_STATE,
   GET_CHAIN_ID,
   GET_ADDRESS,
@@ -29,7 +29,8 @@ const initialState: walletState = {
   networkID: null,
   ens: null,
   providerUrl: 'https://rpc.ankr.com/eth',
-  tokenList: [],
+  walletTokenList: [],
+  marketTokenList: [],
   currency: 'zar',
   currencySymbol: 'R',
   settings: {
@@ -60,11 +61,6 @@ export default (state = initialState, action: any) => {
       return {
         ...state,
       };
-    case GET_COINGECKO:
-      return {
-        ...state,
-        markets: action.markets,
-      };
     case GET_CHAIN_ID:
       return {
         ...state,
@@ -79,7 +75,12 @@ export default (state = initialState, action: any) => {
     case GET_TOKEN_LIST:
       return {
         ...state,
-        tokenList: action.tokenList,
+        walletTokenList: action.walletTokenList,
+      };
+    case GET_COINGECKO_LIST:
+      return {
+        ...state,
+        marketTokenList: action.marketTokenList,
       };
     case SWITCH_NETWORK:
       return {

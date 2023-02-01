@@ -32,7 +32,6 @@ const WalletCard = (props: any) => {
     }
     getChainId(providerUrl);
     getAccount(privKey);
-    // getTokenList(address, settings);
     setMounted(true);
   }, [mounted]);
 

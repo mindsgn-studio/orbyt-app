@@ -1,27 +1,26 @@
 //@ts-ignore
 import { colors } from '@orbyt/constants';
 import React from 'react';
-import { View, Text, Animated, TouchableOpacity, Image } from 'react-native';
-import { connect } from 'react-redux';
-
-import RPC from '../../lib/rpc';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 
 export const TokenCard = ({
   name,
   symbol,
   amount,
   logo,
+  fiatAmount,
 }: {
   name: string;
   symbol: any;
   amount: any;
+  fiatAmount: string;
   logo: string;
 }) => {
   return (
     <TouchableOpacity
       style={{
+        height: 70,
         display: 'flex',
-        height: 50,
         borderRadius: 10,
         padding: 10,
         flexDirection: 'row',
@@ -64,14 +63,29 @@ export const TokenCard = ({
         </View>
       </View>
 
-      <View>
+      <View
+        style={{
+          display: 'flex',
+          alignItems: 'flex-end',
+        }}
+      >
         <Text
           style={{
             fontFamily: 'SF-Pro-Rounded-Bold',
             color: `${colors.white}`,
+            fontSize: 20,
           }}
         >
-          {amount}
+          R {fiatAmount}
+        </Text>
+        <Text
+          style={{
+            fontFamily: 'SF-Pro-Rounded-Bold',
+            color: `${colors.white}`,
+            marginTop: -10,
+          }}
+        >
+          {amount} {symbol}
         </Text>
       </View>
     </TouchableOpacity>

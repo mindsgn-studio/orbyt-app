@@ -4,13 +4,15 @@ import {
   ALCHEMY_SDK_GOERLI,
   ALCHEMY_SDK_MAINNET,
 } from '@env';
+import { ETHLogo, MaticLogo } from '@orbyt/assets';
 import { Network } from 'alchemy-sdk';
+import React from 'react';
 
 export const GET_AUTH = 'GET_AUTH';
 export const CONNECT = 'CONNECT';
 export const DISCONNECT = 'DISCCONNECT';
 export const GET_CONNECTION = 'GET_CONNECTION';
-export const GET_COINGECKO = 'GET_COINGECKO';
+export const GET_COINGECKO_LIST = 'GET_COINGECKO_LIST';
 export const ERROR = 'ERROR';
 export const GET_STATE = 'GET_STATE';
 export const UPDATE_LOADING = 'UPDATE_LOADING';
@@ -34,24 +36,28 @@ export const colors = {
 export const network = [
   {
     name: 'Mainnet',
+    icon: <ETHLogo width={30} height={30} />,
     keys: ALCHEMY_SDK_MAINNET,
     url: 'https://rpc.ankr.com/eth',
     network: Network.ETH_MAINNET,
   },
   {
     name: 'Goerli',
+    icon: <ETHLogo width={30} height={30} />,
     keys: ALCHEMY_SDK_GOERLI,
     url: 'https://rpc.ankr.com/eth_goerli',
     network: Network.ETH_GOERLI,
   },
   {
     name: 'Mumbai',
+    icon: <MaticLogo width={30} height={30} />,
     keys: ALCHEMY_SDK_MUMBAI,
     url: 'https://rpc.ankr.com/polygon_mumbai',
     network: Network.MATIC_MUMBAI,
   },
   {
     name: 'Polygon',
+    icon: <MaticLogo width={30} height={30} />,
     keys: ALCHEMY_SDK_POLYGON,
     url: 'https://rpc.ankr.com/polygon',
     network: Network.MATIC_MAINNET,

@@ -7,9 +7,10 @@ import { connect } from 'react-redux';
 import { style } from './style';
 
 const Load = (props: any) => {
-  const { getChainId, getAccount, getTokenList, providerUrl, settings } =
+  const { getChainId, getAccount, getTokenList, providerUrl, getMarketList } =
     WalletAction(props);
-  const { connected, navigation, privKey, address } = props;
+  const { connected, navigation, privKey, address, settings, marketTokenList } =
+    props;
   const [mounted, setMounted] = React.useState<boolean>(false);
   const textOpacity = React.useRef(new Animated.Value(0)).current;
 
@@ -31,7 +32,6 @@ const Load = (props: any) => {
   }
 
   React.useEffect(() => {
-    setMounted(true);
     if (mounted) {
       Animated.timing(textOpacity, {
         toValue: 1,
@@ -39,14 +39,22 @@ const Load = (props: any) => {
         useNativeDriver: true,
       }).start();
 
-      if (privKey) {
+      if (privKey && marketTokenList.length === 0) {
         getChainId(providerUrl);
         getAccount(privKey);
-        getTokenList(address, settings);
+        getMarketList();
+      } else {
+        navigation.navigate('SignIn');
       }
-      setTimeout(isConnected, 2000);
+
+      if (marketTokenList.length > 0) {
+        getTokenList(address, settings);
+        setTimeout(isConnected, 2000);
+      }
     }
-  }, [mounted]);
+
+    setMounted(true);
+  }, [mounted, marketTokenList]);
 
   return (
     <View style={style.default}>
@@ -77,6 +85,7 @@ const mapStateToProps = (state: any, props: any) => {
     address: state.wallet.address,
     providerUrl: state.wallet.providerUrl,
     settings: state.wallet.settings,
+    marketTokenList: state.wallet.marketTokenList,
   };
 };
 

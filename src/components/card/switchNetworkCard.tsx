@@ -9,7 +9,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
 const SwitchNetworkCard = (props: any) => {
-  const { switchNetwork, providerUrl, settings, address } = props;
+  const { switchNetwork, providerUrl, settings, address, marketTokenList } =
+    props;
   const { updateSwitchNetwork } = AnimationAction(props);
   const { getTokenList, getChainId, switchToNetwork } = WalletAction(props);
   const cardOpacity = React.useRef(new Animated.Value(0)).current;
@@ -44,7 +45,7 @@ const SwitchNetworkCard = (props: any) => {
   }, [switchNetwork]);
 
   React.useEffect(() => {
-    getTokenList(address, settings);
+    getTokenList(address, settings, marketTokenList);
     getChainId(providerUrl);
   }, [providerUrl]);
   return (
@@ -138,6 +139,7 @@ const mapStateToProps = (state: any) => {
     providerUrl: state.wallet.providerUrl,
     settings: state.wallet.settings,
     address: state.wallet.address,
+    marketTokenList: state.wallet.marketTokenList,
   };
 };
 

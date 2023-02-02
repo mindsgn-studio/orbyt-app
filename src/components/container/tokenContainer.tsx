@@ -31,7 +31,7 @@ const TokenContainer = (props: any) => {
   }, [mounted]);
 
   React.useEffect(() => {
-    getTokenList(address, settings);
+    // getTokenList(address, settings);
   }, [providerUrl]);
 
   return (
@@ -47,15 +47,23 @@ const TokenContainer = (props: any) => {
         },
       ]}
     >
-      <Text
+      <View
         style={{
-          fontFamily: 'SF-Pro-Rounded-Bold',
-          fontSize: 25,
-          color: colors.orange,
+          display: 'flex',
+          width: '100%',
+          height: 50,
         }}
       >
-        TOKENS
-      </Text>
+        <Text
+          style={{
+            fontFamily: 'SF-Pro-Rounded-Bold',
+            fontSize: 25,
+            color: colors.orange,
+          }}
+        >
+          TOKENS
+        </Text>
+      </View>
       {loading ? (
         <View
           style={{

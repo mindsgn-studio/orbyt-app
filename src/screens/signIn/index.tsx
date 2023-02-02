@@ -48,7 +48,7 @@ const SignIn = (props: any) => {
     }
 
     if (marketTokenList.length > 0) {
-      getTokenList(address, settings);
+      getTokenList(address, settings, marketTokenList);
       navigation.navigate('Home');
     }
   }, [connected]);

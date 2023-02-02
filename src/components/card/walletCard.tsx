@@ -12,6 +12,7 @@ const WalletCard = (props: any) => {
   const { updateSwitchNetwork } = AnimationAction(props);
   const { getChainId, getAccount } = WalletAction(props);
   const [mounted, setMounted] = React.useState<boolean>(false);
+  const [total, setTotal] = React.useState<number>(0);
   const cardOpacity = React.useRef(new Animated.Value(0)).current;
   const truncateRegex = /^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/;
 
@@ -35,6 +36,14 @@ const WalletCard = (props: any) => {
     setMounted(true);
   }, [mounted]);
 
+  React.useEffect(() => {
+    if (total < 0) {
+      setTimeout(() => {
+        setTotal(total + (0 / 10) * 1);
+      }, 2);
+    }
+  }, [total]);
+
   return (
     <Animated.View
       style={{
@@ -46,10 +55,10 @@ const WalletCard = (props: any) => {
         margin: 10,
         padding: 20,
         borderColor: 'white',
-        borderWidth: 2,
+        borderWidth: 5,
       }}
     >
-      <View>
+      <TouchableOpacity>
         <Text
           style={{
             fontFamily: 'SF-Pro-Rounded-Bold',
@@ -59,21 +68,23 @@ const WalletCard = (props: any) => {
         >
           {ens && ens ? ens : address && truncateEthAddress(address)}
         </Text>
-      </View>
+      </TouchableOpacity>
       <View
         style={{
           marginTop: -20,
         }}
       >
-        <Text
-          style={{
-            fontFamily: 'SF-Pro-Rounded-Heavy',
-            color: 'white',
-            fontSize: 45,
-          }}
-        >
-          {`${currencySymbol}`}
-        </Text>
+        <TouchableOpacity>
+          <Text
+            style={{
+              fontFamily: 'SF-Pro-Rounded-Heavy',
+              color: 'white',
+              fontSize: 45,
+            }}
+          >
+            {`${currencySymbol} ${total.toFixed(2)}`}
+          </Text>
+        </TouchableOpacity>
       </View>
       <TouchableOpacity
         style={{

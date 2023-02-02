@@ -223,7 +223,7 @@ export const WalletAction = (props: any) => {
   );
 
   const getTokenList = React.useCallback(
-    async (address: string, settings: any) => {
+    async (address: string, settings: any, tokenList: any[]) => {
       try {
         const alchemy = await new Alchemy(settings);
         const balances = await alchemy.core.getTokenBalances(address);
@@ -249,6 +249,13 @@ export const WalletAction = (props: any) => {
 
           balance = balance / Math.pow(10, parseFloat(`${metadata.decimals}`));
           // balance = balance.toFixed(2);
+
+          const response = tokenList.filter(
+            (token) => token.symbol === metadata.symbol?.toLowerCase()
+          );
+
+          console.log(response, metadata.name);
+
           array.push({
             name: `${metadata.name}`,
             balance: `${balance}`,

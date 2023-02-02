@@ -48,7 +48,7 @@ const Load = (props: any) => {
       }
 
       if (marketTokenList.length > 0) {
-        getTokenList(address, settings);
+        getTokenList(address, settings, marketTokenList);
         setTimeout(isConnected, 2000);
       }
     }

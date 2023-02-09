@@ -8,11 +8,10 @@ import { View, Text, Animated } from 'react-native';
 import { connect } from 'react-redux';
 
 const TokenContainer = (props: any) => {
-  const { getTokenList } = WalletAction(props);
   const opacity = React.useRef(new Animated.Value(0)).current;
   const [mounted, setMounted] = React.useState<any>(false);
   const [loading, setLoading] = React.useState<boolean>(true);
-  const { walletTokenList, address, settings, providerUrl } = props;
+  const { walletTokenList, currency, currencySymbol, providerUrl } = props;
 
   function slideUp() {
     Animated.timing(opacity, {
@@ -112,6 +111,9 @@ const TokenContainer = (props: any) => {
               symbol={item.symbol}
               amount={item.balance}
               fiatAmount={item.fiatAmount}
+              props={props}
+              currency={currency}
+              currencySymbol={currencySymbol}
             />
           );
         })
@@ -126,6 +128,8 @@ const mapStateToProps = (state: any) => {
     walletTokenList: state.wallet.walletTokenList,
     settings: state.wallet.settings,
     providerUrl: state.wallet.providerUrl,
+    currencySymbol: state.wallet.currencySymbol,
+    currency: state.wallet.currency,
   };
 };
 

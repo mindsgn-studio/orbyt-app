@@ -7,10 +7,17 @@ import { View, Text, Animated, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
 const WalletCard = (props: any) => {
-  const { networkID, ens, address, currencySymbol, privKey, providerUrl } =
-    props;
+  const {
+    networkID,
+    ens,
+    address,
+    currencySymbol,
+    privKey,
+    providerUrl,
+    totalBalance,
+  } = props;
   const { updateSwitchNetwork } = AnimationAction(props);
-  const { getChainId, getAccount } = WalletAction(props);
+  const { getChainId, getAccount, setBalance } = WalletAction(props);
   const [mounted, setMounted] = React.useState<boolean>(false);
   const [total, setTotal] = React.useState<number>(0);
   const cardOpacity = React.useRef(new Animated.Value(0)).current;
@@ -35,14 +42,6 @@ const WalletCard = (props: any) => {
     getAccount(privKey);
     setMounted(true);
   }, [mounted]);
-
-  React.useEffect(() => {
-    if (total < 0) {
-      setTimeout(() => {
-        setTotal(total + (0 / 10) * 1);
-      }, 2);
-    }
-  }, [total]);
 
   return (
     <Animated.View
@@ -82,7 +81,7 @@ const WalletCard = (props: any) => {
               fontSize: 45,
             }}
           >
-            {`${currencySymbol} ${total.toFixed(2)}`}
+            {`${currencySymbol} ${totalBalance.toFixed(2)}`}
           </Text>
         </TouchableOpacity>
       </View>
@@ -126,6 +125,7 @@ const mapStateToProps = (state: any) => {
     currency: state.wallet.currency,
     providerUrl: state.wallet.providerUrl,
     settings: state.wallet.settings,
+    totalBalance: state.wallet.totalBalance,
   };
 };
 

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { style } from './style';
 
 const Load = (props: any) => {
-  const { getChainId, getAccount, getTokenList, providerUrl, getMarketList } =
+  const { getChainId, getAccount, providerUrl, setBalance } =
     WalletAction(props);
   const { connected, navigation, privKey, address, settings, marketTokenList } =
     props;
@@ -39,17 +39,13 @@ const Load = (props: any) => {
         useNativeDriver: true,
       }).start();
 
-      if (privKey && marketTokenList.length === 0) {
+      if (privKey) {
         getChainId(providerUrl);
         getAccount(privKey);
-        getMarketList();
+        setBalance(0);
+        setTimeout(isConnected, 2000);
       } else {
         navigation.navigate('SignIn');
-      }
-
-      if (marketTokenList.length > 0) {
-        getTokenList(address, settings, marketTokenList);
-        setTimeout(isConnected, 2000);
       }
     }
 

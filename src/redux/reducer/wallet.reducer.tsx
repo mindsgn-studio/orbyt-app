@@ -9,6 +9,9 @@ import {
   GET_ADDRESS,
   GET_TOKEN_LIST,
   SWITCH_NETWORK,
+  INCREASE_BALANCE,
+  DECREASE_BALANCE,
+  SET_BALANCE,
   //@ts-ignore
 } from '@orbyt/constants';
 import { Network } from 'alchemy-sdk';
@@ -32,6 +35,7 @@ const initialState: walletState = {
   walletTokenList: [],
   marketTokenList: [],
   currency: 'zar',
+  totalBalance: 0,
   currencySymbol: 'R',
   settings: {
     apiKey: ALCHEMY_SDK_MAINNET,
@@ -66,6 +70,7 @@ export default (state = initialState, action: any) => {
         ...state,
         networkName: action.networkName,
         networkID: action.networkID,
+        totalBalance: 0,
       };
     case GET_ADDRESS:
       return {
@@ -88,10 +93,24 @@ export default (state = initialState, action: any) => {
         settings: action.settings,
         providerUrl: action.providerUrl,
       };
+    case INCREASE_BALANCE:
+      return {
+        ...state,
+        totalBalance: state.totalBalance + action.amount,
+      };
+    case DECREASE_BALANCE:
+      return {
+        ...state,
+        totalBalance: state.totalBalance - action.amount,
+      };
+    case SET_BALANCE:
+      return {
+        ...state,
+        totalBalance: action.amount,
+      };
     case ERROR:
       return {
         ...state,
-        action,
       };
     default:
       return state;

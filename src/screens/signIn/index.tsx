@@ -41,14 +41,9 @@ const SignIn = (props: any) => {
   }, []);
 
   React.useEffect(() => {
-    if (connected && marketTokenList.length === 0) {
+    if (connected) {
       getChainId(providerUrl);
       getAccount(privKey);
-      getMarketList();
-    }
-
-    if (marketTokenList.length > 0) {
-      getTokenList(address, settings, marketTokenList);
       navigation.navigate('Home');
     }
   }, [connected]);

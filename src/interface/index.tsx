@@ -36,6 +36,7 @@ export interface walletState {
   currency: string;
   currencySymbol: string;
   settings: any;
+  totalBalance: number;
 }
 
 export interface nft {

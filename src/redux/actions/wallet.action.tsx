@@ -9,6 +9,9 @@ import {
   GET_ADDRESS,
   GET_TOKEN_LIST,
   SWITCH_NETWORK,
+  INCREASE_BALANCE,
+  DECREASE_BALANCE,
+  SET_BALANCE,
   //@ts-ignore
 } from '@orbyt/constants';
 import * as WebBrowser from '@toruslabs/react-native-web-browser';
@@ -30,12 +33,7 @@ const scheme = 'orbyt';
 const resolvedRedirectUrl = `${scheme}://openlogin`;
 
 export const WalletAction = (props: any) => {
-  // const [alchemy, setAlchemy] = React.useState<any>(new Alchemy(settings));
-  //const [providerUrl, setProviderUrl] = React.useState<string>(
-  //  'https://rpc.ankr.com/polygon'
-  //);
-  //sign in with wallet
-  const connectWithWeb3Auth = React.useCallback(async () => {
+  const connectWithWeb3Auth = async () => {
     try {
       const response = await new Web3Auth(WebBrowser, {
         clientId: `${CLIENT_ID}`,
@@ -62,10 +60,10 @@ export const WalletAction = (props: any) => {
         error,
       });
     }
-  }, []);
+  };
 
   //sign in without wallet
-  const testConnection = React.useCallback(async (address: string) => {
+  const testConnection = async (address: string) => {
     try {
       props.dispatch({
         type: CONNECT,
@@ -84,10 +82,10 @@ export const WalletAction = (props: any) => {
         error,
       });
     }
-  }, []);
+  };
 
   //disconnect wallet
-  const disconnectWallet = React.useCallback(async (auth: any) => {
+  const disconnectWallet = async (auth: any) => {
     try {
       //@ts-ignore
       const response = await auth.logout();
@@ -107,7 +105,7 @@ export const WalletAction = (props: any) => {
         error,
       });
     }
-  }, []);
+  };
 
   //remove error
   const removeError = React.useCallback(async () => {
@@ -140,6 +138,7 @@ export const WalletAction = (props: any) => {
         networkName: networkDetails.name,
         networkID: networkDetails.chainId,
         ens: networkDetails.ensAddress,
+        balance: 0,
       });
     } catch (error) {
       props.dispatch({
@@ -222,8 +221,29 @@ export const WalletAction = (props: any) => {
     []
   );
 
+  const updateBalance = (sum: boolean, amount: number) => {
+    if (sum) {
+      props.dispatch({
+        type: INCREASE_BALANCE,
+        amount,
+      });
+    } else {
+      props.dispatch({
+        type: DECREASE_BALANCE,
+        amount,
+      });
+    }
+  };
+
+  const setBalance = (amount: number) => {
+    props.dispatch({
+      type: SET_BALANCE,
+      amount,
+    });
+  };
+
   const getTokenList = React.useCallback(
-    async (address: string, settings: any, tokenList: any[]) => {
+    async (address: string, settings: any) => {
       try {
         const alchemy = await new Alchemy(settings);
         const balances = await alchemy.core.getTokenBalances(address);
@@ -245,16 +265,7 @@ export const WalletAction = (props: any) => {
             token.contractAddress
           );
 
-          // Compute token balance in human-readable format
-
           balance = balance / Math.pow(10, parseFloat(`${metadata.decimals}`));
-          // balance = balance.toFixed(2);
-
-          const response = tokenList.filter(
-            (token) => token.symbol === metadata.symbol?.toLowerCase()
-          );
-
-          console.log(response, metadata.name);
 
           array.push({
             name: `${metadata.name}`,
@@ -280,16 +291,6 @@ export const WalletAction = (props: any) => {
     []
   );
 
-  const getTokenData = async (token: string) => {
-    await fetch(`${COINGECKO_API}/${token}`, {
-      method: 'GET',
-    })
-      .then((success) => {
-        success.json().then((data) => {});
-      })
-      .catch((error) => {});
-  };
-
   const switchToNetwork = React.useCallback((network: any) => {
     try {
       props.dispatch({
@@ -309,6 +310,8 @@ export const WalletAction = (props: any) => {
   }, []);
 
   return {
+    setBalance,
+    updateBalance,
     connectWithWeb3Auth,
     disconnectWallet,
     removeError,

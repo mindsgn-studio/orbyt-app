@@ -23,6 +23,9 @@ export const GET_CHAIN_ID = 'GET_CHAIN_ID';
 export const GET_ADDRESS = 'GET_ADDRESS';
 export const GET_TOKEN_LIST = 'GET_TOKEN_LIST';
 export const SWITCH_NETWORK = 'SWITCH_NETWORK';
+export const INCREASE_BALANCE = 'INCREASE_BALANCE';
+export const DECREASE_BALANCE = 'DECREASE_BALANCE';
+export const SET_BALANCE = 'SET_BALANCE';
 
 export const colors = {
   orange: '#F15A24',
@@ -38,7 +41,7 @@ export const network = [
     name: 'Mainnet',
     icon: <ETHLogo width={30} height={30} />,
     keys: ALCHEMY_SDK_MAINNET,
-    url: 'https://rpc.ankr.com/eth',
+    url: 'https://api.securerpc.com/v1',
     network: Network.ETH_MAINNET,
   },
   {

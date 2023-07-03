@@ -139,8 +139,13 @@ android {
         applicationId "mindsgn.studio.orbyt"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+<<<<<<< HEAD
         versionCode 2
         versionName "0.2"
+=======
+        versionCode 1
+        versionName "1"
+>>>>>>> 035d994a6b34591a33754b2c066a65705dfe1132
         multiDexEnabled true
     }
     splits {

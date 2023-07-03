@@ -27,7 +27,6 @@ import { Buffer } from 'buffer';
 import { Contract, ethers } from 'ethers';
 import React from 'react';
 import { tokens } from '../../constants/tokens';
-import { AnyMxRecord } from 'dns';
 
 global.Buffer = global.Buffer || Buffer;
 
@@ -119,7 +118,7 @@ export const WalletAction = (props: any) => {
 
   //get market data
   const getMarketList = React.useCallback(async (location: string) => {
-    await fetch(`${COINGECKO_API}/list`, {
+    await fetch(`${COINGECKO_API_V3}/list`, {
       method: 'GET',
     }).then((success) => {
       success.json().then((data) => {

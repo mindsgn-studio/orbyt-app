@@ -1,11 +1,7 @@
-//@ts-ignore
-import { COINGECKO_API_V3 } from '@env';
-import { colors } from '@orbyt/constants';
-import { WalletAction } from '@orbyt/redux';
 import React from 'react';
-import { tokens } from './../../constants/tokens';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { connect } from 'react-redux';
+
+import { colors } from '../../constants';
 
 export const TokenCard = ({
   name,

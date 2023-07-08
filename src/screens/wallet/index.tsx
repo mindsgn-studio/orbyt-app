@@ -5,25 +5,16 @@ import {
   ReceiveCard,
   SendCard,
   SwitchNetworkCard,
-} from '@orbyt/components';
+} from '../../components';
 //@ts-ignore
-import { colors } from '@orbyt/constants';
+import { colors } from '../../constants';
 //@ts-ignore
 import { AnimationAction } from '@orbyt/redux';
-import { Qrcode } from '@walletconnect/react-native-dapp';
-import { ethers } from 'ethers';
 import React from 'react';
-import {
-  View,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  Animated,
-} from 'react-native';
+import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import { connect } from 'react-redux';
 
 import { style } from './style';
-import RPC from '../../lib/rpc';
 
 const Wallet = (props: any) => {
   const { receive, send } = props;

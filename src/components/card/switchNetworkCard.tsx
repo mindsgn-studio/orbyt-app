@@ -109,7 +109,7 @@ const SwitchNetworkCard = (props: any) => {
           padding: 10,
         }}
       >
-        {network.map((item) => {
+        {network.map((item: any) => {
           return (
             <TouchableOpacity
               key={item.name}

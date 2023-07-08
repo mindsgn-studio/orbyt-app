@@ -5,6 +5,7 @@ import {
   ReceiveCard,
   SendCard,
   SwitchNetworkCard,
+  TokenDataCard,
 } from '../../components';
 //@ts-ignore
 import { colors } from '../../constants';
@@ -59,7 +60,7 @@ const Wallet = (props: any) => {
       >
         <TouchableOpacity
           onPress={() => {
-            // updateSending(!send);
+            updateSending(!send);
           }}
           style={{
             display: 'flex',
@@ -112,11 +113,12 @@ const Wallet = (props: any) => {
       <ReceiveCard />
       <SendCard />
       <SwitchNetworkCard />
+      <TokenDataCard />
     </View>
   );
 };
 
-const mapStateToProps = (state: any, props: any) => {
+const mapStateToProps = (state: any) => {
   return {
     receive: state.animation.receive,
     send: state.animation.send,

@@ -1,11 +1,10 @@
-import { colors } from '@orbyt/constants';
-import { AnimationAction } from '@orbyt/redux';
 import React from 'react';
 import { View, TouchableOpacity, Text, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
-import { ShareCard } from './shareCard';
+import { colors } from '../../constants';
+import { AnimationAction } from '../../redux';
 import { SignInButton as Button } from '../button';
 import { TextInput } from '../input';
 

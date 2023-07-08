@@ -2,7 +2,7 @@
 import { TokenCard } from '../../components';
 //@ts-ignore
 import { colors } from '../../constants';
-import { WalletAction } from '../../redux';
+import { WalletAction, AnimationAction } from '../../redux';
 import React from 'react';
 import { View, Text, Animated } from 'react-native';
 import { connect } from 'react-redux';
@@ -11,14 +11,8 @@ import { tokens } from './../../constants/tokens';
 const TokenContainer = (props: any) => {
   const opacity = React.useRef(new Animated.Value(0)).current;
   const [mounted, setMounted] = React.useState<any>(false);
-  const {
-    walletTokenList,
-    currency,
-    currencySymbol,
-    providerUrl,
-    settings,
-    loading = true,
-  } = props;
+  const { walletTokenList, currency, currencySymbol, loading = true } = props;
+  const { updateTokenData } = AnimationAction(props);
 
   const slideUp = () => {
     Animated.timing(opacity, {
@@ -34,10 +28,6 @@ const TokenContainer = (props: any) => {
     }
     setMounted(true);
   }, [mounted]);
-
-  React.useEffect(() => {
-    console.log(loading);
-  }, [loading]);
 
   return (
     <Animated.View
@@ -122,6 +112,9 @@ const TokenContainer = (props: any) => {
               amount={item.balance}
               fiatAmount={total}
               currencySymbol={currencySymbol}
+              onPress={() => {
+                updateTokenData(true);
+              }}
             />
           );
         })

@@ -10,6 +10,7 @@ export const TokenCard = ({
   fiatAmount,
   logo,
   currencySymbol,
+  onPress,
 }: {
   name: string;
   symbol: any;
@@ -17,9 +18,11 @@ export const TokenCard = ({
   fiatAmount: string;
   logo: string;
   currencySymbol: string;
+  onPress: any;
 }) => {
   return (
     <TouchableOpacity
+      onPress={onPress}
       style={{
         height: 70,
         display: 'flex',

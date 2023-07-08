@@ -227,10 +227,8 @@ export const WalletAction = (props: any) => {
       const alchemy = new Alchemy(settings);
       // Get token balances
       const balances = await alchemy.core.getTokenBalances(address);
-
-      console.log(`The balances of ${address} address are:`, balances);
     } catch (error) {
-      console.log(error);
+      /// console.log(error);
     }
   };
 

@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Animated, Text } from 'react-native';
-
+import { View, Animated, Text, TouchableOpacity } from 'react-native';
+import { AnimationAction } from '../../redux';
 import { connect } from 'react-redux';
 
 const TokenDataCard = (props: any) => {
   const { tokenData } = props;
+  const { updateTokenData } = AnimationAction(props);
   const cardY = React.useRef(new Animated.Value(700)).current;
 
   React.useEffect(() => {
@@ -16,7 +17,7 @@ const TokenDataCard = (props: any) => {
       }).start();
     } else {
       Animated.timing(cardY, {
-        toValue: 700,
+        toValue: 900,
         duration: 500,
         useNativeDriver: true,
       }).start();
@@ -46,8 +47,34 @@ const TokenDataCard = (props: any) => {
         },
       ]}
     >
-      <View>
-        <Text>Token</Text>
+      <View
+        style={{
+          padding: 5,
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            updateTokenData(false);
+          }}
+        >
+          <Text
+            style={{
+              color: 'white',
+            }}
+          >
+            X
+          </Text>
+        </TouchableOpacity>
+        <Text
+          style={{
+            color: 'white',
+          }}
+        >
+          Token
+        </Text>
       </View>
     </Animated.View>
   );

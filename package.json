@@ -32,6 +32,7 @@
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "@robinbobin/react-native-google-drive-api-wrapper": "^1.2.3",
+    "@superfluid-finance/sdk-core": "^0.6.6",
     "@toruslabs/react-native-web-browser": "^1.1.0",
     "@walletconnect/react-native-dapp": "^1.7.8",
     "@web3auth/react-native-sdk": "^3.2.1",

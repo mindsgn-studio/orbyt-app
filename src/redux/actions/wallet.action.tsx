@@ -12,10 +12,9 @@ import {
   INCREASE_BALANCE,
   DECREASE_BALANCE,
   SET_BALANCE,
-  //@ts-ignore
-} from '@orbyt/constants';
+} from '../../constants';
 import * as WebBrowser from '@toruslabs/react-native-web-browser';
-import { useWalletConnect } from '@walletconnect/react-native-dapp';
+import { Framework } from '@superfluid-finance/sdk-core';
 import Web3Auth, {
   LOGIN_PROVIDER,
   OPENLOGIN_NETWORK,
@@ -334,27 +333,51 @@ export const WalletAction = (props: any) => {
     return data;
   };
 
-  const sendPayment = async () => {
+  const sendPayment = async (
+    stream: boolean,
+    native: boolean,
+    providerUrl: string,
+    privateKey: string,
+    recipientAddress: string,
+    amount: string,
+    contractAddress?: string,
+    abi?: string
+  ) => {
     try {
-      let private_key =
-        '41559d28e936dc92104ff30691519693fc753ffbee6251a611b9aa1878f12a4d';
-      let send_token_amount = '1';
-      let to_address = '0x4c10D2734Fb76D3236E522509181CC3Ba8DE0e80';
-      let send_address = '0xda27a282B5B6c5229699891CfA6b900A716539E6';
-      let gas_limit = '0x100000';
-      let wallet = new ethers.Wallet(private_key);
-      let walletSigner = wallet.connect(window.ethersProvider);
-      let contract_address = '';
-      window.ethersProvider = new ethers.providers.InfuraProvider('ropsten');
+      const ethersProvider = ethers.getDefaultProvider(providerUrl);
 
-      send_token(
-        contract_address,
-        send_token_amount,
-        to_address,
-        send_address,
-        private_key
-      );
-    } catch (error) {}
+      const wallet = new ethers.Wallet(privateKey, ethersProvider);
+      const paymentAmount = ethers.utils.parseEther(amount);
+
+      if (native) {
+        const transaction = await wallet.sendTransaction({
+          to: recipientAddress,
+          value: paymentAmount,
+        });
+
+        console.log('Transaction hash:', transaction.hash);
+
+        const confirmedTransaction = await transaction.wait();
+
+        console.log(
+          'Transaction confirmed in block:',
+          confirmedTransaction.blockNumber
+        );
+      } else {
+        const usdcContract = new ethers.Contract(contractAddress, abi, wallet);
+        const paymentAmount = ethers.utils.parseUnits('100', 6);
+
+        const transaction = await usdcContract.transfer(
+          recipientAddress,
+          paymentAmount
+        );
+        await transaction.wait();
+
+        console.log('Transaction hash:', transaction.hash);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getTokenList = async (

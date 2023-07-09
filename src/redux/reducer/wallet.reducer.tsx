@@ -1,4 +1,6 @@
 import { ALCHEMY_SDK_MAINNET } from '@env';
+import { Network } from 'alchemy-sdk';
+
 import {
   CONNECT,
   DISCONNECT,
@@ -13,9 +15,7 @@ import {
   DECREASE_BALANCE,
   SET_BALANCE,
   //@ts-ignore
-} from '@orbyt/constants';
-import { Network } from 'alchemy-sdk';
-
+} from '../../constants';
 import { walletState } from '../../interface';
 
 const initialState: walletState = {

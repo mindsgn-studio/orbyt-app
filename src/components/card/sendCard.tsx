@@ -4,17 +4,18 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
 import { colors } from '../../constants';
-import { AnimationAction } from '../../redux';
+import { AnimationAction, WalletAction } from '../../redux';
 import { SignInButton as Button } from '../button';
 import { TextInput } from '../input';
 
 const SendCard = (prop: any) => {
-  const { send } = prop;
+  const { send, providerUrl, privateKey } = prop;
   const [sendTo, setSendTo] = React.useState<string>('');
   const [tokenBalance, seTokenBalance] = React.useState<string>('');
   const [fiatbalance, setFiatBalance] = React.useState<string>('');
   const [amount, setAmount] = React.useState<string>('');
   const { updateSending } = AnimationAction(prop);
+  const { sendPayment } = WalletAction(prop);
   const cardY = React.useRef(new Animated.Value(700)).current;
 
   React.useEffect(() => {
@@ -87,17 +88,52 @@ const SendCard = (prop: any) => {
           </Text>
         </View>
 
-        <TextInput type="send to" />
-        <TextInput type="send amount" />
-        <Button text="Next" onPress={() => {}} color={colors.green} />
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
+          <TextInput
+            placeholder="Public Address, ENS or Phone Number"
+            title="Reciever address"
+          />
+        </View>
+
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+          }}
+        >
+          <TextInput placeholder="Token" title="Select Token" />
+          <TextInput placeholder="0.00" title="Send Amount" />
+        </View>
+
+        <Button
+          text="Send"
+          onPress={() =>
+            sendPayment(
+              false,
+              true,
+              providerUrl,
+              privateKey,
+              '0x73932cc65df8865b10F339D6Ef9dE5E4830C14Ff',
+              '0.01'
+            )
+          }
+          color={colors.green}
+        />
       </View>
     </Animated.View>
   );
 };
 
-const mapStateToProps = (state: any, props: any) => {
+const mapStateToProps = (state: any) => {
   return {
     send: state.animation.send,
+    providerUrl: state.wallet.providerUrl,
+    privateKey: state.wallet.privKey,
   };
 };
 

@@ -26,6 +26,8 @@ import { Buffer } from 'buffer';
 import { Contract, ethers } from 'ethers';
 import React from 'react';
 import { tokens } from '../../constants/tokens';
+import { ToastAndroid } from 'react-native';
+import { AnimationAction } from './animation.action';
 
 global.Buffer = global.Buffer || Buffer;
 
@@ -33,6 +35,8 @@ const scheme = 'orbyt';
 const resolvedRedirectUrl = `${scheme}://openlogin`;
 
 export const WalletAction = (props: any) => {
+  const { updateSending } = AnimationAction(props);
+
   const connectWithWeb3Auth = async () => {
     try {
       const response = await new Web3Auth(WebBrowser, {
@@ -374,9 +378,25 @@ export const WalletAction = (props: any) => {
         await transaction.wait();
 
         console.log('Transaction hash:', transaction.hash);
+
+        updateSending(false);
+
+        ToastAndroid.showWithGravityAndOffset(
+          'Payment Sent!',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM,
+          25,
+          50
+        );
       }
     } catch (error) {
-      console.log(error);
+      ToastAndroid.showWithGravityAndOffset(
+        'Payment Failed!',
+        ToastAndroid.LONG,
+        ToastAndroid.BOTTOM,
+        25,
+        50
+      );
     }
   };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
@@ -10,10 +10,8 @@ import { TextInput } from '../input';
 
 const SendCard = (prop: any) => {
   const { send, providerUrl, privateKey } = prop;
-  const [sendTo, setSendTo] = React.useState<string>('');
-  const [tokenBalance, seTokenBalance] = React.useState<string>('');
-  const [fiatbalance, setFiatBalance] = React.useState<string>('');
-  const [amount, setAmount] = React.useState<string>('');
+  const [address, setAddress] = useState('');
+  const [amount, setAmount] = useState('');
   const { updateSending } = AnimationAction(prop);
   const { sendPayment } = WalletAction(prop);
   const cardY = React.useRef(new Animated.Value(700)).current;
@@ -97,6 +95,8 @@ const SendCard = (prop: any) => {
           <TextInput
             placeholder="Public Address, ENS or Phone Number"
             title="Reciever address"
+            onChangeText={(address: string) => setAddress(address)}
+            type="default"
           />
         </View>
 
@@ -106,21 +106,18 @@ const SendCard = (prop: any) => {
             flexDirection: 'row',
           }}
         >
-          <TextInput placeholder="Token" title="Select Token" />
-          <TextInput placeholder="0.00" title="Send Amount" />
+          <TextInput
+            placeholder="0.00"
+            title="Send Amount"
+            type="numeric"
+            onChangeText={(amount: string) => setAmount(amount)}
+          />
         </View>
 
         <Button
           text="Send"
           onPress={() =>
-            sendPayment(
-              false,
-              true,
-              providerUrl,
-              privateKey,
-              '0x73932cc65df8865b10F339D6Ef9dE5E4830C14Ff',
-              '0.01'
-            )
+            sendPayment(false, true, providerUrl, privateKey, address, amount)
           }
           color={colors.green}
         />

@@ -1,14 +1,23 @@
 import React from 'react';
-import { TextInput as Input, View, Text } from 'react-native';
+import {
+  TextInput as Input,
+  View,
+  Text,
+  KeyboardTypeOptions,
+} from 'react-native';
 
 export const TextInput = ({
   placeholder,
   flex = 1,
-  title = 'brody',
+  title,
+  type = 'default',
+  onChangeText,
 }: {
   placeholder?: string;
   flex?: number;
-  title?: string;
+  title: string;
+  type: KeyboardTypeOptions;
+  onChangeText?: (text: string) => void;
 }) => {
   return (
     <View
@@ -35,15 +44,17 @@ export const TextInput = ({
           padding: 5,
         }}
       >
-        <Text
+        <Input
           style={{
             color: 'white',
             fontSize: 16,
             fontFamily: 'SF-Pro-Rounded-Heavy',
           }}
-        >
-          {placeholder}
-        </Text>
+          multiline={false}
+          placeholder={placeholder}
+          onChangeText={onChangeText}
+          keyboardType={type}
+        />
       </View>
     </View>
   );

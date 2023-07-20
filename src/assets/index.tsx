@@ -1,3 +1,3 @@
-import { MaticLogo, ETHLogo } from './icons';
+import { MaticLogo, ETHLogo, CeloLogo } from './icons';
 
-export { ETHLogo, MaticLogo };
+export { ETHLogo, MaticLogo, CeloLogo };

@@ -278,6 +278,16 @@ export const WalletAction = (props: any) => {
           name: 'ethereum',
           symbol: 'eth',
         };
+      case 'celo-mainnet':
+        return {
+          name: 'celo',
+          symbol: 'cusd',
+        };
+      case 'celo-alfajores':
+        return {
+          name: 'celo',
+          symbol: 'cusd',
+        };
       default:
         return null;
     }
@@ -469,6 +479,7 @@ export const WalletAction = (props: any) => {
 
   const switchToNetwork = React.useCallback((network: any) => {
     try {
+      console.log(network);
       props.dispatch({
         type: SWITCH_NETWORK,
         settings: {

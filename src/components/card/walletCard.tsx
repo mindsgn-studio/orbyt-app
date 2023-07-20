@@ -1,5 +1,5 @@
 //@ts-ignore
-import { ETHLogo, MaticLogo } from '@orbyt/assets';
+import { ETHLogo, MaticLogo, CeloLogo } from '@orbyt/assets';
 //@ts-ignore
 import { AnimationAction, WalletAction } from '@orbyt/redux';
 import { getAddress } from 'ethers/lib/utils';
@@ -48,6 +48,7 @@ const WalletCard = (props: any) => {
   }, [mounted]);
 
   React.useEffect(() => {
+    console.log(networkID);
     getTokenList(address, settings, currency);
   }, [networkID]);
 
@@ -114,6 +115,10 @@ const WalletCard = (props: any) => {
           <ETHLogo width={50} height={50} />
         ) : networkID && networkID === 5 ? (
           <ETHLogo width={50} height={50} />
+        ) : networkID && networkID === 44787 ? (
+          <CeloLogo width={50} height={50} />
+        ) : networkID && networkID === 42220 ? (
+          <CeloLogo width={50} height={50} />
         ) : null}
       </TouchableOpacity>
     </Animated.View>

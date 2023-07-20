@@ -7,7 +7,7 @@ import {
 
 import { Network } from 'alchemy-sdk';
 import React from 'react';
-import { ETHLogo, MaticLogo } from '../assets';
+import { ETHLogo, MaticLogo, CeloLogo } from '../assets';
 
 export const GET_AUTH = 'GET_AUTH';
 export const CONNECT = 'CONNECT';
@@ -45,6 +45,7 @@ export const network = [
     keys: ALCHEMY_SDK_MAINNET,
     url: 'https://api.securerpc.com/v1',
     network: Network.ETH_MAINNET,
+    blockExplorer: 'https://explorer.celo.org ',
     tokens: [{}],
   },
   {
@@ -53,6 +54,7 @@ export const network = [
     keys: ALCHEMY_SDK_GOERLI,
     url: 'https://rpc.ankr.com/eth_goerli',
     network: Network.ETH_GOERLI,
+    blockExplorer: 'https://explorer.celo.org ',
     tokens: [{}],
   },
   {
@@ -61,6 +63,7 @@ export const network = [
     keys: ALCHEMY_SDK_MUMBAI,
     url: 'https://rpc.ankr.com/polygon_mumbai',
     network: Network.MATIC_MUMBAI,
+    blockExplorer: 'https://explorer.celo.org ',
     tokens: [{}],
   },
   {
@@ -69,6 +72,25 @@ export const network = [
     keys: ALCHEMY_SDK_POLYGON,
     url: 'https://rpc.ankr.com/polygon',
     network: Network.MATIC_MAINNET,
+    blockExplorer: 'https://explorer.celo.org ',
+    tokens: [{}],
+  },
+  {
+    name: 'Alfajores',
+    icon: <CeloLogo width={30} height={30} />,
+    keys: null,
+    url: 'https://alfajores-forno.celo-testnet.org',
+    network: 'celo-alfajores',
+    blockExplorer: 'https://explorer.celo.org ',
+    tokens: [{}],
+  },
+  {
+    name: 'Celo',
+    icon: <CeloLogo width={30} height={30} />,
+    keys: null,
+    url: 'https://forno.celo.org',
+    network: 'celo-mainnet',
+    blockExplorer: 'https://explorer.celo.org ',
     tokens: [{}],
   },
 ];

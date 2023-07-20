@@ -7,9 +7,10 @@ import { colors } from '../../constants';
 import { AnimationAction, WalletAction } from '../../redux';
 import { SignInButton as Button } from '../button';
 import { TextInput } from '../input';
+import Dropdown from '../dropDown';
 
 const SendCard = (prop: any) => {
-  const { send, providerUrl, privateKey } = prop;
+  const { send, providerUrl, privateKey, walletTokenList } = prop;
   const [address, setAddress] = useState('');
   const [amount, setAmount] = useState('');
   const { updateSending } = AnimationAction(prop);
@@ -106,6 +107,7 @@ const SendCard = (prop: any) => {
             flexDirection: 'row',
           }}
         >
+          <Dropdown title="Send Amount" list={walletTokenList} />
           <TextInput
             placeholder="0.00"
             title="Send Amount"
@@ -128,6 +130,7 @@ const SendCard = (prop: any) => {
 
 const mapStateToProps = (state: any) => {
   return {
+    walletTokenList: state.wallet.walletTokenList,
     send: state.animation.send,
     providerUrl: state.wallet.providerUrl,
     privateKey: state.wallet.privKey,

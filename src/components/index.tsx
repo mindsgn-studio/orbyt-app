@@ -8,6 +8,7 @@ import {
   TokenDataCard,
 } from './card';
 import { TokenContainer } from './container';
+import Dropdown from './dropDown';
 
 export {
   WalletCard,
@@ -18,4 +19,5 @@ export {
   SendCard,
   SwitchNetworkCard,
   TokenDataCard,
+  Dropdown,
 };

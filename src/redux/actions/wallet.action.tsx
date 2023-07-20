@@ -230,9 +230,7 @@ export const WalletAction = (props: any) => {
       const alchemy = new Alchemy(settings);
       // Get token balances
       const balances = await alchemy.core.getTokenBalances(address);
-    } catch (error) {
-      /// console.log(error);
-    }
+    } catch (error) {}
   };
 
   const updateBalance = (sum: boolean, amount: number) => {
@@ -369,14 +367,7 @@ export const WalletAction = (props: any) => {
           value: paymentAmount,
         });
 
-        console.log('Transaction hash:', transaction.hash);
-
         const confirmedTransaction = await transaction.wait();
-
-        console.log(
-          'Transaction confirmed in block:',
-          confirmedTransaction.blockNumber
-        );
       } else {
         const usdcContract = new ethers.Contract(contractAddress, abi, wallet);
         const paymentAmount = ethers.utils.parseUnits('100', 6);
@@ -386,8 +377,6 @@ export const WalletAction = (props: any) => {
           paymentAmount
         );
         await transaction.wait();
-
-        console.log('Transaction hash:', transaction.hash);
 
         updateSending(false);
 
@@ -463,7 +452,6 @@ export const WalletAction = (props: any) => {
         const { ath } = market_data;
         sum = sum + balance * ath[`${currency}`];
       });
-
       props.dispatch({
         type: GET_TOKEN_LIST,
         walletTokenList: array,
@@ -479,7 +467,6 @@ export const WalletAction = (props: any) => {
 
   const switchToNetwork = React.useCallback((network: any) => {
     try {
-      console.log(network);
       props.dispatch({
         type: SWITCH_NETWORK,
         settings: {

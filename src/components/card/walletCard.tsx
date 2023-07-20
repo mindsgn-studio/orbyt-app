@@ -48,7 +48,6 @@ const WalletCard = (props: any) => {
   }, [mounted]);
 
   React.useEffect(() => {
-    console.log(networkID);
     getTokenList(address, settings, currency);
   }, [networkID]);
 

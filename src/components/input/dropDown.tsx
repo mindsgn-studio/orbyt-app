@@ -1,6 +1,6 @@
+import { Picker } from '@react-native-picker/picker';
 import React from 'react';
 import { TextInput as Input, View, Text } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 
 export const DropDown = ({
   flex = 1,

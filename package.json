@@ -13,6 +13,9 @@
     "beta:android": "cd ./android && bundle exec fastlane beta",
     "release:android": "cd ./android && bundle exec fastlane release"
   },
+  "engines": {
+    "node": "16.13.0"
+  },
   "eslintConfig": {
     "extends": "universe/native"
   },

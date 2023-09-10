@@ -1,16 +1,6 @@
-import { decode, encode } from 'base-64';
+import { shim } from 'react-native-quick-base64';
 
-if (!global.btoa) {
-  global.btoa = encode;
-}
-
-if (!global.atob) {
-  global.atob = decode;
-}
-
-if (typeof global.self === 'undefined') {
-  global.self = global;
-}
+shim();
 
 if (typeof __dirname === 'undefined') global.__dirname = '/';
 if (typeof __filename === 'undefined') global.__filename = '';
@@ -25,12 +15,11 @@ if (typeof process === 'undefined') {
   }
 }
 
-process.browser = false;
 if (typeof Buffer === 'undefined') global.Buffer = require('buffer').Buffer;
 
+// global.location = global.location || { port: 80 }
 const isDev = typeof __DEV__ === 'boolean' && __DEV__;
-Object.assign(process.env, { NODE_ENV: isDev ? 'development' : 'production' });
-
+process.env['NODE_ENV'] = isDev ? 'development' : 'production';
 if (typeof localStorage !== 'undefined') {
   localStorage.debug = isDev ? '*' : '';
 }

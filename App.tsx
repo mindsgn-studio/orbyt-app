@@ -7,56 +7,42 @@
  *
  * @format
  */
-//@ts-ignore
-import { store, persistor } from '@orbyt/redux';
-//@ts-ignore
-import { Load, Home, SignIn, Token } from '@orbyt/screen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { withWalletConnect } from '@walletconnect/react-native-dapp';
-import React from 'react';
-import { StatusBar } from 'react-native';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
 
-StatusBar.setHidden(true);
+import { AppContext } from './src/context';
+import { Loading } from './src/screens';
+import initializeDb from './src/utility/db';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  const [db, setDb] = useState(null);
+
+  useEffect(() => {
+    const initDB = async () => {
+      const _db = await initializeDb();
+      setDb(_db);
+    };
+    initDB().then();
+  }, []);
+
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="Load" component={Load} />
-            <Stack.Screen name="SignIn" component={SignIn} />
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Token" component={Token} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PersistGate>
-    </Provider>
+    <SafeAreaView style={styles.screen}>
+      <AppContext.Provider value={{ db }}>
+        <Loading />
+      </AppContext.Provider>
+    </SafeAreaView>
   );
 };
 
-export default withWalletConnect(App, {
-  bridge: 'https://bridge.walletconnect.org',
-  clientMeta: {
-    url: 'https://orbyt.org',
-    icons: [
-      'https://www.orbyt.org/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.7fce87d2.png&w=64&q=75',
-    ],
-    name: 'orbyt',
-    description: 'connect orbyt to web3',
-  },
-  redirectUrl: 'orbyt://',
-  storageOptions: {
-    asyncStorage: AsyncStorage as any,
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    backgroundColor: 'black',
   },
 });
+
+export default App;

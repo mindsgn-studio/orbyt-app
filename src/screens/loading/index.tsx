@@ -23,4 +23,4 @@ const Loading = (props: any) => {
   );
 };
 
-export default Loading;
+export { Loading };

@@ -1,3 +1,4 @@
-import React, { createContext } from 'react';
+import { useAuth, AuthProvider } from './auth';
+import { WalletProvider, useWallet } from './wallet';
 
-export const AppContext = createContext({});
+export { useAuth, AuthProvider, WalletProvider, useWallet };

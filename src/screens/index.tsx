@@ -1,4 +1,5 @@
-import { Loading } from './loading';
 import { Home } from './home';
+import { Loading } from './loading';
+import { SignIn } from './signIn';
 
-export { Loading, Home };
+export { Loading, Home, SignIn };

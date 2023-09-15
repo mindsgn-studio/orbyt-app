@@ -4,6 +4,7 @@ export const style = StyleSheet.create({
   default: {
     width: '100%',
     height: 100,
+    flex: 1,
     marginBottom: 2,
     display: 'flex',
     flexDirection: 'row',

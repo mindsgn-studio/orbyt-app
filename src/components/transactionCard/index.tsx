@@ -24,6 +24,7 @@ const TransactionCard = ({
   amount: string;
   label: string;
 }) => {
+  //console.log(label);
   const { exhangeRate } = useWallet();
   const [fiat, setFiat] = useState<any>(0);
   const [time, setTime] = useState<any>(new Date());
@@ -48,7 +49,7 @@ const TransactionCard = ({
     <TouchableOpacity style={style.default}>
       <View style={style.transactionDetails}>
         <View style={style.icon}>
-          {label === 'payment' ? (
+          {label === 'out' ? (
             <Icon name="arrow-up-outline" size={40} color={colors.red} />
           ) : (
             <Icon name="arrow-down-outline" size={40} color={colors.green} />
@@ -56,7 +57,7 @@ const TransactionCard = ({
         </View>
         <View>
           <Text style={style.type}>
-            {label === 'payment' ? 'Sent' : 'Recieved'}
+            {label === 'out' ? 'Sent' : 'Recieved'}
           </Text>
           <Text style={style.date}>{`${time}`}</Text>
         </View>

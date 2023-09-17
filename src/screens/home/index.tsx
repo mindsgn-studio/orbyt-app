@@ -9,7 +9,7 @@ import { style } from './style';
 import { useWallet } from '../../context';
 
 const Home = (props: any) => {
-  const { route } = props;
+  const { route, navigation } = props;
   const { params } = route;
   const { MagicKey } = params;
   const { setMagic } = useWallet();
@@ -21,7 +21,14 @@ const Home = (props: any) => {
   return (
     <View style={style.default}>
       <WalletCard />
-      <WalletButtons />
+      <WalletButtons
+        goToRecieve={() => {
+          navigation.navigate('Recieve');
+        }}
+        goToSend={() => {
+          navigation.navigate('Send');
+        }}
+      />
       <TransactionContainer />
     </View>
   );

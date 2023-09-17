@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
+
 import { style } from './style';
 import { useWallet } from '../../context';
 
@@ -17,8 +18,9 @@ const WalletCard = () => {
       { value: 1e15, symbol: 'P' },
       { value: 1e18, symbol: 'E' },
     ];
+
     const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-    var item = lookup
+    const item = lookup
       .slice()
       .reverse()
       .find(function (item) {

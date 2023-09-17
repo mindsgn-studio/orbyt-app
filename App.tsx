@@ -4,9 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 import { AuthProvider, WalletProvider } from './src/context/index';
-import { network } from './src/constants';
-import { Loading, Home, SignIn } from './src/screens';
+import { Loading, Home, SignIn, Send, Recieve } from './src/screens';
 
 const MagicKey = new Magic('pk_live_61C2EC6AE4FECCC3');
 
@@ -36,6 +36,16 @@ const App = () => {
               <Stack.Screen
                 name="Home"
                 component={Home}
+                initialParams={{ MagicKey }}
+              />
+              <Stack.Screen
+                name="Send"
+                component={Send}
+                initialParams={{ MagicKey }}
+              />
+              <Stack.Screen
+                name="Recieve"
+                component={Recieve}
                 initialParams={{ MagicKey }}
               />
             </Stack.Navigator>

@@ -1,12 +1,9 @@
 import React, {
   createContext,
-  Dispatch,
   ReactElement,
   ReactNode,
-  SetStateAction,
   useContext,
   useEffect,
-  useReducer,
   useState,
 } from 'react';
 import { ethers } from 'ethers';
@@ -17,6 +14,7 @@ type WalletContextType = {
   setMagic: any | null;
   exhangeRate: number;
   balance: number;
+  loading: boolean;
 };
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
@@ -34,6 +32,7 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   const [balance, setBalance] = useState<number>(0);
   const [address, setAddress] = useState<string | null>(null);
   const [transactions, setTransaction] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [tokens, setTokens] = useState<any[]>([]);
   const [exhangeRate, setExchangeRate] = useState(0);
 
@@ -61,7 +60,7 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   };
 
   const getAllTransactions = async (address: string) => {
-    const etherscanEndpoint = `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&apikey=9QCTW7Y2RUMTXJ3F44UVGQV1WGR5X1NXJJ`;
+    const etherscanEndpoint = `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&page=1&offset=100&sort=desc&apikey=9QCTW7Y2RUMTXJ3F44UVGQV1WGR5X1NXJJ`;
     try {
       const response = await fetch(etherscanEndpoint);
 
@@ -74,63 +73,16 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
       if (data.status === '1') {
         return data.result;
       } else {
-        console.error('Etherscan API error:', data.message);
         return [];
       }
     } catch (error) {
-      console.error('Error fetching transactions:', error);
       return [];
     }
   };
 
-  const getNetwork = async () => {
-    const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
-
-    const signer = provider.getSigner();
-
-    const address: string = '0xdAa7c1B5fEAca5D1bC1bea7E7C07d91d3e6dfe51';
-    // const address =  await signer.getAddress();
-
-    const balance = ethers.utils.formatEther(
-      await provider.getBalance(address)
-    );
-
-    const chainId: number = await signer.getChainId();
-
-    const network = getMainToken(chainId);
-
-    if (network) {
-      const exchangeRateResponse = await fetchEthToZarExchangeRate();
-      let transactionsData = await getAllTransactions(address);
-
-      transactionsData = transactionsData.map((transaction: any) => ({
-        ...transaction,
-        timestamp: parseInt(transaction.timestamp),
-      }));
-
-      transactionsData = transactionsData.map((transaction: any) => {
-        if (transaction.from === address) {
-          return { ...transaction, label: 'payment' };
-        } else if (transaction.to === address) {
-          return { ...transaction, label: 'received' };
-        } else {
-          return { ...transaction, label: 'unknown' };
-        }
-      });
-
-      setExchangeRate(exchangeRateResponse);
-      setBalance(parseInt(balance));
-      setTransaction(transactionsData);
-      setAddress(address);
-      setTokens([
-        ...tokens,
-        {
-          ...tokens,
-          balance,
-        },
-      ]);
-    }
-  };
+  async function getListOfERC20Tokens() {
+    return [];
+  }
 
   const fetchEthToZarExchangeRate = async () => {
     const coingeckoEndpoint = 'https://api.coingecko.com/api/v3/simple/price';
@@ -165,6 +117,62 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
     }
   };
 
+  const getNetwork = async () => {
+    const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
+
+    const signer = provider.getSigner();
+
+    const address: string =
+      '0x73932cc65df8865b10F339D6Ef9dE5E4830C14Ff'.toLowerCase();
+    // const address = (await signer.getAddress()).toLocaleLowerCase();
+
+    const balance = ethers.utils.formatEther(
+      await provider.getBalance(address)
+    );
+
+    const chainId: number = await signer.getChainId();
+
+    const network = getMainToken(chainId);
+
+    if (network) {
+      const exchangeRateResponse = await fetchEthToZarExchangeRate();
+      let transactionsData = await getAllTransactions(address);
+
+      transactionsData = transactionsData.filter((transaction: any) => {
+        return transaction.value !== '0'; // Assuming value is represented as a string
+      });
+
+      transactionsData = transactionsData.map((transaction: any) => ({
+        ...transaction,
+        timestamp: parseInt(transaction.timestamp),
+      }));
+
+      transactionsData = transactionsData.map((transaction: any) => {
+        if (transaction.from === address) {
+          return { ...transaction, label: 'out' };
+        } else if (transaction.to === address) {
+          return { ...transaction, label: 'in' };
+        } else {
+          return { ...transaction, label: 'unknown' };
+        }
+      });
+      const tokens = await getListOfERC20Tokens();
+
+      setExchangeRate(exchangeRateResponse);
+      setBalance(parseFloat(balance));
+      setTransaction(transactionsData);
+      setAddress(address);
+      setTokens([
+        ...tokens,
+        {
+          ...tokens,
+          balance,
+        },
+      ]);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (magic) {
       getNetwork();
@@ -174,7 +182,7 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   return (
     <WalletContext.Provider
       {...props}
-      value={{ address, transactions, setMagic, exhangeRate, balance }}
+      value={{ address, transactions, setMagic, exhangeRate, balance, loading }}
     />
   );
 };

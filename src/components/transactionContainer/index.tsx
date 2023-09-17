@@ -21,7 +21,7 @@ const TransactionContainer = () => {
               date={item.timeStamp}
               type={``}
               label={item.label}
-              amount={`${item.value}`}
+              amount={item.value}
             />
           )}
         />

@@ -4,7 +4,7 @@ import { style } from './style';
 import { useWallet } from '../../context';
 
 const WalletCard = () => {
-  const { balance } = useWallet();
+  const { balance, exhangeRate } = useWallet();
   const [formatedBalance, setFormatedBalance] = useState(balance.toFixed(2));
 
   const nFormatter = (num: any, digits: any) => {
@@ -30,7 +30,7 @@ const WalletCard = () => {
   };
 
   useEffect(() => {
-    setFormatedBalance(nFormatter(balance, 1));
+    setFormatedBalance(nFormatter(balance * exhangeRate, 1));
   }, [balance]);
 
   return (

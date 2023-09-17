@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, FlatList } from 'react-native';
-import { TransactionCard } from '../transactionCard';
+
 import { style } from './style';
 import { useWallet } from '../../context';
+import { TransactionCard } from '../transactionCard';
 
 const TransactionContainer = () => {
   const { transactions } = useWallet();
@@ -17,8 +18,9 @@ const TransactionContainer = () => {
             <TransactionCard
               key={`${item.blockHash}`}
               icon={``}
-              date={`${item.timeStamp}`}
+              date={item.timeStamp}
               type={``}
+              label={item.label}
               amount={`${item.value}`}
             />
           )}

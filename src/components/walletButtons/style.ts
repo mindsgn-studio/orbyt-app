@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../constants';
 
 export const style = StyleSheet.create({
   default: {
@@ -9,7 +10,7 @@ export const style = StyleSheet.create({
   },
   sendButton: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: colors.orange,
     height: 70,
     display: 'flex',
     justifyContent: 'center',
@@ -19,7 +20,7 @@ export const style = StyleSheet.create({
   },
   recieveButton: {
     flex: 1,
-    backgroundColor: 'green',
+    backgroundColor: colors.green,
     height: 70,
     display: 'flex',
     justifyContent: 'center',
@@ -30,6 +31,6 @@ export const style = StyleSheet.create({
   buttonText: {
     fontFamily: 'SF-Pro-Rounded-Heavy',
     fontSize: 28,
-    color: 'white',
+    color: colors.white,
   },
 });

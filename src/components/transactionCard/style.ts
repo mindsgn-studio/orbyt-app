@@ -14,9 +14,11 @@ export const style = StyleSheet.create({
   icon: {
     width: 50,
     height: 50,
-    backgroundColor: 'white',
     borderRadius: 50,
     marginRight: 10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   transactionDetails: {
     display: 'flex',

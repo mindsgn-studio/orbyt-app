@@ -9,9 +9,7 @@ import React, {
   useReducer,
   useState,
 } from 'react';
-import { useAuth } from './auth';
 import { ethers } from 'ethers';
-import { Alchemy, Network } from 'alchemy-sdk';
 
 type WalletContextType = {
   address: string | null;
@@ -32,7 +30,6 @@ function useWallet(): WalletContextType {
 }
 
 const WalletProvider = (props: { children: ReactNode }): ReactElement => {
-  const [provider, setProvider] = useState<any | null>(null);
   const [magic, setMagic] = useState<any | null>(null);
   const [balance, setBalance] = useState<number>(0);
   const [address, setAddress] = useState<string | null>(null);
@@ -91,10 +88,11 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
 
     const signer = provider.getSigner();
 
-    const address = await signer.getAddress();
+    const address: string = '0xdAa7c1B5fEAca5D1bC1bea7E7C07d91d3e6dfe51';
+    // const address =  await signer.getAddress();
 
     const balance = ethers.utils.formatEther(
-      await provider.getBalance('0xc70ae19b5feaa5c19f576e621d2bad9771864fe2')
+      await provider.getBalance(address)
     );
 
     const chainId: number = await signer.getChainId();
@@ -103,13 +101,25 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
 
     if (network) {
       const exchangeRateResponse = await fetchEthToZarExchangeRate();
+      let transactionsData = await getAllTransactions(address);
 
-      const transactionsData = await getAllTransactions(
-        '0xc70ae19b5feaa5c19f576e621d2bad9771864fe2'
-      );
+      transactionsData = transactionsData.map((transaction: any) => ({
+        ...transaction,
+        timestamp: parseInt(transaction.timestamp),
+      }));
+
+      transactionsData = transactionsData.map((transaction: any) => {
+        if (transaction.from === address) {
+          return { ...transaction, label: 'payment' };
+        } else if (transaction.to === address) {
+          return { ...transaction, label: 'received' };
+        } else {
+          return { ...transaction, label: 'unknown' };
+        }
+      });
 
       setExchangeRate(exchangeRateResponse);
-      setBalance(balance * exchangeRateResponse);
+      setBalance(parseInt(balance));
       setTransaction(transactionsData);
       setAddress(address);
       setTokens([

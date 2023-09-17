@@ -16,7 +16,7 @@ const WalletButtons = ({
         <Text style={style.buttonText}>SEND</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={goToRecieve} style={style.recieveButton}>
-        <Text style={style.buttonText}>RECIEVE</Text>
+        <Text style={style.buttonText}>RECEIVE</Text>
       </TouchableOpacity>
     </View>
   );

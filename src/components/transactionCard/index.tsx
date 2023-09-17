@@ -12,14 +12,10 @@ TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo('en-US');
 
 const TransactionCard = ({
-  icon,
-  type,
   date,
   amount,
   label,
 }: {
-  icon: string;
-  type: string;
   date: number;
   amount: string;
   label: string;

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
+import { ETHLogo, MaticLogo } from '../../assets';
 import { style } from './style';
 import { useWallet } from '../../context';
 
 const WalletCard = () => {
-  const { balance, exhangeRate } = useWallet();
+  const { balance, exhangeRate, network } = useWallet();
   const [formatedBalance, setFormatedBalance] = useState(balance.toFixed(2));
-
+  const { layer, name } = network;
   const nFormatter = (num: any, digits: any) => {
     const lookup = [
       { value: 1, symbol: '' },
@@ -37,7 +38,22 @@ const WalletCard = () => {
 
   return (
     <View style={style.default}>
-      <Text style={style.amount}>{`R ${formatedBalance}`}</Text>
+      <View>
+        <Text style={style.amount}>{`R ${formatedBalance}`}</Text>
+      </View>
+
+      <TouchableOpacity style={style.networkButton} onPress={() => {}}>
+        {layer && layer === 137 ? (
+          <MaticLogo width={50} height={50} />
+        ) : layer && layer === 80001 ? (
+          <MaticLogo width={30} height={30} />
+        ) : layer && layer === 1 ? (
+          <ETHLogo width={30} height={30} />
+        ) : layer && layer === 5 ? (
+          <ETHLogo width={50} height={50} />
+        ) : null}
+        <Text style={style.networkButtonText}>{name && name}</Text>
+      </TouchableOpacity>
     </View>
   );
 };

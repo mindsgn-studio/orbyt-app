@@ -15,6 +15,7 @@ type WalletContextType = {
   exhangeRate: number;
   balance: number;
   loading: boolean;
+  network: any | null;
 };
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
@@ -34,6 +35,7 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   const [transactions, setTransaction] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [tokens, setTokens] = useState<any[]>([]);
+  const [network, setNetwork] = useState<any | null>({});
   const [exhangeRate, setExchangeRate] = useState(0);
 
   const getMainToken = (chainId: number) => {
@@ -131,9 +133,9 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
 
     const chainId: number = await signer.getChainId();
 
-    const network = getMainToken(chainId);
+    const networkSettings = getMainToken(chainId);
 
-    if (network) {
+    if (networkSettings) {
       const exchangeRateResponse = await fetchEthToZarExchangeRate();
       let transactionsData = await getAllTransactions(address);
 
@@ -168,6 +170,7 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
           balance,
         },
       ]);
+      setNetwork(networkSettings);
       setLoading(false);
     }
   };
@@ -181,7 +184,15 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   return (
     <WalletContext.Provider
       {...props}
-      value={{ address, transactions, setMagic, exhangeRate, balance, loading }}
+      value={{
+        address,
+        transactions,
+        setMagic,
+        exhangeRate,
+        balance,
+        loading,
+        network,
+      }}
     />
   );
 };

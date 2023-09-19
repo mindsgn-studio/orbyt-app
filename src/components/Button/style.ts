@@ -4,13 +4,18 @@ import { colors } from '../../constants';
 
 export const style = StyleSheet.create({
   default: {
-    flex: 1,
+    minWidth: 200,
+    marginTop: 10,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: colors.green,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
   },
   text: {
-    color: colors.gray,
+    fontFamily: 'SF-Pro-Rounded-Heavy',
+    fontSize: 28,
+    color: colors.white,
   },
 });

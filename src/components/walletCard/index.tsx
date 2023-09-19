@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 import { ETHLogo, MaticLogo } from '../../assets';
 import { style } from './style';
@@ -51,7 +51,9 @@ const WalletCard = () => {
           <ETHLogo width={30} height={30} />
         ) : layer && layer === 5 ? (
           <ETHLogo width={50} height={50} />
-        ) : null}
+        ) : (
+          <ActivityIndicator />
+        )}
         <Text style={style.networkButtonText}>{name && name}</Text>
       </TouchableOpacity>
     </View>

@@ -1,7 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Heading } from '../../components/Heading';
-
+import { TouchableOpacity, View, Text } from 'react-native';
+import { Heading, Button } from '../../components';
 import { style } from './style';
 
 const Send = (props: any) => {
@@ -14,6 +13,11 @@ const Send = (props: any) => {
           navigation.navigate('Home');
         }}
       />
+      <View style={style.sendContainer}>
+        <View></View>
+        <View></View>
+        <Button title={'SEND'} onPress={() => {}} />
+      </View>
     </View>
   );
 };

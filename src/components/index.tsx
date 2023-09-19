@@ -1,6 +1,17 @@
-import { WalletCard } from './walletCard';
+import { Button } from './Button';
+import { Heading } from './Heading';
+import { Input } from './TextInput';
+import { TransactionCard } from './transactionCard';
 import { TransactionContainer } from './transactionContainer';
 import { WalletButtons } from './walletButtons';
-import { TransactionCard } from './transactionCard';
+import { WalletCard } from './walletCard';
 
-export { WalletCard, WalletButtons, TransactionContainer, TransactionCard };
+export {
+  WalletCard,
+  Heading,
+  Input,
+  WalletButtons,
+  TransactionContainer,
+  TransactionCard,
+  Button,
+};

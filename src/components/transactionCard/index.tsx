@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useWallet } from '../../context';
-import { style } from './style';
 import { ethers } from 'ethers';
 import TimeAgo from 'javascript-time-ago';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { colors } from '../../constants';
 import en from 'javascript-time-ago/locale/en';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+import { style } from './style';
+import { colors } from '../../constants';
+import { useWallet } from '../../context';
 
 TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo('en-US');

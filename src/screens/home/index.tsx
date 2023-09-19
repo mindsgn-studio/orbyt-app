@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+
+import { style } from './style';
 import {
   WalletCard,
   WalletButtons,
   TransactionContainer,
 } from '../../components';
-import { style } from './style';
 import { useWallet } from '../../context';
 
 const Home = (props: any) => {

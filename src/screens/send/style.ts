@@ -17,4 +17,23 @@ export const style = StyleSheet.create({
     padding: 10,
     flex: 1,
   },
+  sendUsing: {
+    display: 'flex',
+    flexDirection: 'row',
+    borderRadius: 10,
+  },
+  sendUsingInput: {
+    borderRadius: 10,
+    borderWidth: 4,
+  },
+  sendUsingCard: {
+    width: 100,
+    height: 100,
+    margin: 10,
+    backgroundColor: 'white',
+  },
+  amountInput: {
+    color: 'white',
+    width: '100%',
+  },
 });

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
+
 import { style } from './style';
 
 const Loading = (props: any) => {
@@ -8,11 +9,16 @@ const Loading = (props: any) => {
   const { MagicKey } = params;
 
   const isauth = async () => {
-    const isLoggedIn = await MagicKey.user.isLoggedIn();
-    if (isLoggedIn) {
-      navigation.navigate('Home');
-    } else {
-      navigation.navigate('SignIn');
+    try {
+      const isLoggedIn = await MagicKey.user.isLoggedIn();
+      if (isLoggedIn) {
+        navigation.replace('HomeTabs');
+      } else {
+        navigation.navigate('SignIn');
+      }
+    } catch (error) {
+      //log error
+      navigation.replace('HomeTabs');
     }
   };
 

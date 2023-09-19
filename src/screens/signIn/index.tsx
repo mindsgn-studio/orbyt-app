@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, ActivityIndicator } from 'react-native';
 
 import { style } from './style';
 import { useAuth } from '../../context';
@@ -75,22 +75,26 @@ const SignIn = (props: any) => {
             flex: 1,
           }}
         >
-          <TextInput
-            value={phoneNumber}
-            multiline={false}
-            numberOfLines={1}
-            maxLength={9}
-            style={[
-              {
-                fontSize: 21,
-                color: 'white',
-                fontFamily: 'SF-Pro-Rounded-Regular',
-              },
-            ]}
-            onChangeText={(value) => {
-              setPhoneNumber(value);
-            }}
-          />
+          {phoneNumber.length === 9 ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <TextInput
+              value={phoneNumber}
+              multiline={false}
+              numberOfLines={1}
+              maxLength={9}
+              style={[
+                {
+                  fontSize: 21,
+                  color: 'white',
+                  fontFamily: 'SF-Pro-Rounded-Regular',
+                },
+              ]}
+              onChangeText={(value) => {
+                setPhoneNumber(value);
+              }}
+            />
+          )}
         </View>
       </View>
     </View>

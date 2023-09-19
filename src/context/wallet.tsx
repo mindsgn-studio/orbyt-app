@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import React, {
   createContext,
   ReactElement,
@@ -6,17 +7,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { ethers } from 'ethers';
 
-type WalletContextType = {
-  address: string | null;
-  transactions: any[] | null;
-  setMagic: any | null;
-  exhangeRate: number;
-  balance: number;
-  loading: boolean;
-  network: any | null;
-};
+import { WalletContextType } from '../types';
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
 
@@ -81,10 +73,6 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
       return [];
     }
   };
-
-  async function getListOfERC20Tokens() {
-    return [];
-  }
 
   const fetchEthToZarExchangeRate = async () => {
     const coingeckoEndpoint = 'https://api.coingecko.com/api/v3/simple/price';
@@ -193,6 +181,7 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
         balance,
         loading,
         network,
+        tokens,
       }}
     />
   );

@@ -6,7 +6,8 @@ import { Recieve } from './recieve';
 import { Send } from './send';
 import { Settings } from './settings';
 import { SignIn } from './signIn';
-import { Swap } from './swap';
+import { Tokens } from './tokens';
+import { Token } from './token';
 
 export {
   Profile,
@@ -17,5 +18,6 @@ export {
   Send,
   Recieve,
   Settings,
-  Swap,
+  Tokens,
+  Token,
 };

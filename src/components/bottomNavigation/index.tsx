@@ -4,7 +4,7 @@ import { Animated, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { colors } from '../../constants';
-import { Home, Swap, Contact, Profile } from '../../screens';
+import { Home, Tokens, Contact, Profile } from '../../screens';
 
 const Tab = createBottomTabNavigator();
 
@@ -68,8 +68,8 @@ const HomeTabs = (props: any) => {
         })}
       />
       <Tab.Screen
-        name="Swap"
-        component={Swap}
+        name="Tokens"
+        component={Tokens}
         initialParams={{ MagicKey }}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -97,69 +97,6 @@ const HomeTabs = (props: any) => {
           },
         })}
       />
-      {/*
-      
-      <Tab.Screen
-        name="Contacts"
-        component={Contact}
-        initialParams={{ MagicKey }}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                padding: 10,
-                borderRadius: 50,
-                backgroundColor: focused ? colors.green : colors.white,
-              }}
-            >
-              <Icon
-                name="person-outline"
-                size={focused ? 30 : 20}
-                color={focused ? colors.white : colors.gray}
-              />
-            </View>
-          ),
-        }}
-        listeners={({ navigation, route }) => ({
-          tabPress: () => {
-            Animated.spring(tabOffsetValue, {
-              toValue: 0,
-              useNativeDriver: true,
-            }).start();
-          },
-        })}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        initialParams={{ MagicKey }}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <View
-              style={{
-                padding: 10,
-                borderRadius: 50,
-                backgroundColor: focused ? colors.green : colors.white,
-              }}
-            >
-              <Icon
-                name="settings-outline"
-                size={focused ? 30 : 20}
-                color={focused ? colors.white : colors.gray}
-              />
-            </View>
-          ),
-        }}
-        listeners={({ navigation, route }) => ({
-          tabPress: () => {
-            Animated.spring(tabOffsetValue, {
-              toValue: 0,
-              useNativeDriver: true,
-            }).start();
-          },
-        })}
-      />
-      */}
     </Tab.Navigator>
   );
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, FlatList, Text, Image } from 'react-native';
 
 import { style } from './style';
+import { colors } from '../../constants';
 
 const apiUrl = 'https://api.coingecko.com/api/v3/coins/markets';
 const params = {
@@ -15,7 +16,7 @@ const params = {
   precision: 'full',
 };
 
-const Swap = (props: any) => {
+const Tokens = (props: any) => {
   const [marketData, setMarketData] = useState<any>([]);
 
   const getMarketData = () => {
@@ -41,6 +42,11 @@ const Swap = (props: any) => {
       });
   };
 
+  const isNegative = (price: number) => {
+    if (price < 0) return true;
+    return false;
+  };
+
   useEffect(() => {
     getMarketData();
   }, []);
@@ -53,31 +59,30 @@ const Swap = (props: any) => {
     <View style={style.default}>
       <FlatList
         data={marketData}
-        renderItem={({ item }) => (
-          <View
-            key={item.id}
-            style={{
-              flex: 1,
-              width: '95%',
-              height: 50,
-              backgroundColor: 'white',
-              margin: 10,
-              padding: 5,
-              borderRadius: 10,
-              flexDirection: 'row',
-            }}
-          >
-            <Image
-              source={{ uri: `${item.image}` }}
-              style={{ width: 40, height: 40 }}
-            />
-            <Text style={{}}>{item.id}</Text>
-            <Text style={{}}>{`R ${item.current_price}`}</Text>
-          </View>
-        )}
+        renderItem={({ item }) => {
+          const { name, image, current_price, price_change_24h } = item;
+
+          console.log(price_change_24h);
+
+          return (
+            <View key={item.id} style={style.tokenCard}>
+              <Image source={{ uri: `${image}` }} style={style.cardImage} />
+              <Text style={style.cardName}>{name}</Text>
+              {isNegative(parseFloat(price_change_24h)) ? (
+                <Text
+                  style={style.tokenPriceNegative}
+                >{`R ${current_price}`}</Text>
+              ) : (
+                <Text
+                  style={style.tokenPricePositive}
+                >{`R ${current_price}`}</Text>
+              )}
+            </View>
+          );
+        }}
       />
     </View>
   );
 };
 
-export { Swap };
+export { Tokens };

@@ -7,7 +7,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { HomeTabs } from './src/components';
 import { AuthProvider, WalletProvider } from './src/context/index';
-import { Loading, Token, SignIn, Send, Recieve } from './src/screens';
+import { Loading, Token, SignIn, Send, Recieve, Error } from './src/screens';
 
 const MagicKey = new Magic('pk_live_61C2EC6AE4FECCC3');
 
@@ -52,6 +52,11 @@ const App = () => {
               <Stack.Screen
                 name="Token"
                 component={Token}
+                initialParams={{ MagicKey }}
+              />
+              <Stack.Screen
+                name="Error"
+                component={Error}
                 initialParams={{ MagicKey }}
               />
             </Stack.Navigator>

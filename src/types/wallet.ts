@@ -7,6 +7,8 @@ type WalletContextType = {
   loading: boolean;
   network: any | null;
   tokens: any[] | null;
+  marketData: any[];
+  rates: any | null;
 };
 
 export { type WalletContextType };

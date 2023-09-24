@@ -21,7 +21,6 @@ const TransactionCard = ({
   amount: string;
   label: string;
 }) => {
-  //console.log(label);
   const { exhangeRate } = useWallet();
   const [fiat, setFiat] = useState<any>(0);
   const [time, setTime] = useState<any>(new Date());

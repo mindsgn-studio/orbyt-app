@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, ActivityIndicator } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { style } from './style';
 import { useAuth } from '../../context';
@@ -80,6 +81,7 @@ const SignIn = (props: any) => {
           ) : (
             <TextInput
               value={phoneNumber}
+              keyboardType="numeric"
               multiline={false}
               numberOfLines={1}
               maxLength={9}

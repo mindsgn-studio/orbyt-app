@@ -4,7 +4,7 @@ import { Animated, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { colors } from '../../constants';
-import { Home, Tokens, Contact, Profile } from '../../screens';
+import { Home, Tokens, Contact, Profile, Settings } from '../../screens';
 
 const Tab = createBottomTabNavigator();
 
@@ -97,6 +97,36 @@ const HomeTabs = (props: any) => {
           },
         })}
       />
+      {/*<Tab.Screen
+        name="Settings"
+        component={Settings}
+        initialParams={{ MagicKey }}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                padding: 10,
+                borderRadius: 50,
+                backgroundColor: focused ? colors.green : colors.white,
+              }}
+            >
+              <Icon
+                name="settings-outline"
+                size={focused ? 30 : 20}
+                color={focused ? colors.white : colors.gray}
+              />
+            </View>
+          ),
+        }}
+        listeners={({ navigation, route }) => ({
+          tabPress: () => {
+            Animated.spring(tabOffsetValue, {
+              toValue: 0,
+              useNativeDriver: true,
+            }).start();
+          },
+        })}
+      />*/}
     </Tab.Navigator>
   );
 };

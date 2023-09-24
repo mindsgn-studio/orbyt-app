@@ -7,6 +7,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { apiUrl, params as marketParams } from '../constants';
 
 import { WalletContextType } from '../types';
 
@@ -28,7 +29,9 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   const [loading, setLoading] = useState<boolean>(true);
   const [tokens, setTokens] = useState<any[]>([]);
   const [network, setNetwork] = useState<any | null>({});
+  const [marketData, setMarketData] = useState<any>([]);
   const [exhangeRate, setExchangeRate] = useState(0);
+  const [rates, setRates] = useState<any | null>(null);
 
   const getMainToken = (chainId: number) => {
     switch (chainId) {
@@ -77,7 +80,6 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   const fetchEthToZarExchangeRate = async () => {
     const coingeckoEndpoint = 'https://api.coingecko.com/api/v3/simple/price';
 
-    // Parameters for the API request
     const queryParams = new URLSearchParams({
       ids: 'ethereum',
       vs_currencies: 'zar',
@@ -107,14 +109,52 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
     }
   };
 
+  const allExchangeRates = async () => {
+    await fetch('https://theforexapi.com/api/latest?base=USD')
+      .then(async (response) => {
+        return await response.json();
+      })
+      .then(async (response) => {
+        setRates(response);
+      })
+      .catch((error) => {
+        return null;
+      });
+
+    return null;
+  };
+
+  const getMarketData = async () => {
+    const url = new URL(apiUrl);
+    //@ts-ignore
+    Object.keys(marketParams).forEach((key) =>
+      //@ts-ignore
+      url.searchParams.append(key, marketParams[key])
+    );
+
+    await fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setMarketData(data);
+      })
+      .catch((error) => {
+        return [];
+      });
+  };
+
   const getNetwork = async () => {
     const provider = new ethers.providers.Web3Provider(magic.rpcProvider);
 
     const signer = provider.getSigner();
 
-    const address: string =
-      '0x02cE1f30Dc9f77C00CA1F227e75267D2C470CD80'.toLowerCase();
-    // const address = (await signer.getAddress()).toLocaleLowerCase();
+    // const address: string =
+    //  '0x02cE1f30Dc9f77C00CA1F227e75267D2C470CD80'.toLowerCase();
+    const address = (await signer.getAddress()).toLocaleLowerCase();
 
     const balance = ethers.utils.formatEther(
       await provider.getBalance(address)
@@ -123,13 +163,16 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
     const chainId: number = await signer.getChainId();
 
     const networkSettings = getMainToken(chainId);
+    allExchangeRates();
+    getMarketData();
+    // console.log(await getMarketData());
 
     if (networkSettings) {
       const exchangeRateResponse = await fetchEthToZarExchangeRate();
       let transactionsData = await getAllTransactions(address);
 
       transactionsData = transactionsData.filter((transaction: any) => {
-        return transaction.value !== '0'; // Assuming value is represented as a string
+        return transaction.value !== '0';
       });
 
       transactionsData = transactionsData.map((transaction: any) => ({
@@ -146,12 +189,12 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
           return { ...transaction, label: 'unknown' };
         }
       });
-      const tokens = await getListOfERC20Tokens();
 
       setExchangeRate(exchangeRateResponse);
       setBalance(parseFloat(balance));
       setTransaction(transactionsData);
       setAddress(address);
+
       setTokens([
         ...tokens,
         {
@@ -176,12 +219,14 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
       value={{
         address,
         transactions,
-        setMagic,
         exhangeRate,
         balance,
         loading,
         network,
         tokens,
+        marketData,
+        rates,
+        setMagic,
       }}
     />
   );

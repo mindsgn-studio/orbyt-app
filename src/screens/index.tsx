@@ -1,4 +1,5 @@
 import { Contact } from './contact';
+import { Error } from './error';
 import { Home } from './home';
 import { Loading } from './loading';
 import { Profile } from './profile';
@@ -6,8 +7,8 @@ import { Recieve } from './recieve';
 import { Send } from './send';
 import { Settings } from './settings';
 import { SignIn } from './signIn';
-import { Tokens } from './tokens';
 import { Token } from './token';
+import { Tokens } from './tokens';
 
 export {
   Profile,
@@ -20,4 +21,5 @@ export {
   Settings,
   Tokens,
   Token,
+  Error,
 };

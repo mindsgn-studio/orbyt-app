@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 
 import { style } from './style';
 
@@ -40,6 +40,7 @@ const Loading = (props: any) => {
         >
           ORBYT
         </Text>
+        <ActivityIndicator size={'large'} />
       </View>
     </View>
   );

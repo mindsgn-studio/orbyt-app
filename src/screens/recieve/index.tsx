@@ -20,7 +20,7 @@ const Recieve = (props: any) => {
 
     Share.open(options)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         err && console.log(err);

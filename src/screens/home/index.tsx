@@ -27,7 +27,7 @@ const Home = (props: any) => {
           navigation.navigate('Recieve');
         }}
         goToSend={() => {
-          navigation.navigate('Send');
+          navigation.navigate('Error');
         }}
       />
       <TransactionContainer />

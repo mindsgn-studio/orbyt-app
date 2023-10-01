@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '../../constants';
 
 export const style = StyleSheet.create({
   default: {
@@ -7,31 +8,22 @@ export const style = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'black',
+    backgroundColor: colors.black,
     padding: 10,
   },
   tagContainer: {
     padding: 15,
   },
   phoneNumberContainer: {
-    paddingLeft: 10,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
     height: 80,
-    borderColor: 'white',
+    borderColor: colors.white,
     borderWidth: 4,
     borderRadius: 10,
-  },
-
-  phoneNumberText: {
-    fontFamily: 'SF-Pro-Rounded-Regular',
-    fontSize: 21,
-    color: 'white',
-  },
-  phoneCode: {
-    padding: 10,
+    backgroundColor: colors.black,
   },
 });

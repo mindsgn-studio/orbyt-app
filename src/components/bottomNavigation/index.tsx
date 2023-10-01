@@ -1,7 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Animated, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useAuth } from '../../context';
 
 import { colors } from '../../constants';
 import { Home, Tokens, Contact, Profile, Settings } from '../../screens';
@@ -9,6 +10,7 @@ import { Home, Tokens, Contact, Profile, Settings } from '../../screens';
 const Tab = createBottomTabNavigator();
 
 const HomeTabs = (props: any) => {
+  const { auth } = useAuth();
   const { route } = props;
   const { params } = route;
   const { MagicKey } = params;
@@ -97,7 +99,7 @@ const HomeTabs = (props: any) => {
           },
         })}
       />
-      {/*<Tab.Screen
+      <Tab.Screen
         name="Settings"
         component={Settings}
         initialParams={{ MagicKey }}
@@ -126,7 +128,7 @@ const HomeTabs = (props: any) => {
             }).start();
           },
         })}
-      />*/}
+      />
     </Tab.Navigator>
   );
 };

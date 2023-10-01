@@ -14,7 +14,7 @@ const Loading = (props: any) => {
       if (isLoggedIn) {
         navigation.replace('HomeTabs');
       } else {
-        navigation.navigate('SignIn');
+        navigation.replace('SignIn');
       }
     } catch (error) {
       //log error

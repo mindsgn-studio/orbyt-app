@@ -7,8 +7,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { apiUrl, params as marketParams } from '../constants';
 
+import { apiUrl, params as marketParams } from '../constants';
 import { WalletContextType } from '../types';
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, FlatList, Text, Image } from 'react-native';
+import { View, FlatList, Text, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useWallet } from '../../context';
 
 import { style } from './style';
 import { colors } from '../../constants';
 
-const Tokens = () => {
+const Tokens = (props: any) => {
+  const { navigation } = props;
   const { rates: exchangeRate, marketData } = useWallet();
   const { rates } = exchangeRate;
 
@@ -15,7 +16,18 @@ const Tokens = () => {
     return false;
   };
 
-  const getFiatValue = () => {};
+  const goTo = (item: any, price: number) => {
+    let color = colors.green;
+
+    if (isNegative(price)) {
+      color = colors.red;
+    }
+
+    navigation.navigate('Token', {
+      item,
+      color,
+    });
+  };
 
   return (
     <View style={style.default}>
@@ -34,7 +46,13 @@ const Tokens = () => {
           const fiatPrice = parseFloat(current_price);
 
           return (
-            <View key={item.id} style={style.tokenCard}>
+            <TouchableOpacity
+              onPress={() => {
+                goTo(item, parseFloat(price_change_percentage_24h));
+              }}
+              key={item.id}
+              style={style.tokenCard}
+            >
               <View
                 style={{
                   flex: 1,
@@ -72,7 +90,7 @@ const Tokens = () => {
                   fiatPrice * rates.ZAR
                 ).toFixed(2)}`}</Text>
               </View>
-            </View>
+            </TouchableOpacity>
           );
         }}
       />

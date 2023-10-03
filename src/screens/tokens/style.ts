@@ -39,7 +39,7 @@ export const style = StyleSheet.create({
     marginTop: -10,
   },
   tokenPricePositive: {
-    color: colors.green,
+    color: colors.black,
     fontFamily: 'SF-Pro-Rounded-Heavy',
     fontSize: 21,
     marginTop: -10,

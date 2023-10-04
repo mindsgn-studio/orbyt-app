@@ -1,5 +1,5 @@
+import { colors, fonts } from '@orbyt/constants';
 import { StyleSheet } from 'react-native';
-import { colors } from '../../constants';
 
 export const style = StyleSheet.create({
   default: {
@@ -17,13 +17,22 @@ export const style = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: -50,
   },
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingTop: 10,
+  image: {
+    width: 40,
+    height: 40,
+    marginRight: 10,
   },
   text: {
     color: colors.white,
+  },
+  title: {
+    fontSize: 20,
+    color: colors.white,
+    fontFamily: fonts.Heavy,
+  },
+  subTitle: {
+    fontSize: 20,
+    color: colors.gray,
+    fontFamily: fonts.Meduim,
   },
 });

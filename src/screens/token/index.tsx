@@ -1,15 +1,20 @@
+import { Heading } from '@orbyt/components';
+import { colors } from '@orbyt/constants';
+import { useWallet } from '@orbyt/context';
+import { GlobalStyle } from '@orbyt/style';
 import React, { useEffect, useState } from 'react';
-import { View, Text, Dimensions } from 'react-native';
-import { Heading } from '../../components';
+import { View, Text, Dimensions, Image } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
-import { colors } from '../../constants';
 
 import { style } from './style';
 
 const Token = ({ route, navigation }: { route: any; navigation: any }) => {
   const { item, color = colors.red } = route.params;
   const [token, setTokeData] = useState<any>(null);
-  const { sparkline_in_7d } = item;
+  const { rates: exchangeRate } = useWallet();
+  const { rates } = exchangeRate;
+
+  const { sparkline_in_7d, image } = item;
   const { price } = sparkline_in_7d;
 
   const getTokenData = async (id: string) => {
@@ -21,7 +26,7 @@ const Token = ({ route, navigation }: { route: any; navigation: any }) => {
       if (response.ok) {
         const data = await response.json();
 
-        setTokeData(data);
+        // setTokeData(data);
       } else {
         console.error(
           'Error fetching exchange rate from CoinGecko:',
@@ -34,7 +39,9 @@ const Token = ({ route, navigation }: { route: any; navigation: any }) => {
   };
 
   useEffect(() => {
-    getTokenData(item.id);
+    // getTokenData(item.id);
+    console.log(rates.ZAR);
+    // console.log(item);
   }, []);
 
   return (
@@ -43,7 +50,7 @@ const Token = ({ route, navigation }: { route: any; navigation: any }) => {
         exit={() => {
           navigation.goBack();
         }}
-        title={`${item.name}`}
+        title={``}
       />
 
       <View style={style.chart}>
@@ -87,15 +94,20 @@ const Token = ({ route, navigation }: { route: any; navigation: any }) => {
         />
       </View>
       <View style={style.summary}>
-        <View style={style.row}>
-          <Text style={style.text}>{token && token.name}</Text>
+        <View style={GlobalStyle.row}>
+          <Image source={{ uri: `${image}` }} style={style.image} />
+          <View>
+            <Text style={style.title}>{item.name}</Text>
+            <Text style={style.title}>{`R ${(
+              parseFloat(item.current_price) * rates.ZAR
+            ).toFixed(2)} `}</Text>
+          </View>
         </View>
-        <View style={style.row}>
-          <Text style={style.text}>Rank</Text>
-          <Text style={style.text}>{token && token.market_cap_rank}</Text>
-        </View>
-        <View style={style.row}>
-          <Text style={style.text}>{token && token.description['ar']}</Text>
+        <View style={GlobalStyle.column}>
+          <Text style={style.subTitle}>{`Circulating Supply`}</Text>
+          <Text style={style.title}>{`R ${(
+            parseFloat(item.circulating_supply) * rates.ZAR
+          ).toFixed(2)}`}</Text>
         </View>
       </View>
     </View>

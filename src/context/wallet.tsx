@@ -152,9 +152,9 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
 
     const signer = provider.getSigner();
 
-    const address: string =
-      '0x02cE1f30Dc9f77C00CA1F227e75267D2C470CD80'.toLowerCase();
-    // const address = (await signer.getAddress()).toLocaleLowerCase();
+    // const address: string =
+    //  '0x02cE1f30Dc9f77C00CA1F227e75267D2C470CD80'.toLowerCase();
+    const address = (await signer.getAddress()).toLocaleLowerCase();
 
     const balance = ethers.utils.formatEther(
       await provider.getBalance(address)

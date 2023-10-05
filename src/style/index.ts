@@ -12,6 +12,12 @@ const GlobalStyle = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 });
 
 export { GlobalStyle };

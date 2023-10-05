@@ -30,6 +30,12 @@ export const style = StyleSheet.create({
     color: colors.white,
     fontFamily: fonts.Heavy,
   },
+  number: {
+    fontSize: 30,
+    color: colors.white,
+    fontFamily: fonts.Heavy,
+    marginTop: -15,
+  },
   subTitle: {
     fontSize: 20,
     color: colors.gray,

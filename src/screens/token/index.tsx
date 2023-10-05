@@ -1,6 +1,7 @@
 import { Heading } from '@orbyt/components';
 import { colors } from '@orbyt/constants';
 import { useWallet } from '@orbyt/context';
+import { isNegative, numberFormatter } from '@orbyt/hooks';
 import { GlobalStyle } from '@orbyt/style';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Dimensions, Image } from 'react-native';
@@ -14,35 +15,17 @@ const Token = ({ route, navigation }: { route: any; navigation: any }) => {
   const { rates: exchangeRate } = useWallet();
   const { rates } = exchangeRate;
 
-  const { sparkline_in_7d, image } = item;
+  const {
+    sparkline_in_7d,
+    image,
+    price_change_percentage_24h,
+    price_change_24h,
+    market_cap_rank,
+    ath,
+    atl,
+    market_cap,
+  } = item;
   const { price } = sparkline_in_7d;
-
-  const getTokenData = async (id: string) => {
-    const coingeckoEndpoint = `https://api.coingecko.com/api/v3/coins/${id}`;
-
-    try {
-      const response = await fetch(`${coingeckoEndpoint}`);
-
-      if (response.ok) {
-        const data = await response.json();
-
-        // setTokeData(data);
-      } else {
-        console.error(
-          'Error fetching exchange rate from CoinGecko:',
-          response.statusText
-        );
-      }
-    } catch (error) {
-      console.error('Error fetching exchange rate:', error);
-    }
-  };
-
-  useEffect(() => {
-    // getTokenData(item.id);
-    console.log(rates.ZAR);
-    // console.log(item);
-  }, []);
 
   return (
     <View style={style.default}>
@@ -98,16 +81,60 @@ const Token = ({ route, navigation }: { route: any; navigation: any }) => {
           <Image source={{ uri: `${image}` }} style={style.image} />
           <View>
             <Text style={style.title}>{item.name}</Text>
-            <Text style={style.title}>{`R ${(
-              parseFloat(item.current_price) * rates.ZAR
-            ).toFixed(2)} `}</Text>
+            <View style={GlobalStyle.row}>
+              <Text style={style.number}>{`R ${(
+                parseFloat(item.current_price) * rates.ZAR
+              ).toFixed(2)} `}</Text>
+              <Text
+                style={[
+                  style.title,
+                  {
+                    color: `${
+                      isNegative(parseFloat(price_change_24h))
+                        ? colors.red
+                        : colors.green
+                    }`,
+                  },
+                ]}
+              >{`(${price_change_percentage_24h} %)`}</Text>
+            </View>
           </View>
         </View>
         <View style={GlobalStyle.column}>
+          <Text style={style.subTitle}>{`Market Cap`}</Text>
+          <Text style={style.title}>{`R ${numberFormatter(
+            parseFloat(item.market_cap) * rates.ZAR,
+            2
+          )}`}</Text>
+        </View>
+        <View style={GlobalStyle.column}>
           <Text style={style.subTitle}>{`Circulating Supply`}</Text>
-          <Text style={style.title}>{`R ${(
-            parseFloat(item.circulating_supply) * rates.ZAR
-          ).toFixed(2)}`}</Text>
+          <Text style={style.title}>{`R ${numberFormatter(
+            parseFloat(item.circulating_supply) * rates.ZAR,
+            2
+          )}`}</Text>
+        </View>
+        <View style={GlobalStyle.column}>
+          <Text style={style.subTitle}>{`Rank`}</Text>
+          <Text style={style.title}>{`${market_cap_rank}`}</Text>
+        </View>
+        <View style={GlobalStyle.column}>
+          <View style={GlobalStyle.flexRow}>
+            <View>
+              <Text style={style.subTitle}>{`All Time High`}</Text>
+              <Text style={style.title}>{`R ${numberFormatter(
+                parseFloat(ath) * rates.ZAR,
+                2
+              )}`}</Text>
+            </View>
+            <View>
+              <Text style={style.subTitle}>{`All Time Low`}</Text>
+              <Text style={style.title}>{`R ${numberFormatter(
+                parseFloat(atl) * rates.ZAR,
+                2
+              )}`}</Text>
+            </View>
+          </View>
         </View>
       </View>
     </View>

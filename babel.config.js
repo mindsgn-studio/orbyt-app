@@ -12,6 +12,7 @@ module.exports = {
           '@orbyt/screen': './src/screen',
           '@orbyt/types': './src/types',
           '@orbyt/style': './src/style',
+          '@orbyt/hooks': './src/hooks',
         },
       },
     ],

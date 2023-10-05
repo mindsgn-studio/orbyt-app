@@ -1,5 +1,6 @@
 import { colors } from '@orbyt/constants';
 import { useWallet } from '@orbyt/context';
+import { numberFormatter, isNegative } from '@orbyt/hooks';
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -20,11 +21,6 @@ const TokenCard = ({ item, onPress }: { item: any; onPress: any }) => {
   } = item;
 
   const fiatPrice = parseFloat(current_price);
-
-  const isNegative = (price: number) => {
-    if (price < 0) return true;
-    return false;
-  };
 
   return (
     <TouchableOpacity
@@ -59,9 +55,10 @@ const TokenCard = ({ item, onPress }: { item: any; onPress: any }) => {
         </View>
       </View>
       <View>
-        <Text style={style.tokenPricePositive}>{`R ${(
-          fiatPrice * rates.ZAR
-        ).toFixed(2)}`}</Text>
+        <Text style={style.tokenPricePositive}>{`R ${numberFormatter(
+          fiatPrice * rates.ZAR,
+          2
+        )}`}</Text>
       </View>
     </TouchableOpacity>
   );

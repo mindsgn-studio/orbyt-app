@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { View, Text, ActivityIndicator, NativeModules } from 'react-native';
-
+import React from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
+import { APP_NAME } from '@env';
 import { style } from './style';
 
-const Loading = (props: any) => {
+const Loading = () => {
   return (
     <View style={style.default}>
       <View>
@@ -16,7 +16,7 @@ const Loading = (props: any) => {
             },
           ]}
         >
-          ORBYT
+          {APP_NAME}
         </Text>
         <ActivityIndicator size={'large'} />
       </View>

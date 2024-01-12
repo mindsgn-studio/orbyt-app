@@ -1,4 +1,4 @@
-package com.awesomeproject
+package mindsgn.studio.orbyt
 
 import android.app.Application
 import com.facebook.react.PackageList

@@ -16,7 +16,19 @@ function useWallet(): any {
 }
 
 const WalletProvider = (props: { children: ReactNode }): ReactElement => {
-  return <WalletContext.Provider {...props} value={{}} />;
+  const unlock = () => {};
+
+  const createNewUnlock = () => {};
+
+  return (
+    <WalletContext.Provider
+      {...props}
+      value={{
+        unlock,
+        createNewUnlock,
+      }}
+    />
+  );
 };
 
 export { WalletProvider, useWallet };

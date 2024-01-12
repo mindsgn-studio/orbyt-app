@@ -1,6 +1,6 @@
 {
   "name": "orbyt",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "engines": {
     "node": "18.0.0"
@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "android:beta": "yarn version --minor && fastlane android beta"
+    "android:beta": "yarn version --minor && bundle exec fastlane android beta"
   },
   "dependencies": {
     "@react-navigation/native": "^6.1.9",

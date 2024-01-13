@@ -1,3 +1,5 @@
 import { Loading } from './loading';
+import { Passcode } from './passcode';
+import { Home } from './home';
 
-export { Loading };
+export { Loading, Passcode, Home };

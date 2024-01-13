@@ -1,12 +1,17 @@
 import { StyleSheet } from 'react-native';
 
+import { colors } from '../../constants';
+
 export const style = StyleSheet.create({
   default: {
+    flex: 1,
+    height: 200,
     display: 'flex',
-    width: '100%',
-    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'black',
+    borderRadius: 10,
+  },
+  text: {
+    color: colors.gray,
   },
 });

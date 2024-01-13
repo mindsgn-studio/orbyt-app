@@ -1,0 +1,86 @@
+import { StyleSheet } from 'react-native';
+import { colors, text } from '../../constants';
+
+export const style = StyleSheet.create({
+  default: {
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'black',
+  },
+  title: {
+    fontFamily: text.heavy,
+    color: colors.white,
+    fontSize: 21,
+  },
+  passcodeContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  passcodeInput: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 50,
+    height: 50,
+    margin: 5,
+    borderWidth: 4,
+    borderColor: colors.white,
+  },
+  passcodePlaceholder: {
+    width: 20,
+    height: 20,
+    backgroundColor: colors.white,
+    borderRadius: 100,
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  codeButton: {
+    width: 80,
+    height: 80,
+    margin: 10,
+    borderRadius: 100,
+    backgroundColor: colors.white,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  codeButtonNull: {
+    width: 80,
+    height: 80,
+    margin: 10,
+    borderRadius: 100,
+    backgroundColor: colors.black,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  codeButtonDelete: {
+    width: 80,
+    height: 80,
+    margin: 10,
+    borderRadius: 100,
+    backgroundColor: colors.red,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontFamily: text.Regular,
+    fontSize: 40,
+    color: colors.black,
+  },
+  buttonTextDelete: {
+    fontFamily: text.Bold,
+    fontSize: 40,
+    color: colors.white,
+  },
+});

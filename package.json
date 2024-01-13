@@ -20,6 +20,7 @@
     "@realm/react": "0.5.0",
     "babel-plugin-module-resolver": "^5.0.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
+    "bdk-rn": "^0.30.0",
     "react": "18.2.0",
     "react-native": "0.73.2",
     "react-native-dotenv": "^3.4.9",

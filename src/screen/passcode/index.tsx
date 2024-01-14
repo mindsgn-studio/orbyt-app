@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text, LogBox, Alert } from 'react-native';
 import { numbers } from '../../constants';
 import { style } from './style';
+import { APP_NAME } from '@env';
+import { useAuth } from 'context';
+import { logger } from 'react-native-logs';
+
+var log = logger.createLogger();
 
 const Passcode = (props: any) => {
-  const { navigation } = props;
-  const [state, setState] = useState('new');
+  const { route, navigation } = props;
+  const { params } = route;
+  const { passcodeState } = params;
+  const { setAuthenticationPasscode, auth, unlock } = useAuth();
+  const [state, setState] = useState(passcodeState);
   const [verify, setVerify] = useState<number[] | null[] | string[]>([
     null,
     null,
@@ -25,7 +33,7 @@ const Passcode = (props: any) => {
     let slotFilled = false;
     if (number === null) return null;
 
-    if (state === 'new') {
+    if (state === 'new' || state === 'unlock') {
       passcode.map((slot: any, index: number) => {
         if (slot === null && !slotFilled) {
           passcode[index] = number;
@@ -49,7 +57,7 @@ const Passcode = (props: any) => {
   };
 
   const removePasscode = () => {
-    if (state === 'new') {
+    if (state === 'new' || state === 'unlock') {
       setPasscode([null, null, null, null, null]);
     }
 
@@ -58,10 +66,20 @@ const Passcode = (props: any) => {
     }
   };
 
+  const unlockWallet = async () => {
+    const response = await unlock(
+      `${passcode[0]}-${passcode[1]}-${passcode[2]}-${passcode[3]}-${passcode[4]}`
+    );
+
+    if (response) {
+      navigation.replace('Home');
+    }
+  };
+
   useEffect(() => {
     let totalPasscodes = 0;
 
-    if (state === 'new') {
+    if (state === 'new' || state === 'unlock') {
       passcode.map((slot: any) => {
         if (slot !== null) {
           totalPasscodes++;
@@ -71,6 +89,10 @@ const Passcode = (props: any) => {
 
     if (totalPasscodes === 5 && state === 'new') {
       setState('verify');
+    }
+
+    if (totalPasscodes === 5 && state === 'unlock') {
+      unlockWallet();
     }
   }, [passcode]);
 
@@ -95,7 +117,10 @@ const Passcode = (props: any) => {
       });
 
       if (match) {
-        navigation.replace('Home');
+        setAuthenticationPasscode(
+          APP_NAME,
+          `${passcode[0]}-${passcode[1]}-${passcode[2]}-${passcode[3]}-${passcode[4]}`
+        );
       } else {
         setState('new');
         setPasscode([null, null, null, null, null]);
@@ -104,15 +129,28 @@ const Passcode = (props: any) => {
     }
   }, [verify]);
 
+  useEffect(() => {
+    if (auth) {
+      navigation.replace('Home');
+    }
+  }, [auth]);
+
   return (
     <View style={style.default}>
       <View style={style.passcodeContainer}>
         {state === 'new' ? (
-          <Text style={style.title}>{'CREATE NEW PASSCODE'}</Text>
+          <View>
+            <Text style={style.title}>{'CREATE NEW PASSCODE'}</Text>
+            <Text style={style.subtitle}>
+              {'passcode will be used to encrypt Wallet'}
+            </Text>
+          </View>
         ) : state === 'verify' ? (
           <Text style={style.title}>{'CONFIRM PASSCODE'}</Text>
         ) : (
-          <Text style={style.title}>{'CREATE NEW PASSCODE'}</Text>
+          <View>
+            <Text style={style.title}>{'Unlock Wallet'}</Text>
+          </View>
         )}
       </View>
       <View style={style.passcodeContainer}>
@@ -141,7 +179,17 @@ const Passcode = (props: any) => {
             })}
           </>
         ) : (
-          <></>
+          <>
+            {passcode.map((number: any, index) => {
+              return (
+                <View key={index} style={style.passcodeInput}>
+                  {number !== null ? (
+                    <View style={style.passcodePlaceholder} />
+                  ) : null}
+                </View>
+              );
+            })}
+          </>
         )}
       </View>
       <View style={style.buttonContainer}>

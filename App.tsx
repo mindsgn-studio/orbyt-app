@@ -10,23 +10,19 @@ const Stack = createNativeStackNavigator();
 function App(): React.JSX.Element {
   return (
     <AuthProvider>
-      <RealmProvider>
-        <WalletProvider>
-          <SafeAreaView style={styles.screen}>
-            <NavigationContainer>
-              <Stack.Navigator
-                screenOptions={{
-                  headerShown: false,
-                }}
-              >
-                <Stack.Screen name="Loading" component={Loading} />
-                <Stack.Screen name="Passcode" component={Passcode} />
-                <Stack.Screen name="Home" component={Home} />
-              </Stack.Navigator>
-            </NavigationContainer>
-          </SafeAreaView>
-        </WalletProvider>
-      </RealmProvider>
+      <SafeAreaView style={styles.screen}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name="Loading" component={Loading} />
+            <Stack.Screen name="Passcode" component={Passcode} />
+            <Stack.Screen name="Home" component={Home} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
     </AuthProvider>
   );
 }

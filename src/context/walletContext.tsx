@@ -6,52 +6,28 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import * as Keychain from 'react-native-keychain';
+import {
+  DescriptorSecretKey,
+  Mnemonic,
+  Blockchain,
+  Wallet,
+  DatabaseConfig,
+  Descriptor,
+} from 'bdk-rn';
+import { WordCount, Network, KeychainKind } from 'bdk-rn/lib/lib/enums';
 
 const WalletContext = createContext<any>(undefined);
 
 function useWallet(): any {
   const context = useContext(WalletContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useWallet must be used within an WalletProvider');
   }
   return context;
 }
 
 const WalletProvider = (props: { children: ReactNode }): ReactElement => {
-  const [auth] = useState(null);
-
-  const unlock = async () => {
-    try {
-      const credentials = await Keychain.getGenericPassword();
-      if (credentials) {
-        console.log(
-          'Credentials successfully loaded for user ' + credentials.username
-        );
-      } else {
-        console.log('No credentials stored');
-      }
-    } catch (error) {
-      console.log("Keychain couldn't be accessed!", error);
-    }
-  };
-
-  const createNewUnlock = () => {};
-
-  useEffect(() => {
-    unlock();
-  }, []);
-
-  return (
-    <WalletContext.Provider
-      {...props}
-      value={{
-        auth,
-        unlock,
-        createNewUnlock,
-      }}
-    />
-  );
+  return <WalletContext.Provider {...props} value={{}} />;
 };
 
 export { WalletProvider, useWallet };

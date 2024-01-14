@@ -14,6 +14,13 @@ export const style = StyleSheet.create({
     fontFamily: text.heavy,
     color: colors.white,
     fontSize: 21,
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontFamily: text.Regular,
+    color: colors.white,
+    fontSize: 16,
+    textAlign: 'center',
   },
   passcodeContainer: {
     flex: 1,

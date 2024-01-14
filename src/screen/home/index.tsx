@@ -7,12 +7,11 @@ import {
   TransactionContainer,
 } from '../../components';
 
-const Home = () => {
+const Home = (props: any) => {
   return (
     <View style={style.default}>
       <WalletCard />
       <WalletButtons />
-      <TransactionContainer />
     </View>
   );
 };

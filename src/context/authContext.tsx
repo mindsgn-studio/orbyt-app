@@ -7,14 +7,16 @@ import React, {
   useEffect,
 } from 'react';
 import * as Keychain from 'react-native-keychain';
-import { Alert } from 'react-native';
+import { key } from './../constants';
+import aesjs from 'aes-js';
+import { useWallet } from './walletContext';
 
 interface AuthContext {
   auth: boolean;
   ready: boolean;
   isNew: boolean;
   authHasError: boolean;
-  unlock: (passcode: string) => boolean;
+  unlock: (passcode: string) => void;
   setAuthenticationPasscode: (username: string, password: string) => void;
 }
 
@@ -36,6 +38,7 @@ function useAuth(): any {
 }
 
 const AuthProvider = (props: { children: ReactNode }): ReactElement => {
+  const { createNewBitcoinWallet } = useWallet();
   const [auth, setAuth] = useState(false);
   const [ready, setReady] = useState(false);
   const [isNew, setIsNew] = useState(false);
@@ -60,7 +63,13 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
       const credentials: any = await Keychain.getGenericPassword();
       const { password } = credentials;
 
-      if (password === passcode) {
+      var encryptedBytes = aesjs.utils.hex.toBytes(password);
+      var aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
+      var decryptedBytes = aesCtr.decrypt(encryptedBytes);
+
+      var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
+
+      if (decryptedText === passcode) {
         return true;
       } else {
         return false;
@@ -75,10 +84,15 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
     password: string
   ) => {
     try {
-      await Keychain.setGenericPassword(username, password);
-      setAuth(true);
+      const textBytes = aesjs.utils.utf8.toBytes(password);
+      const aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
+      const encryptedBytes = aesCtr.encrypt(textBytes);
+      const encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+      await createNewBitcoinWallet();
+      //await Keychain.setGenericPassword(username, encryptedHex);
+      //setAuth(true);
     } catch (error) {
-      setHasError(true);
+      //setHasError(true);
     }
   };
 

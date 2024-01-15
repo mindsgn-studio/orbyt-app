@@ -15,8 +15,12 @@ import {
   Descriptor,
 } from 'bdk-rn';
 import { WordCount, Network, KeychainKind } from 'bdk-rn/lib/lib/enums';
+import { Alert } from 'react-native';
+import { useRealm } from './realmContext';
 
-const WalletContext = createContext<any>(undefined);
+const WalletContext = createContext<any>({
+  createNewBitcoinWallet: () => {},
+});
 
 function useWallet(): any {
   const context = useContext(WalletContext);
@@ -27,7 +31,18 @@ function useWallet(): any {
 }
 
 const WalletProvider = (props: { children: ReactNode }): ReactElement => {
-  return <WalletContext.Provider {...props} value={{}} />;
+  const realm = useRealm();
+
+  const createNewBitcoinWallet = async () => {};
+
+  return (
+    <WalletContext.Provider
+      {...props}
+      value={{
+        createNewBitcoinWallet,
+      }}
+    />
+  );
 };
 
 export { WalletProvider, useWallet };

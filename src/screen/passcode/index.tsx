@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, View, Text, LogBox, Alert } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 import { numbers } from '../../constants';
 import { style } from './style';
 import { APP_NAME } from '@env';
 import { useAuth } from 'context';
-import { logger } from 'react-native-logs';
-
-var log = logger.createLogger();
 
 const Passcode = (props: any) => {
   const { route, navigation } = props;
@@ -73,6 +70,8 @@ const Passcode = (props: any) => {
 
     if (response) {
       navigation.replace('Home');
+    } else {
+      removePasscode();
     }
   };
 

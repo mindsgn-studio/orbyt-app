@@ -10,6 +10,8 @@ import * as Keychain from 'react-native-keychain';
 import { key } from './../constants';
 import aesjs from 'aes-js';
 import { useWallet } from './walletContext';
+import { NativeModules } from 'react-native';
+import { Alert } from 'react-native';
 
 interface AuthContext {
   auth: boolean;
@@ -38,7 +40,8 @@ function useAuth(): any {
 }
 
 const AuthProvider = (props: { children: ReactNode }): ReactElement => {
-  const { createNewBitcoinWallet } = useWallet();
+  const { WalletModule } = NativeModules;
+  // const { createNewBitcoinWallet } = useWallet();
   const [auth, setAuth] = useState(false);
   const [ready, setReady] = useState(false);
   const [isNew, setIsNew] = useState(false);
@@ -88,7 +91,13 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
       const aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
       const encryptedBytes = aesCtr.encrypt(textBytes);
       const encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
-      await createNewBitcoinWallet();
+      WalletModule.createBitcoinWallet(
+        '082883473647',
+        (error: any, response: any) => {
+          Alert.alert(`${response}`);
+        }
+      );
+
       //await Keychain.setGenericPassword(username, encryptedHex);
       //setAuth(true);
     } catch (error) {

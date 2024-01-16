@@ -65,7 +65,7 @@ const Passcode = (props: any) => {
 
   const unlockWallet = async () => {
     const response = await unlock(
-      `${passcode[0]}-${passcode[1]}-${passcode[2]}-${passcode[3]}-${passcode[4]}`
+      `*${passcode[0]}!${passcode[1]}%${passcode[2]}^${passcode[3]}$${passcode[4]}+`
     );
 
     if (response) {
@@ -118,7 +118,7 @@ const Passcode = (props: any) => {
       if (match) {
         setAuthenticationPasscode(
           APP_NAME,
-          `${passcode[0]}-${passcode[1]}-${passcode[2]}-${passcode[3]}-${passcode[4]}`
+          `*${passcode[0]}!${passcode[1]}%${passcode[2]}^${passcode[3]}$${passcode[4]}+`
         );
       } else {
         setState('new');

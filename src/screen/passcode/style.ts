@@ -11,6 +11,7 @@ export const style = StyleSheet.create({
     backgroundColor: 'black',
   },
   title: {
+    paddingTop: 50,
     fontFamily: text.heavy,
     color: colors.white,
     fontSize: 21,

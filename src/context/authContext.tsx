@@ -66,13 +66,12 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
       const credentials: any = await Keychain.getGenericPassword();
       const { password } = credentials;
 
-      var encryptedBytes = aesjs.utils.hex.toBytes(password);
-      var aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
-      var decryptedBytes = aesCtr.decrypt(encryptedBytes);
+      const textBytes = aesjs.utils.utf8.toBytes(passcode);
+      const aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
+      const encryptedBytes = aesCtr.encrypt(textBytes);
+      const encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
 
-      var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
-
-      if (decryptedText === passcode) {
+      if (encryptedHex === password) {
         return true;
       } else {
         return false;
@@ -91,17 +90,11 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
       const aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
       const encryptedBytes = aesCtr.encrypt(textBytes);
       const encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
-      WalletModule.createBitcoinWallet(
-        '082883473647',
-        (error: any, response: any) => {
-          Alert.alert(`${response}`);
-        }
-      );
 
-      //await Keychain.setGenericPassword(username, encryptedHex);
-      //setAuth(true);
+      await Keychain.setGenericPassword(username, encryptedHex);
+      setAuth(true);
     } catch (error) {
-      //setHasError(true);
+      setHasError(true);
     }
   };
 

@@ -3,22 +3,13 @@ import React, {
   ReactElement,
   ReactNode,
   useContext,
-  useEffect,
   useState,
 } from 'react';
-import {
-  DescriptorSecretKey,
-  Mnemonic,
-  Blockchain,
-  Wallet,
-  DatabaseConfig,
-  Descriptor,
-} from 'bdk-rn';
-import { WordCount, Network, KeychainKind } from 'bdk-rn/lib/lib/enums';
-import { Alert } from 'react-native';
 import { useRealm } from './realmContext';
 
 const WalletContext = createContext<any>({
+  balance: 0,
+  exchangeRate: 1,
   createNewBitcoinWallet: () => {},
 });
 
@@ -32,13 +23,16 @@ function useWallet(): any {
 
 const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   const realm = useRealm();
-
+  const [exchangeRate] = useState(1);
+  const [balance] = useState(0);
   const createNewBitcoinWallet = async () => {};
 
   return (
     <WalletContext.Provider
       {...props}
       value={{
+        balance,
+        exchangeRate,
         createNewBitcoinWallet,
       }}
     />

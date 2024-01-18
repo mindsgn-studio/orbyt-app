@@ -1,12 +1,11 @@
 {
   "name": "orbyt",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "private": true,
   "engines": {
     "node": "18.0.0"
   },
   "scripts": {
-    
     "android": "react-native run-android",
     "lint": "eslint .",
     "start": "react-native start --reset-cache --experimental-debugger",

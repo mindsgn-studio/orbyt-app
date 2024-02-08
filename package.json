@@ -28,7 +28,7 @@
     "bdk-rn": "^0.30.0",
     "buffer": "^6.0.3",
     "console-browserify": "^1.2.0",
-    "jetifier": "^2.0.0",
+    "jetifier": "1.6.6",
     "path-browserify": "^0.0.0",
     "process": "^0.11.10",
     "react": "18.2.0",

@@ -4,11 +4,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Loading, Passcode, Home } from './src/screen';
 import { RealmProvider, WalletProvider, AuthProvider } from './src/context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
   return (
+    <SafeAreaProvider>
     <RealmProvider>
       <WalletProvider>
         <AuthProvider>
@@ -28,6 +30,7 @@ function App(): React.JSX.Element {
         </AuthProvider>
       </WalletProvider>
     </RealmProvider>
+    </SafeAreaProvider>
   );
 }
 

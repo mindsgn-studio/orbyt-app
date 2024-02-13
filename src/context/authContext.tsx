@@ -6,6 +6,7 @@ import React, {
   useState,
   useEffect,
 } from 'react';
+import { APP_SECRET } from '@env';
 import * as Keychain from 'react-native-keychain';
 import { key } from './../constants';
 import aesjs from 'aes-js';
@@ -66,7 +67,7 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
       const credentials: any = await Keychain.getGenericPassword();
       const { password } = credentials;
 
-      const textBytes = aesjs.utils.utf8.toBytes(passcode);
+      const textBytes = aesjs.utils.utf8.toBytes(`${passcode}-${APP_SECRET}`);
       const aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
       const encryptedBytes = aesCtr.encrypt(textBytes);
       const encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
@@ -86,7 +87,7 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
     password: string
   ) => {
     try {
-      const textBytes = aesjs.utils.utf8.toBytes(password);
+      const textBytes = aesjs.utils.utf8.toBytes(`${password}-${APP_SECRET}`);
       const aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
       const encryptedBytes = aesCtr.encrypt(textBytes);
       const encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);

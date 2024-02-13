@@ -1,12 +1,12 @@
 {
   "name": "orbyt",
-  "version": "0.26.0",
+  "version": "0.27.0",
   "private": true,
   "engines": {
     "node": "^18.0.0"
   },
   "scripts": {
-    "postinstall": "rn-nodeify --install fs,dgram,process,path,console,stream,crypto,main --hack",
+    "postinstall": "npx jetify && rn-nodeify --install fs,dgram,process,path,console,stream,crypto,main --hack",
     "android": "npx jetify && jetify && react-native run-android",
     "lint": "eslint .",
     "start": "npx jetify && react-native start --reset-cache --experimental-debugger",
@@ -25,7 +25,6 @@
     "babel-plugin-module-resolver": "^5.0.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "base-64": "^1.0.0",
-    "bdk-rn": "^0.30.0",
     "buffer": "^6.0.3",
     "console-browserify": "^1.2.0",
     "jetifier": "1.6.6",

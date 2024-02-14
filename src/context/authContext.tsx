@@ -42,7 +42,7 @@ function useAuth(): any {
 
 const AuthProvider = (props: { children: ReactNode }): ReactElement => {
   const { WalletModule } = NativeModules;
-  // const { createNewBitcoinWallet } = useWallet();
+  const { createNewBitcoinWallet } = useWallet();
   const [auth, setAuth] = useState(false);
   const [ready, setReady] = useState(false);
   const [isNew, setIsNew] = useState(false);
@@ -87,13 +87,13 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
     password: string
   ) => {
     try {
-      const textBytes = aesjs.utils.utf8.toBytes(`${password}-${APP_SECRET}`);
-      const aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
-      const encryptedBytes = aesCtr.encrypt(textBytes);
-      const encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
-
-      await Keychain.setGenericPassword(username, encryptedHex);
-      setAuth(true);
+      // const textBytes = aesjs.utils.utf8.toBytes(`${password}-${APP_SECRET}`);
+      // const aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
+      // const encryptedBytes = aesCtr.encrypt(textBytes);
+      // const encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+      // await Keychain.setGenericPassword(username, encryptedHex);
+      await createNewBitcoinWallet();
+      setAuth(false);
     } catch (error) {
       setHasError(true);
     }

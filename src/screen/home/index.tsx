@@ -10,8 +10,7 @@ import {
 const Home = (props: any) => {
   return (
     <View style={style.default}>
-      <WalletCard />
-      <WalletButtons />
+     
     </View>
   );
 };

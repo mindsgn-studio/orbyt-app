@@ -7,7 +7,7 @@
   },
   "scripts": {
     "postinstall": "npx jetify && rn-nodeify --install fs,dgram,process,path,console,stream,crypto,main,stream,buffer,events,assert --hack",
-    "android": "npx jetify && npx react-native@latest run-android",
+    "android": "npx jetify && npxreact-native@latest run-android",
     "lint": "eslint .",
     "start": "npx jetify && npx react-native@latest start --reset-cache --experimental-debugger",
     "test": "jest",
@@ -39,6 +39,7 @@
     "react-native-bars": "^2.4.3",
     "react-native-bip39": "^2.3.0",
     "react-native-bitcoinjs-lib": "^2.3.9",
+    "react-native-config": "^1.5.1",
     "react-native-crypto": "^2.2.0",
     "react-native-dotenv": "^3.4.9",
     "react-native-fs": "^2.20.0",

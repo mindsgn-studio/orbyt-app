@@ -6,7 +6,7 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import { APP_SECRET } from '@env';
+import { APP_SECRET, APP_NETWORK } from '@env';
 import * as Keychain from 'react-native-keychain';
 import { key } from './../constants';
 import aesjs from 'aes-js';
@@ -46,7 +46,7 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
   const [auth, setAuth] = useState(false);
   const [ready, setReady] = useState(false);
   const [isNew, setIsNew] = useState(false);
-  const [authHasError, setHasError] = useState(false);
+  const [authHasError, setAuthHasError] = useState(false);
 
   const getAuth = async () => {
     try {
@@ -87,15 +87,15 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
     password: string
   ) => {
     try {
-      // const textBytes = aesjs.utils.utf8.toBytes(`${password}-${APP_SECRET}`);
-      // const aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
-      // const encryptedBytes = aesCtr.encrypt(textBytes);
-      // const encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
-      // await Keychain.setGenericPassword(username, encryptedHex);
-      await createNewBitcoinWallet();
-      setAuth(false);
+      const textBytes = aesjs.utils.utf8.toBytes(password);
+      const aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
+      const encryptedBytes = aesCtr.encrypt(textBytes);
+      const encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+      await Keychain.setGenericPassword(username, encryptedHex);
+      setAuth(true);
+      return true;      
     } catch (error) {
-      setHasError(true);
+      return false;
     }
   };
 

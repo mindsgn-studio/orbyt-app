@@ -7,7 +7,7 @@
   },
   "scripts": {
     "postinstall": "npx jetify && rn-nodeify --install fs,dgram,process,path,console,stream,crypto,main,stream,buffer,events,assert --hack",
-    "android": "npx jetify && npxreact-native@latest run-android",
+    "android": "npx jetify && npx react-native@latest run-android",
     "lint": "eslint .",
     "start": "npx jetify && npx react-native@latest start --reset-cache --experimental-debugger",
     "test": "jest",
@@ -53,6 +53,7 @@
     "react-native-safe-area-context": "^4.9.0",
     "react-native-screens": "^3.29.0",
     "react-native-svg": "^14.1.0",
+    "react-native-svg-uri": "^1.2.3",
     "react-native-udp": "^2.7.0",
     "readable-stream": "^1.0.33",
     "realm": "12.2.1",

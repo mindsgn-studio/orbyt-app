@@ -20,6 +20,7 @@ interface AuthContext {
   isNew: boolean;
   authHasError: boolean;
   unlock: (passcode: string) => void;
+  authHasSuccess: boolean;
   setAuthenticationPasscode: (username: string, password: string) => void;
 }
 
@@ -28,6 +29,7 @@ const AuthContext = createContext<AuthContext>({
   ready: false,
   isNew: false,
   authHasError: false,
+  authHasSuccess: false,
   unlock: (passcode: string) => false,
   setAuthenticationPasscode: (username: string, password: string) => {},
 });
@@ -47,6 +49,7 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
   const [ready, setReady] = useState(false);
   const [isNew, setIsNew] = useState(false);
   const [authHasError, setAuthHasError] = useState(false);
+  const [authHasSuccess, setAuthHasSuccess] = useState(false);
 
   const getAuth = async () => {
     try {
@@ -58,7 +61,10 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
         setReady(true);
       }
     } catch (error) {
-      setHasError(true);
+      setAuthHasError(true);
+      setTimeout(()=> {
+        setAuthHasError(false)
+      }, 2000);
     }
   };
 
@@ -75,10 +81,16 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
       if (encryptedHex === password) {
         return true;
       } else {
-        return false;
+        setAuthHasError(true);
+        setTimeout(()=> {
+          setAuthHasError(false)
+        }, 2000);
       }
     } catch (error) {
-      return false;
+      setAuthHasError(true);
+      setTimeout(()=> {
+        setAuthHasError(false)
+      }, 2000);
     }
   };
 
@@ -87,7 +99,7 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
     password: string
   ) => {
     try {
-      const textBytes = aesjs.utils.utf8.toBytes(password);
+      const textBytes = aesjs.utils.utf8.toBytes(`${password}-${APP_SECRET}`);
       const aesCtr = new aesjs.ModeOfOperation.ctr(key, new aesjs.Counter(5));
       const encryptedBytes = aesCtr.encrypt(textBytes);
       const encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
@@ -95,7 +107,10 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
       setAuth(true);
       return true;      
     } catch (error) {
-      return false;
+      setAuthHasError(true);
+      setTimeout(()=> {
+        setAuthHasError(false)
+      }, 2000);
     }
   };
 
@@ -111,6 +126,7 @@ const AuthProvider = (props: { children: ReactNode }): ReactElement => {
         ready,
         isNew,
         authHasError,
+        authHasSuccess,
         unlock,
         setAuthenticationPasscode,
       }}

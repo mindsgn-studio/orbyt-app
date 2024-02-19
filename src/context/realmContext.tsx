@@ -23,6 +23,42 @@ class Wallet extends Realm.Object<Wallet> {
   };
 }
 
+class Balance extends Realm.Object<Wallet> {
+  _id!: Realm.BSON.ObjectId;
+
+  static schema: ObjectSchema = {
+    name: 'Balance',
+    properties: {
+      _id: 'objectId',
+    },
+    primaryKey: '_id',
+  };
+}
+
+class Token extends Realm.Object<Wallet> {
+  _id!: Realm.BSON.ObjectId;
+
+  static schema: ObjectSchema = {
+    name: 'Token',
+    properties: {
+      _id: 'objectId',
+    },
+    primaryKey: '_id',
+  };
+}
+
+class Forex extends Realm.Object<Wallet> {
+  _id!: Realm.BSON.ObjectId;
+
+  static schema: ObjectSchema = {
+    name: 'Forex',
+    properties: {
+      _id: 'objectId'
+    },
+    primaryKey: '_id',
+  };
+}
+
 const realmConfig: Realm.Configuration = {
   schema: [Wallet],
   schemaVersion: 5,

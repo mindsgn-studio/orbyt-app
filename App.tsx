@@ -5,16 +5,20 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Loading, Passcode, Home } from './src/screen';
 import { RealmProvider, WalletProvider, AuthProvider } from './src/context';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {ErrorToast, SuccessToast} from "./src/components"
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
   return (
     <SafeAreaProvider>
+    <GestureHandlerRootView style={{flex: 1}}>
     <RealmProvider>
       <WalletProvider>
         <AuthProvider>
           <SafeAreaView style={styles.screen}>
+            <ErrorToast  />
+            <SuccessToast  />
             <NavigationContainer>
               <Stack.Navigator
                 screenOptions={{
@@ -30,6 +34,7 @@ function App(): React.JSX.Element {
         </AuthProvider>
       </WalletProvider>
     </RealmProvider>
+    </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 }

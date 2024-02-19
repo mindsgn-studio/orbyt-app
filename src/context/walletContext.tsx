@@ -4,8 +4,9 @@ import React, {
   ReactNode,
   useContext,
   useState,
+  useEffect
 } from 'react';
-import { APP_API } from '@env';
+import { APP_API, APP_NETWORK } from '@env';
 import {Alert} from 'react-native'
 import { useRealm } from './realmContext';
 import { BIP32Interface, fromSeed as bip32FromSeed } from 'bip32';
@@ -20,8 +21,10 @@ const path = `m/44'/1'/0'/0`;
 const WalletContext = createContext<any>({
   balance: 0,
   exchangeRate: 1,
+  walletList: [],
   createNewBitcoinWallet: () => {},
-  walletHasError: false
+  walletHasError: false,
+  walletHasSuccess: false
 });
 
 const useWallet: any = () => {
@@ -37,6 +40,8 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   const [exchangeRate] = useState(1);
   const [balance] = useState(0);
   const [walletHasError, setWalletHasError] = useState(false);
+  const [walletHasSuccess, setWalletHasSuccess] = useState(false);
+  const [walletList, setWalletList] = useState([]);
 
   const saveWallet = async (data: any) => {
     try {
@@ -46,10 +51,15 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
           ...data
         });
       });
-
-      return true
+      setWalletHasSuccess(true);
+      setTimeout(()=> {
+        setWalletHasSuccess(false)
+      }, 2000);
     } catch (error) {
-      return false
+      setWalletHasError(true);
+      setTimeout(()=> {
+        setWalletHasError(false)
+      }, 2000);
     }
   };
 
@@ -63,16 +73,40 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
         return response.json();
       })
       .then(async(data) => {
-        const response = await saveWallet(data);
-        return response;
+        await saveWallet(data);
       })
       .catch(error => { 
-        return false
+        setWalletHasError(true);
+        setTimeout(()=> {
+          setWalletHasError(false)
+        }, 2000);
       });
     }catch(error: any){
-      return false
+      setWalletHasError(true);
+      setTimeout(()=> {
+        setWalletHasError(false)
+      }, 2000);
     }
   };
+
+  useEffect(()=>{
+    const walletObject = realm.objects('Wallet')
+    setWalletList(walletObject);
+
+    if(walletObject.length == 0){
+      createNewBitcoinWallet(APP_NETWORK)
+    }
+
+    const listener = () => {
+      // Alert.alert(JSON.stringify(walletObject))
+    };
+
+    walletObject?.addListener(listener);
+
+    return () => {
+      walletObject?.removeListener(listener);
+    };
+  },[realm])
 
   return (
     <WalletContext.Provider
@@ -81,7 +115,9 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
         balance,
         exchangeRate,
         createNewBitcoinWallet,
-        walletHasError
+        walletHasError,
+        walletHasSuccess,
+        walletList
       }}
     />
   );

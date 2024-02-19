@@ -17,11 +17,6 @@ const WalletCard = () => {
       <TouchableOpacity>
         <Text style={style.amount}>{`R ${formatedBalance}`}</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={style.networkButton} onPress={() => {}}>
-        <ActivityIndicator />
-
-        <Text style={style.networkButtonText}>{'BITCOIN'}</Text>
-      </TouchableOpacity>
     </TouchableOpacity>
   );
 };

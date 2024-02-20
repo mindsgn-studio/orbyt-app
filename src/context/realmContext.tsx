@@ -13,9 +13,47 @@ class Wallet extends Realm.Object<Wallet> {
     properties: {
       _id: 'objectId',
       type: 'string',
-      privateKeys: 'string',
-      nmemonic: 'string',
+      privateKey: 'string',
+      publicKey: 'string?',
+      nmemonic: 'string?',
       address: 'string',
+      network: 'string?'
+    },
+    primaryKey: '_id',
+  };
+}
+
+class Balance extends Realm.Object<Wallet> {
+  _id!: Realm.BSON.ObjectId;
+
+  static schema: ObjectSchema = {
+    name: 'Balance',
+    properties: {
+      _id: 'objectId',
+    },
+    primaryKey: '_id',
+  };
+}
+
+class Token extends Realm.Object<Wallet> {
+  _id!: Realm.BSON.ObjectId;
+
+  static schema: ObjectSchema = {
+    name: 'Token',
+    properties: {
+      _id: 'objectId',
+    },
+    primaryKey: '_id',
+  };
+}
+
+class Forex extends Realm.Object<Wallet> {
+  _id!: Realm.BSON.ObjectId;
+
+  static schema: ObjectSchema = {
+    name: 'Forex',
+    properties: {
+      _id: 'objectId'
     },
     primaryKey: '_id',
   };
@@ -23,7 +61,7 @@ class Wallet extends Realm.Object<Wallet> {
 
 const realmConfig: Realm.Configuration = {
   schema: [Wallet],
-  schemaVersion: 1,
+  schemaVersion: 5,
   encryptionKey,
   path: 'orbyt.realm',
 };

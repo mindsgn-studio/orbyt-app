@@ -6,7 +6,7 @@ export const style = StyleSheet.create({
     display: 'flex',
     width: '100%',
     height: '100%',
-    alignItems: 'center',
     backgroundColor: 'black',
+    paddingBottom: 100,
   },
 });

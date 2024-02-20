@@ -6,12 +6,11 @@ import { APP_NAME, APP_SECRET } from '@env';
 import { useAuth } from 'context';
 import Animated, { withTiming, useSharedValue, runOnJS, useAnimatedStyle } from 'react-native-reanimated';
 
-
 const Passcode = (props: any) => {
   const { route, navigation } = props;
   const { params } = route;
   const { passcodeState } = params;
-  const { setAuthenticationPasscode, auth, unlock } = useAuth();
+  const { setAuthenticationPasscode, auth, unlock, authHasError} = useAuth();
   const [state, setState] = useState(passcodeState);
   const [showScreen, setShowScreen] = useState(true);
   const [verify, setVerify] = useState<number[] | null[] | string[]>([
@@ -87,6 +86,27 @@ const Passcode = (props: any) => {
     };
   });
 
+
+  const createNewCode = async() => {
+    const response = await setAuthenticationPasscode(
+      APP_NAME,
+      `*${passcode[0]}!${passcode[1]}%${passcode[2]}^${passcode[3]}$${passcode[4]}+`
+    )
+
+    if(response){
+      setState('new');
+      setPasscode([null, null, null, null, null]);
+      setVerify([null, null, null, null, null]);
+
+      loadingTranslateY.value = withTiming(1000, { duration: 300 });
+      loadingOpacity.value = withTiming(0, {}, (finished) => {
+        if (finished) {
+          runOnJS(setShowScreen)(true);
+        }
+      });
+    }
+  }
+
   useEffect(() => {
     let totalPasscodes = 0;
 
@@ -128,7 +148,6 @@ const Passcode = (props: any) => {
       });
 
       if (match) {
-        //hide lock screen
         loadingTranslateY.value = withTiming(0, { duration: 300 });
         loadingOpacity.value = withTiming(1, {}, (finished) => {
           if (finished) {
@@ -136,12 +155,8 @@ const Passcode = (props: any) => {
           }
         });
 
-
         setTimeout(() => { 
-          setAuthenticationPasscode(
-            APP_NAME,
-            `*${passcode[0]}!${passcode[1]}%${passcode[2]}^${passcode[3]}$${passcode[4]}+`
-          );
+          createNewCode();
         }, 2000); 
       } else {
         setState('new');
@@ -251,7 +266,7 @@ const Passcode = (props: any) => {
       )}
 
       <Animated.View style={[style.loadingOverlay, { opacity: loadingOpacity },  loadingOverlayStyle]}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="white" />
       </Animated.View>
     </View>
   );

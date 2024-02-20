@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, TouchableOpacity, ActivityIndicator, View } from 'react-native';
 import { style } from './style';
 import { useWallet } from 'context';
 import { numberFormatter } from 'hooks';
+import { LineGraph } from '../../components'; 
 
 const WalletCard = () => {
   const { balance, exchangeRate } = useWallet();
@@ -13,16 +14,12 @@ const WalletCard = () => {
   }, [balance]);
 
   return (
-    <TouchableOpacity style={style.default}>
-      <TouchableOpacity>
+    <View style={style.default}>
+      <View>
+        <Text style={style.text}>{`Total Balance`}</Text>
         <Text style={style.amount}>{`R ${formatedBalance}`}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={style.networkButton} onPress={() => {}}>
-        <ActivityIndicator />
-
-        <Text style={style.networkButtonText}>{'BITCOIN'}</Text>
-      </TouchableOpacity>
-    </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 

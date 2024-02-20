@@ -17,6 +17,16 @@ export const style = StyleSheet.create({
     fontFamily: 'SF-Pro-Rounded-Heavy',
     fontSize: fontSize.medium,
     color: colors.white,
+    marginBottom: -80,
+    zIndex: 0,
+    backgroundColor: "rgba(0,0,0,0)",
+  },
+  text: {
+    fontFamily: 'SF-Pro-Rounded-Heavy',
+    fontSize: fontSize.small,
+    color: colors.white,
+    backgroundColor: "rgba(0,0,0,0)",
+    zIndex: 1,
   },
   networkButton: {
     display: 'flex',

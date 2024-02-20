@@ -2,7 +2,7 @@ import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Loading, Passcode, Home } from './src/screen';
+import { Loading, Passcode, Home, Token } from './src/screen';
 import { RealmProvider, WalletProvider, AuthProvider } from './src/context';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -28,6 +28,7 @@ function App(): React.JSX.Element {
                 <Stack.Screen name="Loading" component={Loading} />
                 <Stack.Screen name="Passcode" component={Passcode} />
                 <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen name="Token" component={Token} />
               </Stack.Navigator>
             </NavigationContainer>
           </SafeAreaView>

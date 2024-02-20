@@ -52,6 +52,6 @@ export const style = StyleSheet.create({
   buttonText:{
     color: "white",
     fontFamily: text.heavy,
-    fontSize: fontSize.small
+    fontSize: fontSize.extraSmall
   }
 });

@@ -10,8 +10,9 @@ export const style = StyleSheet.create({
   },
   title: {
     fontFamily: 'SF-Pro-Rounded-Heavy',
-    fontSize: fontSize.medium,
+    fontSize: fontSize.small,
     color: colors.white,
+    marginTop: 40,
   },
   transactionCardList: {
     flex: 1,
@@ -19,7 +20,7 @@ export const style = StyleSheet.create({
   token: {
     flex: 1,
     width: '100%',
-    height: 100,
+    height: 60,
     color: colors.white,
     padding: 10,
     backgroundColor: "rgba(255, 255, 255, 0.1)",
@@ -28,7 +29,7 @@ export const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: "space-between",
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 5,
   },
   tokenDetails:{
     flex: 1,
@@ -37,8 +38,8 @@ export const style = StyleSheet.create({
     alignItems: 'center'
   },
   tokenDetailsImage:{
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
     backgroundColor: 'white',
     borderRadius: 50,
     margin: 5,

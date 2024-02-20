@@ -1,12 +1,44 @@
+import { colors, text } from '../../constants';
 import { StyleSheet } from 'react-native';
 
 export const style = StyleSheet.create({
   default: {
-    padding: 10,
+    flex: 1,
     display: 'flex',
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
     backgroundColor: 'black',
+  },
+  summary: {
+    flex: 1,
+    padding: 30,
+  },
+  chart: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginLeft: -50,
+  },
+  image: {
+    width: 40,
+    height: 40,
+    marginRight: 10,
+  },
+  text: {
+    color: colors.white,
+  },
+  title: {
+    fontSize: 20,
+    color: colors.white,
+    fontFamily: text.Heavy,
+  },
+  number: {
+    fontSize: 30,
+    color: colors.white,
+    fontFamily: text.Heavy,
+    marginTop: -15,
+  },
+  subTitle: {
+    fontSize: 20,
+    color: colors.gray,
+    fontFamily: text.Meduim,
   },
 });

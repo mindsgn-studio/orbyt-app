@@ -9,20 +9,14 @@ import React, {
 import { APP_API, APP_NETWORK } from '@env';
 import {Alert} from 'react-native'
 import { useRealm } from './realmContext';
-import { BIP32Interface, fromSeed as bip32FromSeed } from 'bip32';
-import ecc from 'tiny-secp256k1';
-import bip39 from 'react-native-bip39';
-import bitcoin from 'react-native-bitcoinjs-lib';
 import {BSON} from 'realm';
-
-const network = bitcoin.networks.testnet;
-const path = `m/44'/1'/0'/0`;
 
 const WalletContext = createContext<any>({
   balance: 0,
   exchangeRate: 1,
   walletList: [],
   createNewBitcoinWallet: () => {},
+  allExchangeRates: () => {},
   walletHasError: false,
   walletHasSuccess: false
 });
@@ -41,7 +35,7 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   const [balance] = useState(0);
   const [walletHasError, setWalletHasError] = useState(false);
   const [walletHasSuccess, setWalletHasSuccess] = useState(false);
-  const [walletList, setWalletList] = useState([]);
+  const [walletList, setWalletList] = useState<any []>([]);
 
   const saveWallet = async (data: any) => {
     try {
@@ -89,8 +83,23 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
     }
   };
 
+  const getExchangeRates = async () => {
+    await fetch('https://theforexapi.com/api/latest?base=USD')
+      .then(async (response) => {
+        return await response.json();
+      })
+      .then(async (response) => {
+        // setRates(response);
+      })
+      .catch((error) => {
+        return null;
+      });
+
+    return null;
+  };
+
   useEffect(()=>{
-    const walletObject = realm.objects('Wallet')
+    const walletObject: any = realm.objects('Wallet')
     setWalletList(walletObject);
 
     if(walletObject.length == 0){
@@ -108,6 +117,11 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
     };
   },[realm])
 
+
+  useEffect(()=>{
+    getExchangeRates();
+  },[])
+
   return (
     <WalletContext.Provider
       {...props}
@@ -117,7 +131,8 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
         createNewBitcoinWallet,
         walletHasError,
         walletHasSuccess,
-        walletList
+        walletList,
+        getExchangeRates
       }}
     />
   );

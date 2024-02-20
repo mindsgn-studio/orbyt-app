@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { View } from 'react-native';
 import { style } from './style';
 import {
   WalletCard,
@@ -14,6 +14,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 const Home = (props: any) => {
+  const { navigation } = props;
   const bottomSheetY = useSharedValue(-200);
   const backgroundY = useSharedValue(-1000);
   const backgroundOpacity = useSharedValue(0);
@@ -44,16 +45,17 @@ const Home = (props: any) => {
   }, []);
 
   return (
-    <ScrollView style={style.default}>
+    <View style={style.default}>
       <WalletCard />
-      <TokenContainer />
-      <AddToken onPress={openBottomSheet}/>
+      <TokenContainer 
+        navigation={navigation} />
+      {/*<AddToken onPress={openBottomSheet} />
       <TokenBottomSheet
         backgroundStyle={backgroundStyle}
         closeBottomSheet={closeBottomSheet} 
         bottomSheetStyle={bottomSheetStyle}
-        />
-    </ScrollView>
+        />*/}
+    </View>
   );
 };
 

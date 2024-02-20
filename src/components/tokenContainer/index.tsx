@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, Alert } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
 import { style } from './style';
 import { useWallet } from '../../context';
+import BitcoinSVG from '../../assets/bitcoin.svg';
 
-const TokenContainer = () => {
+const TokenContainer = ({navigation}:{navigation: any}) => {
   const { walletList } = useWallet();
-
+ 
   const getBalance = ({address, type, network}:{address: string, type?: string, network: string}) => {
     const url = `https://test-insight.bitpay.com/api/addr/${address}`;
     fetch(url)
@@ -21,15 +22,20 @@ const TokenContainer = () => {
 
   return (
     <View style={style.default}>
-      <Text style={style.title}>Tokens</Text>
+      <Text style={style.title}>My Crypto</Text>
       <View>
         <FlatList
           data={walletList}
           keyExtractor={(item) => item._id.toString()}
           renderItem={({ item }) => 
-            <TouchableOpacity style={style.token}>
+            <TouchableOpacity style={style.token}
+              onPress={()=>{
+                navigation.navigate("Token")
+              }}>
               <View style={style.tokenDetails}>
-                <View style={style.tokenDetailsImage}/>
+                <Image
+                  style={style.tokenDetailsImage}
+                  source={require('../../assets/bitcoin.png')} />
                 <View>
                   <Text style={style.tokenTitle}>{(item.type).toUpperCase()}</Text>
                 </View>

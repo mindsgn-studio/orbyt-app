@@ -4,21 +4,37 @@ import React, {
   ReactNode,
   useContext,
   useState,
-  useEffect
+  useEffect,
+  useRef
 } from 'react';
-import { APP_API, APP_NETWORK } from '@env';
-import {Alert} from 'react-native'
+import socketIOClient from 'socket.io-client';
+import { APP_API, APP_NETWORK, APP_SOCKET_SERVER } from '@env';
 import { useRealm } from './realmContext';
 import {BSON} from 'realm';
+
+const connectionConfig = {
+  jsonp: false,
+  reconnection: true,
+  reconnectionDelay: 100,
+  reconnectionAttempts: 100000,
+  transports: ['websocket'],
+};
+
+interface WalletContext {
+  
+}
 
 const WalletContext = createContext<any>({
   balance: 0,
   exchangeRate: 1,
   walletList: [],
+  settings: {},
   createNewBitcoinWallet: () => {},
   allExchangeRates: () => {},
   walletHasError: false,
-  walletHasSuccess: false
+  walletHasSuccess: false,
+  toast: {type: "", message: ""},
+  socket: null,
 });
 
 const useWallet: any = () => {
@@ -32,24 +48,33 @@ const useWallet: any = () => {
 const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   const realm = useRealm();
   const [exchangeRate] = useState(1);
+  const [settings, setSettings] = useState<any>(null);
   const [balance] = useState(0);
+  const [toast, setToast] = useState({
+    type: "", 
+    message: ""
+  });
   const [walletHasError, setWalletHasError] = useState(false);
   const [walletHasSuccess, setWalletHasSuccess] = useState(false);
   const [walletList, setWalletList] = useState<any []>([]);
+  const socket = useRef(socketIOClient(APP_SOCKET_SERVER, connectionConfig));
 
   const saveWallet = async (data: any) => {
     try {
       realm.write(() => {
         realm.create('Wallet', {
           _id: new BSON.ObjectId(),
+          createdAt: new Date(),
           ...data
         });
       });
+      setToast({type: "Success", message: "new wallet created"})
       setWalletHasSuccess(true);
       setTimeout(()=> {
         setWalletHasSuccess(false)
       }, 2000);
     } catch (error) {
+      setToast({type: "Error", message: "Failed to create wallet. please try again"})
       setWalletHasError(true);
       setTimeout(()=> {
         setWalletHasError(false)
@@ -98,6 +123,25 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
     return null;
   };
 
+  const getSettings = () => {
+    const settingsObject: any = realm.objects('Settings')
+    
+    if(settingsObject.length === 0){
+      realm.write(() => {
+        realm.create('Settings', {
+          _id: new BSON.ObjectId(),
+          currency: "ZAR",
+          currencySymbol: "R",
+          createdAt: new Date(),
+        });
+      });
+
+      getSettings();
+    }else{
+      setSettings(settingsObject[0])
+    }
+  }
+
   useEffect(()=>{
     const walletObject: any = realm.objects('Wallet')
     setWalletList(walletObject);
@@ -107,7 +151,7 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
     }
 
     const listener = () => {
-      // Alert.alert(JSON.stringify(walletObject))
+      
     };
 
     walletObject?.addListener(listener);
@@ -118,21 +162,56 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   },[realm])
 
 
+  useEffect(()=> {
+    if(!settings){
+      getSettings()
+    } 
+  },[])
+
   useEffect(()=>{
     getExchangeRates();
   },[])
+
+  useEffect(() => {
+    socket.current.on('connect', () => {
+      setToast({type: "Success", message: "socket connected"})
+      setWalletHasSuccess(true);
+      setTimeout(()=> {
+        setWalletHasSuccess(false)
+      }, 2000);
+    });
+
+    socket.current.on('disconnect', msg => {
+      setToast({type: "Error", message: msg})
+      socket.current = socketIOClient(APP_SOCKET_SERVER, connectionConfig);
+      setWalletHasError(true);
+      setTimeout(()=> {
+        setWalletHasError(false)
+      }, 2000);
+    });
+
+    return () => {
+      if (socket && socket.current) {
+        socket?.current?.removeAllListeners();
+        socket?.current?.close();
+      }
+    };
+  }, [APP_SOCKET_SERVER]);
 
   return (
     <WalletContext.Provider
       {...props}
       value={{
+        socket: socket.current,
         balance,
         exchangeRate,
         createNewBitcoinWallet,
         walletHasError,
         walletHasSuccess,
         walletList,
-        getExchangeRates
+        getExchangeRates,
+        settings,
+        toast
       }}
     />
   );

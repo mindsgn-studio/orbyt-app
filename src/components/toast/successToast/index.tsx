@@ -10,7 +10,7 @@ import Animated, {
 
 const SuccessToast = () => {
   const toastY = useSharedValue(-120);
-  const { walletHasSuccess } = useWallet();
+  const { walletHasSuccess, toast } = useWallet();
   const { authHasSuccess } = useAuth();
 
   const showToast = (number: number ) => {
@@ -33,7 +33,7 @@ const SuccessToast = () => {
 
   return (
     <Animated.View style={[style.default, toastStyle]}>
-      <Text style={style.title}>{`Success`}</Text>
+      <Text style={style.title}>{`${toast.type}: ${toast.message}`}</Text>
     </Animated.View>
   );
 };

@@ -1,9 +1,22 @@
 import Realm, { ObjectSchema } from 'realm';
-import { APP_SECRET } from '@env';
 import { createRealmContext } from '@realm/react';
-import { realm_key } from './../constants';
 
 const encryptionKey = new Int8Array(64);
+
+class Settings extends Realm.Object<Settings> {
+  _id!: Realm.BSON.ObjectId;
+
+  static schema: ObjectSchema = {
+    name: 'Settings',
+    properties: {
+      _id: 'objectId',
+      currency: 'string',
+      currencySymbol: 'string',
+      createdAt: 'date',
+    },
+    primaryKey: '_id',
+  };
+}
 
 class Wallet extends Realm.Object<Wallet> {
   _id!: Realm.BSON.ObjectId;
@@ -17,51 +30,16 @@ class Wallet extends Realm.Object<Wallet> {
       publicKey: 'string?',
       nmemonic: 'string?',
       address: 'string',
-      network: 'string?'
-    },
-    primaryKey: '_id',
-  };
-}
-
-class Balance extends Realm.Object<Wallet> {
-  _id!: Realm.BSON.ObjectId;
-
-  static schema: ObjectSchema = {
-    name: 'Balance',
-    properties: {
-      _id: 'objectId',
-    },
-    primaryKey: '_id',
-  };
-}
-
-class Token extends Realm.Object<Wallet> {
-  _id!: Realm.BSON.ObjectId;
-
-  static schema: ObjectSchema = {
-    name: 'Token',
-    properties: {
-      _id: 'objectId',
-    },
-    primaryKey: '_id',
-  };
-}
-
-class Forex extends Realm.Object<Wallet> {
-  _id!: Realm.BSON.ObjectId;
-
-  static schema: ObjectSchema = {
-    name: 'Forex',
-    properties: {
-      _id: 'objectId'
+      network: 'string?',
+      createdAt: 'date',
     },
     primaryKey: '_id',
   };
 }
 
 const realmConfig: Realm.Configuration = {
-  schema: [Wallet],
-  schemaVersion: 5,
+  schema: [Settings, Wallet],
+  schemaVersion: 6,
   encryptionKey,
   path: 'orbyt.realm',
 };

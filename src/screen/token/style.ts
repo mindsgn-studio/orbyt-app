@@ -1,4 +1,4 @@
-import { colors, text } from '../../constants';
+import { colors, fontSize, text } from '../../constants';
 import { StyleSheet } from 'react-native';
 
 export const style = StyleSheet.create({
@@ -7,38 +7,51 @@ export const style = StyleSheet.create({
     display: 'flex',
     backgroundColor: 'black',
   },
-  summary: {
-    flex: 1,
-    padding: 30,
-  },
-  chart: {
-    display: 'flex',
+  tokenDetails:{
+    padding: 10,
+    width: "100%",
+    display:"flex",
     flexDirection: 'row',
-    justifyContent: 'center',
-    marginLeft: -50,
+    alignContent: "center",
+    justifyContent: "flex-start"
   },
-  image: {
+  tokenImage:{
     width: 40,
     height: 40,
-    marginRight: 10,
+    margin: 10,
   },
-  text: {
-    color: colors.white,
+  tokenName: {
+    color: "white",
+    marginTop: -10,
+    fontSize: fontSize.small,
+    fontFamily: text.Bold
   },
-  title: {
-    fontSize: 20,
-    color: colors.white,
-    fontFamily: text.Heavy,
+  tokenPrice: {
+    color: "white",
+    marginTop: -30,
+    fontSize: fontSize.medium,
+    fontFamily: text.heavy
   },
-  number: {
-    fontSize: 30,
-    color: colors.white,
-    fontFamily: text.Heavy,
-    marginTop: -15,
+  tokenButtons:{
+    display: "flex",
+    flexDirection: "column"
   },
-  subTitle: {
-    fontSize: 20,
-    color: colors.gray,
-    fontFamily: text.Meduim,
+  row:{
+    display: "flex",
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: "space-between"
+  },
+  tokenButton:{
+    backgroundColor: "green",
+    alignItems: "center",
+    margin: 10,
+    borderRadius: 5,
+    minWidth: 150,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: fontSize.small,
+    fontFamily: text.heavy
   },
 });

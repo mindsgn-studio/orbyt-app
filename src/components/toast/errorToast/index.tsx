@@ -10,7 +10,7 @@ import Animated, {
 
 const ErrorToast = () => {
   const toastY = useSharedValue(-120);
-  const { walletHasError } = useWallet();
+  const { walletHasError, toast } = useWallet();
   const { authHasError } = useAuth();
 
   const showToast = (number: number ) => {
@@ -33,7 +33,7 @@ const ErrorToast = () => {
 
   return (
     <Animated.View style={[style.default, toastStyle]}>
-      <Text style={style.title}>{`Error`}</Text>
+      <Text style={style.title}>{`${toast.type}: ${toast.message}`}</Text>
     </Animated.View>
   );
 };

@@ -1,6 +1,6 @@
 {
   "name": "orbyt",
-  "version": "0.38.0",
+  "version": "0.40.0",
   "private": true,
   "engines": {
     "node": "^18.0.0"
@@ -35,6 +35,8 @@
     "base-64": "^1.0.0",
     "buffer": "^4.9.2",
     "console-browserify": "^1.2.0",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react-native": "^4.1.0",
@@ -60,6 +62,7 @@
     "react-native-qrcode-svg": "^6.3.0",
     "react-native-randombytes": "^3.6.1",
     "react-native-reanimated": "^3.6.1",
+    "react-native-restart": "^0.0.27",
     "react-native-safe-area-context": "^4.9.0",
     "react-native-screens": "^3.29.0",
     "react-native-skeleton-content-nonexpo": "^1.0.13",
@@ -87,6 +90,8 @@
     "@react-native/metro-config": "0.73.3",
     "@react-native/typescript-config": "0.73.1",
     "@types/aes-js": "^3.1.4",
+    "@types/d3-scale": "^4.0.8",
+    "@types/d3-shape": "^3.1.6",
     "@types/react": "^18.2.6",
     "@types/react-native-dotenv": "^0.2.2",
     "@types/react-test-renderer": "^18.0.0",

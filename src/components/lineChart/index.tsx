@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Dimensions, Image } from 'react-native';
+import { View, Text, Dimensions, Image, Alert } from 'react-native';
 import { LineChart as Line } from 'react-native-chart-kit';
 import { style } from './style';
 

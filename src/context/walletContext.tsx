@@ -5,36 +5,27 @@ import React, {
   useContext,
   useState,
   useEffect,
-  useRef
 } from 'react';
-import socketIOClient from 'socket.io-client';
 import { APP_API, APP_NETWORK, APP_SOCKET_SERVER } from '@env';
 import { useRealm } from './realmContext';
 import {BSON} from 'realm';
+import {socket} from "../util"
 
-const connectionConfig = {
-  jsonp: false,
-  reconnection: true,
-  reconnectionDelay: 100,
-  reconnectionAttempts: 100000,
-  transports: ['websocket'],
-};
-
-interface WalletContext {
-  
+interface WalletContext { 
 }
 
 const WalletContext = createContext<any>({
-  balance: 0,
+  totalBalance: 0,
+  setTotalBalance: () => {}, 
   exchangeRate: 1,
   walletList: [],
   settings: {},
   createNewBitcoinWallet: () => {},
-  allExchangeRates: () => {},
   walletHasError: false,
   walletHasSuccess: false,
   toast: {type: "", message: ""},
   socket: null,
+  connected: false,
 });
 
 const useWallet: any = () => {
@@ -49,15 +40,17 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   const realm = useRealm();
   const [exchangeRate] = useState(1);
   const [settings, setSettings] = useState<any>(null);
-  const [balance] = useState(0);
+  const [totalBalance, setTotalBalance] = useState(0);
   const [toast, setToast] = useState({
-    type: "", 
+    type: "",
     message: ""
   });
   const [walletHasError, setWalletHasError] = useState(false);
   const [walletHasSuccess, setWalletHasSuccess] = useState(false);
   const [walletList, setWalletList] = useState<any []>([]);
-  const socket = useRef(socketIOClient(APP_SOCKET_SERVER, connectionConfig));
+
+  const [connected, setConnected] = useState(false);
+  const [walletSettings, setWalletSettings] = useState<any>(null);
 
   const saveWallet = async (data: any) => {
     try {
@@ -68,7 +61,7 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
           ...data
         });
       });
-      setToast({type: "Success", message: "new wallet created"})
+      setToast({type: "Success", message: `new bitcoin created`})
       setWalletHasSuccess(true);
       setTimeout(()=> {
         setWalletHasSuccess(false)
@@ -84,44 +77,41 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
 
   const createNewBitcoinWallet = async (network: string) => {
     try{
-      fetch(`${APP_API}bitcoin?network=${network}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(async(data) => {
-        await saveWallet(data);
-      })
-      .catch(error => { 
-        setWalletHasError(true);
-        setTimeout(()=> {
-          setWalletHasError(false)
-        }, 2000);
+      const {_id} = walletSettings[0]
+      socket.emit("create-bitcoin", { 
+        socketID: socket.id,
+        network,
+        type: "bitcoin",
+        walletID: _id,
       });
+
+      socket.once("bitcoin-created", (data, error) => {
+        if(!error){
+          saveWallet(data);
+        }
+      });
+
+      // return true
     }catch(error: any){
-      setWalletHasError(true);
-      setTimeout(()=> {
-        setWalletHasError(false)
-      }, 2000);
+      // return false
     }
   };
 
-  const getExchangeRates = async () => {
-    await fetch('https://theforexapi.com/api/latest?base=USD')
-      .then(async (response) => {
-        return await response.json();
-      })
-      .then(async (response) => {
-        // setRates(response);
-      })
-      .catch((error) => {
-        return null;
+  const initialiseWallet = async() => {
+    try {
+      realm.write(() => {
+        realm.create('Settings', {
+          _id: new BSON.ObjectId(),
+          currency: "zar",
+          currencySymbol: "R",
+          network: "testnet",
+          createdAt: new Date(),
+        });
       });
-
-    return null;
-  };
+      
+    } catch (error) {
+    }
+  }
 
   const getSettings = () => {
     const settingsObject: any = realm.objects('Settings')
@@ -143,24 +133,27 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   }
 
   useEffect(()=>{
-    const walletObject: any = realm.objects('Wallet')
+    const settingsObject: any = realm.objects('Settings');
+    const walletObject: any = realm.objects('Wallet');
+
+    setWalletSettings(settingsObject);
     setWalletList(walletObject);
 
-    if(walletObject.length == 0){
-      createNewBitcoinWallet(APP_NETWORK)
+    if(settingsObject.length == 0){
+      initialiseWallet()
     }
 
     const listener = () => {
-      
     };
 
+    settingsObject?.addListener(listener);
     walletObject?.addListener(listener);
 
     return () => {
-      walletObject?.removeListener(listener);
+      settingsObject?.removeListener(listener);
+      walletObject?.removeListener(listener)
     };
   },[realm])
-
 
   useEffect(()=> {
     if(!settings){
@@ -168,50 +161,67 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
     } 
   },[])
 
-  useEffect(()=>{
-    getExchangeRates();
-  },[])
+  useEffect(() => { 
+    if(walletSettings){
 
-  useEffect(() => {
-    socket.current.on('connect', () => {
-      setToast({type: "Success", message: "socket connected"})
-      setWalletHasSuccess(true);
-      setTimeout(()=> {
-        setWalletHasSuccess(false)
-      }, 2000);
-    });
-
-    socket.current.on('disconnect', msg => {
-      setToast({type: "Error", message: msg})
-      socket.current = socketIOClient(APP_SOCKET_SERVER, connectionConfig);
-      setWalletHasError(true);
-      setTimeout(()=> {
-        setWalletHasError(false)
-      }, 2000);
-    });
-
+      socket.on("connect", () => {
+        setConnected(true);
+        const { currency, _id, } = walletSettings[0];
+        
+        socket.emit("update-user", { 
+          _id,
+          socketID: socket.id,
+        });
+      });
+    }
+    
     return () => {
-      if (socket && socket.current) {
-        socket?.current?.removeAllListeners();
-        socket?.current?.close();
-      }
     };
-  }, [APP_SOCKET_SERVER]);
+  }, [walletSettings, connected]);
+
+  /*
+  useEffect(()=>{
+    socket.on("connect", () => {
+      // socket.emit("get-exchange-rate")
+    });
+    
+    socket.on("connect_error", (error) => {
+      // Alert.alert(error.message)
+    });
+
+    socket.on("exchange-rate", (data) => {
+      console.log(data)
+    });
+
+    if(socket){
+      socket.emit("get-exchange-rate", {
+        id: "gone",
+        currency: "ZAR"
+      });
+
+      socket.emit("get-exchange-", {
+        id: "gone",
+        currency: "ZAR"
+      });
+    }
+  },[socket])
+  */
 
   return (
     <WalletContext.Provider
       {...props}
       value={{
-        socket: socket.current,
-        balance,
+        totalBalance, 
+        setTotalBalance,
         exchangeRate,
         createNewBitcoinWallet,
         walletHasError,
         walletHasSuccess,
         walletList,
-        getExchangeRates,
         settings,
-        toast
+        toast,
+        connected,
+        socket
       }}
     />
   );

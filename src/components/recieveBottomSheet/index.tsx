@@ -1,24 +1,39 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Linking } from 'react-native';
 import { style } from './style';
 import Animated from 'react-native-reanimated';
 import QRCode from 'react-native-qrcode-svg';
 
 
-const RecieveBottomSheet = ({ bottomSheetStyle, closeBottomSheet, backgroundStyle } : { bottomSheetStyle: any, closeBottomSheet: any, backgroundStyle: any }) => {
+const RecieveBottomSheet = (
+  { 
+    address, 
+    type, 
+    bottomSheetStyle, 
+    closeBottomSheet, 
+    backgroundStyle 
+  } : {  
+    address: string, 
+    type: string,
+    bottomSheetStyle: any, 
+    closeBottomSheet: any, 
+    backgroundStyle: any }) => {
   return (
     <Animated.View style={[style.default, backgroundStyle]}>
       <Animated.View
         style={[style.bottomSheet, bottomSheetStyle]}>
           <View>
-            <Text style={style.title}>{"Recieve"}</Text>
+            <Text style={style.title}>{`Recieve ${type}`}</Text>
           </View>
-          <View
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL(`whatsapp://send?text=${address}`);
+            }}
             style={style.qrCodeContainer}>
             <QRCode
-              value="http://awesome.link.qr"
+              value={`${address}`}
             />
-          </View>
+          </TouchableOpacity>
       
           <TouchableOpacity
             onPress={()=>{

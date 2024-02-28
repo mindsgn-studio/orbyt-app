@@ -5,13 +5,13 @@ import { useWallet } from 'context';
 import { numberFormatter } from 'hooks';
 
 const WalletCard = () => {
-  const { balance, exchangeRate, settings } = useWallet();
+  const { totalBalance, exchangeRate, settings } = useWallet();
   const {currencySymbol} = settings
-  const [formatedBalance, setFormatedBalance] = useState(balance.toFixed(2));
+  const [formatedBalance, setFormatedBalance] = useState(totalBalance.toFixed(2));
 
   useEffect(() => {
-    setFormatedBalance(numberFormatter(balance * exchangeRate, 1));
-  }, [balance]);
+    setFormatedBalance(numberFormatter(totalBalance * exchangeRate, 1));
+  }, [totalBalance]);
   
   return (
     <View style={style.default}>

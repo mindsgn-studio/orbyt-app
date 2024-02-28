@@ -5,9 +5,9 @@ export const style = StyleSheet.create({
   default: {
     position: "absolute",
     display: "flex",
-    width: '100%',
+    width: "100%",
     height: "100%",
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
     zIndex: 2,
     bottom: -1000,
   },
@@ -21,7 +21,6 @@ export const style = StyleSheet.create({
     zIndex: 3,
     padding: 5,
     justifyContent: "space-between",
-    borderRadiusTopLeft: 20,
   },
   closeButton:{
     display: "flex",

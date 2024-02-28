@@ -54,6 +54,7 @@
     "react-native-dotenv": "^3.4.9",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.15.0",
+    "react-native-graph": "^1.0.2",
     "react-native-inappbrowser-reborn": "^3.7.0",
     "react-native-keychain": "^8.1.2",
     "react-native-level-fs": "^3.0.1",

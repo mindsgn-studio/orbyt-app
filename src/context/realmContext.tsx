@@ -12,6 +12,7 @@ class Settings extends Realm.Object<Settings> {
       _id: 'objectId',
       currency: 'string',
       currencySymbol: 'string',
+      network: 'string',
       createdAt: 'date',
     },
     primaryKey: '_id',
@@ -39,7 +40,7 @@ class Wallet extends Realm.Object<Wallet> {
 
 const realmConfig: Realm.Configuration = {
   schema: [Settings, Wallet],
-  schemaVersion: 6,
+  schemaVersion: 10,
   encryptionKey,
   path: 'orbyt.realm',
 };

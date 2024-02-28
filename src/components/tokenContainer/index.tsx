@@ -1,24 +1,60 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, Alert } from 'react-native';
-import SvgUri from 'react-native-svg-uri';
 import { style } from './style';
 import { useWallet } from '../../context';
-import BitcoinSVG from '../../assets/bitcoin.svg';
+import { numberFormatter } from "../../hooks"
 
-const TokenContainer = ({navigation}:{navigation: any}) => {
-  const { walletList } = useWallet();
- 
-  const getBalance = ({address, type, network}:{address: string, type?: string, network: string}) => {
-    const url = `https://test-insight.bitpay.com/api/addr/${address}`;
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        return "0.00"
+const TokenContainer = ({ navigation }: { navigation: any }) => {
+  const { walletList, socket, setTotalBalance } = useWallet();
+  const [ isReady, setIsReady ] = useState(false);
+  const [ balanceData, setBalanceData ] = useState<any>([]);
+  const [ balance, setBalance ] = useState<any>({
+    zar: 0,
+    btc: 0
+  });
+
+  useEffect(() => {
+    const getBalance = async () => {
+      setIsReady(true)
+    };
+
+    getBalance();
+
+    return () => {
+    };
+  }, []);
+
+  useEffect(() => {
+    walletList.map((wallet: any) => {
+      socket.emit("get-wallet-data", {
+        address: wallet.address,
+        socketID: socket.id
       })
-      .catch(error => {
-        return "0.00"
-      });
-  }
+
+      socket.once("wallet-data", (data: any, error: any) => {
+        const { ZAR, BTC } = data
+        let balanceList: any = [];
+        
+        setBalance(
+          {
+            ...balance, 
+            zar: ZAR[ZAR.length - 1].balance,
+            btc: BTC[BTC.length - 1].balance
+          }
+        )
+
+        ZAR.map((item: any) => {
+          balanceList.push(item.balance);
+        })
+
+        setBalanceData(balanceList);
+        setTotalBalance(ZAR[ZAR.length - 1].balance,)
+      })
+    })
+
+    return () => {
+    };
+  }, [walletList]);
 
   return (
     <View style={style.default}>
@@ -27,26 +63,37 @@ const TokenContainer = ({navigation}:{navigation: any}) => {
         <FlatList
           data={walletList}
           keyExtractor={(item) => item._id.toString()}
-          renderItem={({ item }) => 
-            <TouchableOpacity style={style.token}
-              onPress={()=>{
-                navigation.navigate("Token")
-              }}>
-              <View style={style.tokenDetails}>
-                <Image
-                  style={style.tokenDetailsImage}
-                  source={require('../../assets/bitcoin.png')} />
-                <View>
-                  <Text style={style.tokenTitle}>{(item.type).toUpperCase()}</Text>
-                </View>
-              </View>
+          renderItem={({ item }) => (
+            <>
+              {
+                isReady ?
+                  <TouchableOpacity style={style.token}
+                    onPress={() => {
+                      navigation.navigate("Token", {
+                        balanceData,
+                        balance: balance.zar,
+                        ...item,
+                      });
+                    }}>
+                    <View style={style.tokenDetails}>
+                      <Image
+                        style={style.tokenDetailsImage}
+                        source={require('../../assets/bitcoin.png')} />
+                      <View>
+                        <Text style={style.tokenTitle}>{(item.type).toUpperCase()}</Text>
+                      </View>
+                    </View>
 
-              <View style={style.tokenBalance}>
-                <Text style={style.tokenBalanceFiat}>{`R 0.00`}</Text>
-                <Text style={style.tokenBalanceCrypto}>{`0 BTC`}</Text>
-              </View>
-            </TouchableOpacity>
-          }
+                    <View>
+                      <Text style={style.tokenBalanceFiat}>{`R ${numberFormatter(balance.zar, 1)}`}</Text>
+                      <Text style={style.tokenBalanceCrypto}>{`${balance.btc} BTC`}</Text>
+                    </View>
+                  </TouchableOpacity>
+                  :
+                  null
+              }
+            </>
+          )}
         />
       </View>
     </View>

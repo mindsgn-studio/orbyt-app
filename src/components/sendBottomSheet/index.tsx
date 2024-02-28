@@ -3,13 +3,26 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { style } from './style';
 import Animated from 'react-native-reanimated';
 
-const SendBottomSheet = ({ bottomSheetStyle, closeBottomSheet, backgroundStyle } : { bottomSheetStyle: any, closeBottomSheet: any, backgroundStyle: any }) => {
+const SendBottomSheet = (
+  {
+    address, 
+    type, 
+    bottomSheetStyle, 
+    closeBottomSheet, 
+    backgroundStyle 
+  } : { 
+    address: string, 
+    type: string,  
+    bottomSheetStyle: any, 
+    closeBottomSheet: any, 
+    backgroundStyle: any 
+  }) => {
   return (
     <Animated.View style={[style.default, backgroundStyle]}>
       <Animated.View
         style={[style.bottomSheet, bottomSheetStyle]}>
           <View>
-            <Text style={style.title}>{"Send"}</Text>
+            <Text style={style.title}>{`Send ${type}`}</Text>
           </View>
       
           <TouchableOpacity

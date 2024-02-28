@@ -43,8 +43,6 @@ function useAuth(): any {
 }
 
 const AuthProvider = (props: { children: ReactNode }): ReactElement => {
-  const { WalletModule } = NativeModules;
-  const { createNewBitcoinWallet } = useWallet();
   const [auth, setAuth] = useState(false);
   const [ready, setReady] = useState(false);
   const [isNew, setIsNew] = useState(false);

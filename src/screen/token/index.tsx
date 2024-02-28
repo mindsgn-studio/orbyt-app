@@ -1,17 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Dimensions, Image } from 'react-native';
+import { View, Text, Dimensions, Image, Alert } from 'react-native';
 import { LineGraph, RecieveBottomSheet, SendBottomSheet } from "../../components" 
 import { style } from './style';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Animated, {
+  useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 import { useWallet } from '../../context';
+import { numberFormatter } from 'hooks';
 
-const Token = () => {
-  const { settings } = useWallet()
+
+const Token = (props: any) => {
+  const { route } = props;
+  const { params } = route;
+  const { 
+    address, 
+    currentPrice = 0, 
+    price = 0, 
+    balance = 0, 
+    balanceData 
+  } = params;
+  const { settings } = useWallet();
   const { currencySymbol } = settings;
 
   const recieveBottomSheetY = useSharedValue(-200);
@@ -72,18 +84,14 @@ const Token = () => {
     };
   }, []);
 
-  const data = Array.from({ length: 20 }).map(
-    (unused, i) => i + (i + 1) * Math.random()
-  )
-
   return (
     <View style={style.default}>
-      <LineGraph data={data}/>
+      <LineGraph data={balanceData}/>
       <View style={style.tokenDetails}>
         <Image style={style.tokenImage} source={require("../../assets/bitcoin.png")}/>
         <View>
-          <Text style={style.tokenName}>{'Bitcoin'}</Text>
-          <Text style={style.tokenPrice}>{currencySymbol} {'0.00'}</Text>
+          <Text style={style.tokenName}>{`Bitcoin`}</Text>
+          <Text style={style.tokenPrice}>{currencySymbol} {`${numberFormatter(balance, 1)}`}</Text>
         </View>
       </View>
       <View style={style.tokenButtons}>
@@ -107,10 +115,14 @@ const Token = () => {
         </View> 
       </View>
       <RecieveBottomSheet 
+        type={"Bitcoin"}
+        address={address}
         backgroundStyle={recieveBackgroundStyle}
         closeBottomSheet={closeRecieveBottomSheet} 
         bottomSheetStyle={recieveBottomSheetStyle}/>
-      <SendBottomSheet 
+      <SendBottomSheet
+        type={"Bitcoin"} 
+        address={address}
         backgroundStyle={sendBackgroundStyle}
         closeBottomSheet={closeSendBottomSheet} 
         bottomSheetStyle={sendBottomSheetStyle}

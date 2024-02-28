@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
-import SvgUri from 'react-native-svg-uri';
 import { style } from './style';
 import { useWallet } from '../../context';
 import { APP_NETWORK } from '@env';
 import Animated from 'react-native-reanimated';
 
 const TokenBottomSheet = ({ bottomSheetStyle, closeBottomSheet, backgroundStyle } : { bottomSheetStyle: any, closeBottomSheet: any, backgroundStyle: any }) => {
-  const {createNewBitcoinWallet} = useWallet();
+  const {createNewBitcoinWallet, walletList} = useWallet();
 
+  useEffect(()=> {   
+  },[walletList])
+  
   return (
     <Animated.View style={[style.default, backgroundStyle]}>
       <Animated.View
@@ -18,7 +20,6 @@ const TokenBottomSheet = ({ bottomSheetStyle, closeBottomSheet, backgroundStyle 
             <TouchableOpacity
               onPress={()=>{
                 createNewBitcoinWallet(APP_NETWORK);
-                closeBottomSheet();
               }}
               style={style.tokenButton}>
               <Text style={style.tokenText}>Add Bitcoin</Text>

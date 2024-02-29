@@ -16,7 +16,7 @@ export const style = StyleSheet.create({
     position: "absolute",
     backgroundColor: "rgba(255, 255, 255, 1)",
     width: "100%",
-    height: 300,
+    height: 600,
     bottom: -200,
     zIndex: 3,
     padding: 5,
@@ -38,7 +38,7 @@ export const style = StyleSheet.create({
     margin: 2,
   },
   tokenText:{
-    color: "black",
+    color: "white",
     fontFamily: text.heavy,
     fontSize: fontSize.small
   },
@@ -48,14 +48,72 @@ export const style = StyleSheet.create({
     fontSize: fontSize.small,
     textAlign: "center"
   },
-  buttonText:{
-    color: "white",
+  amount:{
+    color: "black",
     fontFamily: text.heavy,
-    fontSize: fontSize.extraSmall
+    fontSize: fontSize.medium,
+    textAlign: "center"
+  },
+  buttonText:{
+    color: "black",
+    fontFamily: text.heavy,
+    fontSize: fontSize.medium
+  },
+  buttonTextSend:{
+    color: "white",
+    fontFamily: text.Meduim,
+    fontSize: fontSize.small
+  },
+  buttonTextClose:{
+    color: "white",
+    fontFamily: text.Meduim,
+    fontSize: fontSize.small
   },
   qrCodeContainer: {
     flex:1,
     alignItems: "center",
     justifyContent: "center"
-  }
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  codeButton: {
+    width: 80,
+    height: 80,
+    margin: 5,
+    borderRadius: 100,
+    backgroundColor: "white",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  codeButtonNull: {
+    width: 80,
+    height: 80,
+    margin: 10,
+    borderRadius: 100,
+    backgroundColor: "black",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  codeButtonDelete: {
+    width: 80,
+    height: 80,
+    margin: 10,
+    borderRadius: 100,
+    backgroundColor: "white",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonTextDelete: {
+    fontFamily: text.Bold,
+    fontSize: 40,
+    color: "black",
+  },
 });

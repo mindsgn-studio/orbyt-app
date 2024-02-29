@@ -46,14 +46,6 @@ const Home = (props: any) => {
     };
   }, []);
 
-  useEffect(()=> {
-    if(walletList.length===0){
-      openBottomSheet()
-    }else{
-      closeBottomSheet()
-    }
-  },[walletList])
-
   return (
     <View style={style.default}>
       <WalletCard />

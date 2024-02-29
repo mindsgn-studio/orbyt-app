@@ -17,6 +17,7 @@ interface WalletContext {
 const WalletContext = createContext<any>({
   totalBalance: 0,
   setTotalBalance: () => {}, 
+  deleteWallet: () => {}, 
   exchangeRate: 1,
   walletList: [],
   settings: {},
@@ -48,7 +49,6 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
   const [walletHasError, setWalletHasError] = useState(false);
   const [walletHasSuccess, setWalletHasSuccess] = useState(false);
   const [walletList, setWalletList] = useState<any []>([]);
-
   const [connected, setConnected] = useState(false);
   const [walletSettings, setWalletSettings] = useState<any>(null);
 
@@ -61,19 +61,29 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
           ...data
         });
       });
-      setToast({type: "Success", message: `new bitcoin created`})
-      setWalletHasSuccess(true);
-      setTimeout(()=> {
-        setWalletHasSuccess(false)
-      }, 2000);
+      // setToast({type: "Success", message: `new bitcoin created`})
+      // setWalletHasSuccess(true);
+      // setTimeout(()=> {
+      //   setWalletHasSuccess(false)
+      // }, 2000);
     } catch (error) {
-      setToast({type: "Error", message: "Failed to create wallet. please try again"})
-      setWalletHasError(true);
-      setTimeout(()=> {
-        setWalletHasError(false)
-      }, 2000);
+      // setToast({type: "Error", message: "Failed to create wallet. please try again"})
+      // setWalletHasError(true);
+      // setTimeout(()=> {
+      //  setWalletHasError(false)
+      // }, 2000);
     }
   };
+
+  const deleteWallet = async (address: string) => {
+    try{
+      realm.write(() => {
+        const walletsToDelete = realm.objects('Wallet').filtered(`address = "${address}"`);
+        realm.delete(walletsToDelete);
+      });
+    }catch(error){
+    }
+  }
 
   const createNewBitcoinWallet = async (network: string) => {
     try{
@@ -132,12 +142,61 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
     }
   }
 
+  const getWallet = () => {
+    const walletObject: any = realm.objects('Wallet');
+    let wallets: any = []
+    let sum = 0
+
+    walletObject.map(async(wallet: any, index: number) => {
+      let balance = {
+        zar: 0,
+        btc: 0
+      }
+
+      socket.emit('get-wallet-data', {
+        address: wallet.address,
+        socketID: socket.id
+      });
+
+      socket.once('wallet-data', async(data: any) => {
+        const { ZAR, BTC } = data;
+
+        if(ZAR.length > 0){
+          let balanceHistory:any = []
+          sum += ZAR[ZAR.length - 1].balance
+
+          balance = {
+            zar: ZAR[ZAR.length - 1].balance,
+            btc: BTC[BTC.length - 1].balance
+          }
+
+          ZAR.map((item: any)=> {
+            balanceHistory.push(item.balance)
+          })
+  
+          setTotalBalance(sum)
+  
+          wallet = {
+            ...wallet,
+            balance,
+            balanceHistory,
+            ZAR,
+            BTC
+          }
+  
+          wallets.push(wallet);
+          
+        }
+      });
+    });
+
+    setWalletList(wallets);
+  }
+
   useEffect(()=>{
     const settingsObject: any = realm.objects('Settings');
-    const walletObject: any = realm.objects('Wallet');
-
+  
     setWalletSettings(settingsObject);
-    setWalletList(walletObject);
 
     if(settingsObject.length == 0){
       initialiseWallet()
@@ -147,13 +206,84 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
     };
 
     settingsObject?.addListener(listener);
-    walletObject?.addListener(listener);
+    getWallet();
 
     return () => {
       settingsObject?.removeListener(listener);
+    };
+  },[realm]);
+
+  useEffect(()=>{
+    const walletObject: any = realm.objects('Wallet');
+    let wallets: any = []
+    let sum = 0
+
+    walletObject.map(async(wallet: any, index: number) => {
+     
+      wallet = {
+        ...wallet,
+        balance: {
+          zar: 0,
+          btc: 0
+        },
+        balanceHistory: [0],
+        ZAR:[0],
+        BTC:[0]
+      }
+
+      wallets.push(wallet);
+      
+      /*
+     
+
+      socket.emit('get-wallet-data', {
+        address: wallet.address,
+        socketID: socket.id
+      });
+
+      socket.once('wallet-data', async(data: any) => {
+        const { ZAR, BTC } = data;
+        
+        if(ZAR.length > 0){
+          let balanceHistory:any = []
+          sum += ZAR[ZAR.length - 1].balance
+
+          balance = {
+            zar: ZAR[ZAR.length - 1].balance,
+            btc: BTC[BTC.length - 1].balance
+          }
+
+          ZAR.map((item: any)=> {
+            balanceHistory.push(item.balance)
+          })
+  
+          setTotalBalance(sum)
+  
+          wallet = {
+            ...wallet,
+            balance,
+            balanceHistory,
+            ZAR,
+            BTC
+          }
+  
+          wallets.push(wallet);
+          setWalletList([...walletList, ...wallets] );
+        }
+      });
+      */
+    })
+
+    const listener = (response: any, error: any) => {
+      console.log(response)
+    };
+
+    walletObject?.addListener(listener);
+
+    return () => {
       walletObject?.removeListener(listener)
     };
-  },[realm])
+  },[realm]);
 
   useEffect(()=> {
     if(!settings){
@@ -215,6 +345,7 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
         setTotalBalance,
         exchangeRate,
         createNewBitcoinWallet,
+        deleteWallet,
         walletHasError,
         walletHasSuccess,
         walletList,

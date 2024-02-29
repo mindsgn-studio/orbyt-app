@@ -17,9 +17,11 @@ const Token = (props: any) => {
   const { route } = props;
   const { params } = route;
   const { 
-    address, 
+    address,
+    privateKey,
     currentPrice = 0, 
-    price = 0, 
+    price = 0,
+    balanceHistory,
     balance = 0, 
     balanceData 
   } = params;
@@ -86,19 +88,19 @@ const Token = (props: any) => {
 
   return (
     <View style={style.default}>
-      <LineGraph data={balanceData}/>
+      <LineGraph data={balanceHistory}/>
       <View style={style.tokenDetails}>
         <Image style={style.tokenImage} source={require("../../assets/bitcoin.png")}/>
         <View>
           <Text style={style.tokenName}>{`Bitcoin`}</Text>
-          <Text style={style.tokenPrice}>{currencySymbol} {`${numberFormatter(balance, 1)}`}</Text>
+          <Text style={style.tokenPrice}>{currencySymbol} {`${numberFormatter(balance.zar, 1)}`}</Text>
         </View>
       </View>
       <View style={style.tokenButtons}>
         <View
           style={style.row}>
         <TouchableOpacity
-          onPress={()=> { openSendBottomSheet() }}
+          onPress={()=> { }}
           style={style.tokenButton}>
             <Text style={style.buttonText}>Send</Text>
           </TouchableOpacity>
@@ -123,6 +125,7 @@ const Token = (props: any) => {
       <SendBottomSheet
         type={"Bitcoin"} 
         address={address}
+        privateKey={privateKey}
         backgroundStyle={sendBackgroundStyle}
         closeBottomSheet={closeSendBottomSheet} 
         bottomSheetStyle={sendBottomSheetStyle}

@@ -100,7 +100,7 @@ const Token = (props: any) => {
         <View
           style={style.row}>
         <TouchableOpacity
-          onPress={()=> { }}
+          onPress={()=> { openSendBottomSheet( ) }}
           style={style.tokenButton}>
             <Text style={style.buttonText}>Send</Text>
           </TouchableOpacity>

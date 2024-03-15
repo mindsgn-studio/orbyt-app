@@ -185,12 +185,12 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
           }
   
           wallets.push(wallet);
-          
+          setWalletList([...walletList, ...wallets] );
         }
+
+        setWalletList(wallets);
       });
     });
-
-    setWalletList(wallets);
   }
 
   useEffect(()=>{
@@ -206,82 +206,9 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
     };
 
     settingsObject?.addListener(listener);
-    getWallet();
 
     return () => {
       settingsObject?.removeListener(listener);
-    };
-  },[realm]);
-
-  useEffect(()=>{
-    const walletObject: any = realm.objects('Wallet');
-    let wallets: any = []
-    let sum = 0
-
-    walletObject.map(async(wallet: any, index: number) => {
-     
-      wallet = {
-        ...wallet,
-        balance: {
-          zar: 0,
-          btc: 0
-        },
-        balanceHistory: [0],
-        ZAR:[0],
-        BTC:[0]
-      }
-
-      wallets.push(wallet);
-      
-      /*
-     
-
-      socket.emit('get-wallet-data', {
-        address: wallet.address,
-        socketID: socket.id
-      });
-
-      socket.once('wallet-data', async(data: any) => {
-        const { ZAR, BTC } = data;
-        
-        if(ZAR.length > 0){
-          let balanceHistory:any = []
-          sum += ZAR[ZAR.length - 1].balance
-
-          balance = {
-            zar: ZAR[ZAR.length - 1].balance,
-            btc: BTC[BTC.length - 1].balance
-          }
-
-          ZAR.map((item: any)=> {
-            balanceHistory.push(item.balance)
-          })
-  
-          setTotalBalance(sum)
-  
-          wallet = {
-            ...wallet,
-            balance,
-            balanceHistory,
-            ZAR,
-            BTC
-          }
-  
-          wallets.push(wallet);
-          setWalletList([...walletList, ...wallets] );
-        }
-      });
-      */
-    })
-
-    const listener = (response: any, error: any) => {
-      console.log(response)
-    };
-
-    walletObject?.addListener(listener);
-
-    return () => {
-      walletObject?.removeListener(listener)
     };
   },[realm]);
 
@@ -293,7 +220,7 @@ const WalletProvider = (props: { children: ReactNode }): ReactElement => {
 
   useEffect(() => { 
     if(walletSettings){
-
+      getWallet();
       socket.on("connect", () => {
         setConnected(true);
         const { currency, _id, } = walletSettings[0];
